@@ -36,7 +36,7 @@ public class MorseCodeConverter {
         EnglishToMorse.put("X", "-..-");
         EnglishToMorse.put("Y", "-.--");
         EnglishToMorse.put("Z", "--..");
-        EnglishToMorse.put(" ", "   ");
+        EnglishToMorse.put(" ", " ");
         for (Map.Entry<String, String> entry : EnglishToMorse.entrySet()) {
             MorseToEnglish.put(entry.getValue(), entry.getKey());
         }
