@@ -11,6 +11,10 @@ public class TestClass {
         System.out.println();
         System.out.println(converter.EnglishToMorse.entrySet());
         System.out.println();
-        System.out.println(converter.MorseToEnglish(".... . .-.. .-.. ---     .-- --- .-. .-.. -.."));
+        System.out.println(converter.MorseToEnglish(".... . .-.. .-.. ---   .-- --- .-. .-.. -.."));
+        System.out.println();
+        System.out.println(converter.EnglishToMorse("Hello! how are you"));
+        System.out.println();
+        System.out.println(converter.MorseToEnglish(".... . .-.. .-.. --- / .... --- .-- / .- .-. . / -.-- --- ..-"));
     }
 }
