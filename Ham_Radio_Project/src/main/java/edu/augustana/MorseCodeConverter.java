@@ -38,6 +38,19 @@ public class MorseCodeConverter {
         EnglishToMorse.put('Y', "-.--");
         EnglishToMorse.put('Z', "--..");
         EnglishToMorse.put(' ', " ");
+        EnglishToMorse.put('.', ".-.-.-");
+        EnglishToMorse.put(',', "--..--");
+        EnglishToMorse.put('?', "..--..");
+        EnglishToMorse.put(':', "---...");
+        EnglishToMorse.put('/', "-..-.");
+        EnglishToMorse.put('-', "-....-");
+        EnglishToMorse.put('=', "-...-");
+        EnglishToMorse.put('\'', ".----.");
+        EnglishToMorse.put('_', "..--.-");
+        EnglishToMorse.put('!', "-.-.--");
+        EnglishToMorse.put('&', ".-...");
+        EnglishToMorse.put(';', "-.-.-.");
+        EnglishToMorse.put('$', "...-..-");
         for (Map.Entry<Character, String> entry : EnglishToMorse.entrySet()) {
             MorseToEnglish.put(entry.getValue(), entry.getKey());
         }
