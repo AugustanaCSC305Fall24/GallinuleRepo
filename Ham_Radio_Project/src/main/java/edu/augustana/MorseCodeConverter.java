@@ -40,7 +40,9 @@ public class MorseCodeConverter {
         EnglishToMorse.put('Y', "-.--");
         EnglishToMorse.put('Z', "--..");
 
-        // Numbers
+
+        // Numbers 
+
         EnglishToMorse.put('0', "-----");
         EnglishToMorse.put('1', ".----");
         EnglishToMorse.put('2', "..---");
@@ -52,8 +54,22 @@ public class MorseCodeConverter {
         EnglishToMorse.put('8', "---..");
         EnglishToMorse.put('9', "----.");
 
-        // Space
+
+        // Punctuation 
         EnglishToMorse.put(' ', " ");
+        EnglishToMorse.put('.', ".-.-.-");
+        EnglishToMorse.put(',', "--..--");
+        EnglishToMorse.put('?', "..--..");
+        EnglishToMorse.put(':', "---...");
+        EnglishToMorse.put('/', "-..-.");
+        EnglishToMorse.put('-', "-....-");
+        EnglishToMorse.put('=', "-...-");
+        EnglishToMorse.put('\'', ".----.");
+        EnglishToMorse.put('_', "..--.-");
+        EnglishToMorse.put('!', "-.-.--");
+        EnglishToMorse.put('&', ".-...");
+        EnglishToMorse.put(';', "-.-.-.");
+        EnglishToMorse.put('$', "...-..-");
 
 
         for (Map.Entry<Character, String> entry : EnglishToMorse.entrySet()) {
