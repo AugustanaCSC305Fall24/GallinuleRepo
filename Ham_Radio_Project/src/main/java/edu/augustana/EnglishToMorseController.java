@@ -26,4 +26,9 @@ public class EnglishToMorseController {
         App.setRoot("MorseToEnglish");
     }
 
+    @FXML
+    private void switchToFrequency() throws IOException{
+        App.setRoot("FrequencySelection");
+    }
+
 }

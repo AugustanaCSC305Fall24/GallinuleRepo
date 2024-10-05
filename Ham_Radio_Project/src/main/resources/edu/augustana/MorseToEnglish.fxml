@@ -24,6 +24,11 @@
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font></Button>
+      <Button mnemonicParsing="false" onAction="#switchToFrequency" style="-fx-background-color: #48c9b0; -fx-text-fill: White; -fx-background-radius: 10;" text="Frequency page">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Button>
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
