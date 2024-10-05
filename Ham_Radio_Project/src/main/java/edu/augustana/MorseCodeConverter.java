@@ -11,6 +11,8 @@ public class MorseCodeConverter {
     public MorseCodeConverter() {
         EnglishToMorse = new HashMap<>();
         MorseToEnglish = new HashMap<>();
+
+        //Letters
         EnglishToMorse.put('A', ".-");
         EnglishToMorse.put('B', "-...");
         EnglishToMorse.put('C', "-.-.");
@@ -37,6 +39,23 @@ public class MorseCodeConverter {
         EnglishToMorse.put('X', "-..-");
         EnglishToMorse.put('Y', "-.--");
         EnglishToMorse.put('Z', "--..");
+
+
+        // Numbers 
+
+        EnglishToMorse.put('0', "-----");
+        EnglishToMorse.put('1', ".----");
+        EnglishToMorse.put('2', "..---");
+        EnglishToMorse.put('3', "...--");
+        EnglishToMorse.put('4', "....-");
+        EnglishToMorse.put('5', ".....");
+        EnglishToMorse.put('6', "-....");
+        EnglishToMorse.put('7', "--...");
+        EnglishToMorse.put('8', "---..");
+        EnglishToMorse.put('9', "----.");
+
+
+        // Punctuation 
         EnglishToMorse.put(' ', " ");
         EnglishToMorse.put('.', ".-.-.-");
         EnglishToMorse.put(',', "--..--");
@@ -51,6 +70,8 @@ public class MorseCodeConverter {
         EnglishToMorse.put('&', ".-...");
         EnglishToMorse.put(';', "-.-.-.");
         EnglishToMorse.put('$', "...-..-");
+
+
         for (Map.Entry<Character, String> entry : EnglishToMorse.entrySet()) {
             MorseToEnglish.put(entry.getValue(), entry.getKey());
         }
