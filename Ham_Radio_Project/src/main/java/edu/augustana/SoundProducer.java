@@ -13,14 +13,13 @@ public class SoundProducer {
     private static final int CHARACTER_GAP = DOT_DURATION * 3;
     private static final int WORD_GAP = DOT_DURATION * 7;
 
-    public static void main(String[] args) throws LineUnavailableException {
+    public static void ProduceSound(String message) throws LineUnavailableException {
         final AudioFormat af =
                 new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         SourceDataLine line = AudioSystem.getSourceDataLine(af);
         line.open(af, Note.SAMPLE_RATE);
         line.start();
 
-        String message = "Hello, World";
         playMorseCode(line, message);
 
         line.drain();

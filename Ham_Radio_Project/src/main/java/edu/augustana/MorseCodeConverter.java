@@ -78,8 +78,7 @@ public class MorseCodeConverter {
     }
 
     public String EnglishToMorse(String input) {
-        input = input.toUpperCase();;
-        char[] inputArray = input.toCharArray();
+        char[] inputArray = input.toUpperCase().toCharArray();
         System.out.println(Arrays.toString(inputArray));
         String sentence = "";
         for (char letter : inputArray) {
@@ -93,8 +92,7 @@ public class MorseCodeConverter {
 
     public String MorseToEnglish(String input) {
         System.out.println(input);
-        input = input.toUpperCase().replaceAll("  ", " ");
-        String[] inputArray = input.split(" ");
+        String[] inputArray = input.toUpperCase().replaceAll("  ", " ").split(" ");
         System.out.println(Arrays.toString(inputArray));
         String sentence = "";
         for (String letter : inputArray) {
