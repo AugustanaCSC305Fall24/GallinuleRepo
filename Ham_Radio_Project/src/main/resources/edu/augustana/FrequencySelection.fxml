@@ -33,7 +33,7 @@
             <Insets left="30.0" />
          </GridPane.margin>
       </Label>
-      <Slider fx:id="writeFrequencySlider" max="5.0" min="1.0" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.columnIndex="1">
+      <Slider fx:id="writeFrequencySlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.columnIndex="1">
          <GridPane.margin>
             <Insets left="30.0" right="30.0" top="20.0" />
          </GridPane.margin>
@@ -43,7 +43,7 @@
             <Insets left="40.0" top="-35.0" />
          </GridPane.margin>
       </Label>
-      <Slider fx:id="displayFrequencySlider" max="5.0" min="1.0" onDragDetected="#displayFrequency" showTickLabels="true" showTickMarks="true" value="1.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Slider fx:id="displayFrequencySlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" onDragDetected="#displayFrequency" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="30.0" right="30.0" top="20.0" />
          </GridPane.margin>
