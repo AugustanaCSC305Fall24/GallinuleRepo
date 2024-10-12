@@ -19,8 +19,17 @@ public class MorseToEnglishController {
     @FXML
     private void convertToEnglish(){
         String morseText = morseInput.getText();
-        String englishText = converter.MorseToEnglish(morseText);
-        englishOutput.setText(englishText);
+        if (morseText.isEmpty()) {
+            englishOutput.setText("Input cannot be empty!");
+            return;
+        }
+        try {
+            String englishText = converter.MorseToEnglish(morseText);
+            englishOutput.setText(englishText);
+        } catch (Exception e) {
+            englishOutput.setText("Error converting to English: " + e.getMessage());
+        }
+
     }
     @FXML
     private void playSound(){
