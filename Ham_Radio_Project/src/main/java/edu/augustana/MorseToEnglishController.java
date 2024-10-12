@@ -4,6 +4,8 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
+import javax.sound.sampled.LineUnavailableException;
+
 public class MorseToEnglishController {
 
     @FXML
@@ -20,6 +22,16 @@ public class MorseToEnglishController {
         String englishText = converter.MorseToEnglish(morseText);
         englishOutput.setText(englishText);
     }
+    @FXML
+    private void playSound(){
+        String morseText = morseInput.getText();
+        try {
+            SoundProducer.ProduceSound(morseText);
+        } catch (LineUnavailableException e){
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void switchToEnglishToMorse() throws IOException {
         App.setRoot("EnglishToMorse");
