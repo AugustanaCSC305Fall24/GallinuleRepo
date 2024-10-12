@@ -37,7 +37,7 @@ public class EnglishToMorseController {
 
     @FXML
     private void playSound(){
-        String morseText = morseOutput.getText();
+        String morseText = englishInput.getText();
         try {
             SoundProducer.ProduceSound(morseText);
         } catch (LineUnavailableException e){
