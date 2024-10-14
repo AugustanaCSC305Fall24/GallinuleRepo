@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.MainPageController">
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <bottom>
+            <VBox alignment="BOTTOM_LEFT" prefHeight="93.0" prefWidth="500.0" spacing="5.0" BorderPane.alignment="CENTER_LEFT">
+               <children>
+                  <Label alignment="BOTTOM_LEFT" text="Morse code:" textFill="#000040">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="morseInput" prefWidth="400.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10;">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="67.0" prefWidth="500.0" spacing="20.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#writeToFrequency" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Send" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="10.0" />
+                           </font></Button>
+                        <Button mnemonicParsing="false" onAction="#ditButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Dit" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="10.0" />
+                           </font></Button>
+                        <Button mnemonicParsing="false" onAction="#dahButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Dah" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="10.0" />
+                           </font></Button>
+                        <Button mnemonicParsing="false" onAction="#charSpaceButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Char space" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="10.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#wordSpaceButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Word space" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="10.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </bottom>
+         <center>
+            <VBox alignment="CENTER" prefHeight="297.0" prefWidth="493.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="TOP" text="Morse Text" textFill="#000040">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane fx:id="morseMessagesScrollPane" prefHeight="149.0" prefWidth="481.0">
+                     <content>
+                        <VBox fx:id="morseMessagesVBox" prefHeight="104.0" prefWidth="450.0">
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </ScrollPane>
+                  <Label text="English Translation" textFill="#000040">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane fx:id="englishMessagesScrollPane" prefHeight="150.0" prefWidth="450.0">
+                     <content>
+                        <VBox fx:id="englishMessagesVBox" prefHeight="107.0" prefWidth="453.0" />
+                     </content>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </center>
+   <left>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="119.0" spacing="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#displayFrequency" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Display Frequency" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="10.0" />
+               </font></Button>
+            <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding></Slider>
+            <Button mnemonicParsing="false" onAction="#playSound" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Play sound" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="10.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onAction="#showTranslation" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Show translation" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="10.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onAction="#hideTranslation" style="-fx-background-color: #000040; -fx-background-radius: 10;" text="Hide translation" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="10.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>
