@@ -42,7 +42,7 @@ public class MainPageController {
 
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
-        Label label = new Label("User:  " + message);
+        Label label = new Label(message);
         label.setWrapText(true);
         vbox.getChildren().add(label);
     }
@@ -54,7 +54,8 @@ public class MainPageController {
         String englishText = converter.MorseToEnglish(morseText);
         int sliderValue = (int) frequencySlider.getValue();
 
-        addMessageToFrequency(sliderValue, morseText, englishText);
+        addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText);
+        addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
 
         displayMorseMessagesFromFrequency(sliderValue);
         morseInput.setText("");
