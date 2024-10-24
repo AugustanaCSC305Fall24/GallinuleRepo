@@ -102,11 +102,13 @@
    <left>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="119.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
+            <Label text="Select Range" translateY="25.0" />
+            <Slider fx:id="rangeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" />
             <Button mnemonicParsing="false" onAction="#displayFrequency" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Display Frequency" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="10.0" />
                </font></Button>
-            <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0">
+            <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" value="1.0">
                <padding>
                   <Insets left="5.0" right="5.0" />
                </padding></Slider>

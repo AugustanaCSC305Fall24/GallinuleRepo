@@ -23,6 +23,8 @@ public class MainPageController {
     private Label morseInput = new Label();
     @FXML
     private Slider frequencySlider;
+    @FXML
+    private Slider rangeSlider;
 
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
@@ -49,16 +51,27 @@ public class MainPageController {
 
     @FXML
     private void writeToFrequency() {
+        int rangeValue = (int) rangeSlider.getValue();
         morseMessagesVBox.getChildren().clear();
         String morseText = morseInput.getText();
         String englishText = converter.MorseToEnglish(morseText);
         int sliderValue = (int) frequencySlider.getValue();
 
-        addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText);
-        addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
+        writeMessages(sliderValue, morseText, englishText);
+        for (int i = 1; i < rangeValue; i++ ) {
+            writeMessages(sliderValue + i, morseText, englishText);
+            writeMessages(sliderValue - i, morseText, englishText);
+        }
 
         displayMorseMessagesFromFrequency(sliderValue);
         morseInput.setText("");
+    }
+
+    private void writeMessages(int sliderValue, String morseText, String englishText) {
+        if (sliderValue >= frequencySlider.getMin() && sliderValue <= frequencySlider.getMax()) {
+            addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText);
+            addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
+        }
     }
 
     @FXML
@@ -94,7 +107,7 @@ public class MainPageController {
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         for (String morseText: morseTextList){
             try {
-                SoundProducer.ProduceSound(morseText);
+                SoundProducer.ProduceSound(morseText.split(":  ")[1]);
             } catch (LineUnavailableException e){
                 e.printStackTrace();
             }
