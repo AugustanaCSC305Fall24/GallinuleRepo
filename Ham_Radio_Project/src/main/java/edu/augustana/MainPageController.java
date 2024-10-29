@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import edu.augustana.ui.BasePage;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,7 +9,7 @@ import javafx.scene.layout.VBox;
 import javax.sound.sampled.LineUnavailableException;
 import java.util.ArrayList;
 
-public class MainPageController {
+public class MainPageController extends BasePage{
 
 
     @FXML
@@ -41,6 +42,11 @@ public class MainPageController {
 
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
+
+    @Override
+    public void initialize() {
+        super.initialize();
+    }
 
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
