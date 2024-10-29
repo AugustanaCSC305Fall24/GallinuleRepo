@@ -69,7 +69,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <ScrollPane fx:id="morseMessagesScrollPane" prefHeight="149.0" prefWidth="481.0">
+                  <ScrollPane fx:id="morseMessagesScrollPane" prefHeight="113.0" prefWidth="471.0">
                      <content>
                         <VBox fx:id="morseMessagesVBox" prefHeight="104.0" prefWidth="450.0">
                            <padding>
@@ -80,19 +80,25 @@
                      <padding>
                         <Insets left="5.0" right="5.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin>
                   </ScrollPane>
                   <Label text="English Translation" textFill="#000040">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <ScrollPane fx:id="englishMessagesScrollPane" prefHeight="150.0" prefWidth="450.0">
+                  <ScrollPane fx:id="englishMessagesScrollPane" prefHeight="87.0" prefWidth="472.0">
                      <content>
-                        <VBox fx:id="englishMessagesVBox" prefHeight="107.0" prefWidth="453.0" />
+                        <VBox fx:id="englishMessagesVBox" prefHeight="76.0" prefWidth="459.0" />
                      </content>
                      <padding>
                         <Insets left="5.0" right="5.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin>
                   </ScrollPane>
                </children>
             </VBox>

@@ -1,6 +1,5 @@
 package edu.augustana;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -73,7 +72,7 @@ public class MainPageController {
     }
 
     @FXML
-    private void showTranslation(){
+    private void showTranslation() {
         englishMessagesVBox.getChildren().clear();
         int sliderValue = (int) frequencySlider.getValue();
         displayEnglishMessagesFromFrequency(sliderValue);
@@ -81,13 +80,13 @@ public class MainPageController {
     }
 
     @FXML
-    private void hideTranslation(){
+    private void hideTranslation() {
         englishMessagesVBox.getChildren().clear();
         isTranslationHidden = true;
     }
 
     @FXML
-    private void playSound(){
+    private void playSound() {
         int sliderValue = (int) frequencySlider.getValue();
 
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
@@ -101,9 +100,8 @@ public class MainPageController {
     }
 
     @FXML
-    private void ditButton(){
+    private void ditButton() {
         morseInput.setText(morseInput.getText() + ".");
-
         try {
             SoundProducer.ProduceSound("e");
         } catch (LineUnavailableException e){
@@ -132,7 +130,6 @@ public class MainPageController {
         morseInput.setText(morseInput.getText() + "   ");
 
     }
-
 
     private void addMessageToFrequency(int sliderValue, String morseText, String englishText) {
         switch (sliderValue) {
