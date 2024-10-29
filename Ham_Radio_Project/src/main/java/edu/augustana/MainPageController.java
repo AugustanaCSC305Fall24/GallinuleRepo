@@ -1,5 +1,7 @@
 package edu.augustana;
 
+import edu.augustana.ui.BasePage;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -7,7 +9,7 @@ import javafx.scene.layout.VBox;
 import javax.sound.sampled.LineUnavailableException;
 import java.util.ArrayList;
 
-public class MainPageController {
+public class MainPageController extends BasePage{
 
 
     @FXML
@@ -22,6 +24,10 @@ public class MainPageController {
     private Label morseInput = new Label();
     @FXML
     private Slider frequencySlider;
+    @FXML
+    private Slider rangeSlider;
+    @FXML
+    private Slider volumeSlider;
 
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
@@ -38,25 +44,43 @@ public class MainPageController {
 
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
+    private int volume = 50;
+
+    @Override
+    public void initialize() {
+        super.initialize();
+    }
 
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
-        Label label = new Label("User:  " + message);
+        Label label = new Label(message);
         label.setWrapText(true);
         vbox.getChildren().add(label);
     }
 
     @FXML
     private void writeToFrequency() {
+        int rangeValue = (int) rangeSlider.getValue();
         morseMessagesVBox.getChildren().clear();
         String morseText = morseInput.getText();
         String englishText = converter.MorseToEnglish(morseText);
         int sliderValue = (int) frequencySlider.getValue();
 
-        addMessageToFrequency(sliderValue, morseText, englishText);
+        writeMessages(sliderValue, morseText, englishText);
+        for (int i = 1; i < rangeValue; i++ ) {
+            writeMessages(sliderValue + i, morseText, englishText);
+            writeMessages(sliderValue - i, morseText, englishText);
+        }
 
         displayMorseMessagesFromFrequency(sliderValue);
         morseInput.setText("");
+    }
+
+    private void writeMessages(int sliderValue, String morseText, String englishText) {
+        if (sliderValue >= frequencySlider.getMin() && sliderValue <= frequencySlider.getMax()) {
+            addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText);
+            addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
+        }
     }
 
     @FXML
@@ -72,7 +96,7 @@ public class MainPageController {
     }
 
     @FXML
-    private void showTranslation() {
+    private void showTranslation(){
         englishMessagesVBox.getChildren().clear();
         int sliderValue = (int) frequencySlider.getValue();
         displayEnglishMessagesFromFrequency(sliderValue);
@@ -80,30 +104,35 @@ public class MainPageController {
     }
 
     @FXML
-    private void hideTranslation() {
+    private void hideTranslation(){
         englishMessagesVBox.getChildren().clear();
         isTranslationHidden = true;
     }
 
     @FXML
-    private void playSound() {
+    private void playSound(){
         int sliderValue = (int) frequencySlider.getValue();
 
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         for (String morseText: morseTextList){
             try {
-                SoundProducer.ProduceSound(morseText);
+                SoundProducer.ProduceSound(morseText.split(":  ")[1], volume);
             } catch (LineUnavailableException e){
                 e.printStackTrace();
             }
         }
     }
+    @FXML
+    private void getVolume(){
+        volume = (int) volumeSlider.getValue();
+    }
 
     @FXML
-    private void ditButton() {
+    private void ditButton(){
         morseInput.setText(morseInput.getText() + ".");
+
         try {
-            SoundProducer.ProduceSound("e");
+            SoundProducer.ProduceSound("e ", volume);
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -114,7 +143,7 @@ public class MainPageController {
         morseInput.setText(morseInput.getText() + "-");
 
         try {
-            SoundProducer.ProduceSound("t");
+            SoundProducer.ProduceSound("t",volume);
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -130,6 +159,7 @@ public class MainPageController {
         morseInput.setText(morseInput.getText() + "   ");
 
     }
+
 
     private void addMessageToFrequency(int sliderValue, String morseText, String englishText) {
         switch (sliderValue) {

@@ -35,7 +35,7 @@ public class MorseToEnglishController {
     private void playSound(){
         String morseText = englishOutput.getText();
         try {
-            SoundProducer.ProduceSound(morseText);
+            SoundProducer.ProduceSound(morseText, 5);
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }

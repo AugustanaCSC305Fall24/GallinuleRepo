@@ -14,13 +14,21 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("MainPage"), 640, 480);
-        stage.setScene(scene);
-        stage.setTitle("Morse Code Converter");
-        stage.show();
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/edu/augustana/MainMenu.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Ham Radio Simulator");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     static void setRoot(String fxml) throws IOException {
