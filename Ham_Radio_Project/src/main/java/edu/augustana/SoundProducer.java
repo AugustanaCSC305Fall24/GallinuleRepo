@@ -9,11 +9,11 @@ import javax.sound.sampled.SourceDataLine;
 
 public class SoundProducer {
 
-    private static final int DOT_DURATION = 200;  // Duration for a dot (in milliseconds)
-    private static final int DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
-    private static final int DOT_GAP = DOT_DURATION; // Gap between dots and dashes
-    private static final int CHARACTER_GAP = DOT_DURATION * 3; // Gap between characters
-    private static final int WORD_GAP = DOT_DURATION * 7; // Gap between words
+    private static int DOT_DURATION = 200;  // Duration for a dot (in milliseconds)
+    private static int DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
+    private static int DOT_GAP = DOT_DURATION; // Gap between dots and dashes
+    private static int CHARACTER_GAP = 600; // Gap between characters
+    private static int WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
 
     public static void playDit(int volume) throws LineUnavailableException {
         playSound(DOT_DURATION, volume); // Play a 'dit' sound
@@ -44,13 +44,22 @@ public class SoundProducer {
     }
 
 
-        public static void ProduceSound(String message) throws LineUnavailableException {
+        public static void ProduceSound(String message, String characterSpeed, String effectiveSpeed) throws LineUnavailableException {
+        setSpeeds(characterSpeed, effectiveSpeed);
         final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         try (SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat)) {
             line.open(audioFormat, Note.SAMPLE_RATE);
             line.start();
             playMorseCode(line, message);
         }
+    }
+
+    private static void setSpeeds(String characterSpeed, String effectiveSpeed) {
+        DOT_DURATION = Integer.parseInt(characterSpeed); // Duration for a dot (in milliseconds)
+        CHARACTER_GAP = Integer.parseInt(effectiveSpeed); // Gap between characters
+        DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
+        DOT_GAP = DOT_DURATION; // Gap between dots and dashes
+        WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
     }
 
     private static void playMorseCode(SourceDataLine line, String message) {
@@ -91,9 +100,9 @@ enum Note {
     A4;
     public static final int SAMPLE_RATE = 16 * 1024; // ~16KHz
     private final byte[] sin = new byte[SAMPLE_RATE * 2]; // Array to hold the sine wave data
-
+    public double frequency;
     Note() {
-       double frequency = 440.0;  // Frequency for the note A
+       frequency = 440.0; //Double.parseDouble(MainPageController.frequencySelection.getValue());  // Frequency for the note A
        for (int i = 0; i < sin.length; i++) {
             double period = (double) SAMPLE_RATE / frequency; // Calculate the period
            double angle = 2.0 * Math.PI * i / period; // Calculate the angle

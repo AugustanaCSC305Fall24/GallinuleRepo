@@ -7,9 +7,9 @@ import javafx.scene.layout.VBox;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainPageController {
-
 
     @FXML
     private VBox morseMessagesVBox;
@@ -25,7 +25,12 @@ public class MainPageController {
     private Slider frequencySlider;
     @FXML
     private Slider rangeSlider;
-
+    @FXML
+    public ComboBox<String> frequencySelection;
+    @FXML
+    public ComboBox<String> effectiveSpeedSelection;
+    @FXML
+    public ComboBox<String> characterSpeedSelection;
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
     private final ArrayList<String> frequency2Morse = new ArrayList<>();
@@ -41,6 +46,9 @@ public class MainPageController {
 
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
+    public static String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
+    public static String[] CHARACTER_SPEED = {"200", "300", "400", "500", "600"};
+    public static String[] EFFECTIVE_SPEED = {"200", "300", "400", "500", "600", "700", "800", "900"};
 
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
@@ -70,7 +78,7 @@ public class MainPageController {
     private void writeMessages(int sliderValue, String morseText, String englishText) {
         if (sliderValue >= frequencySlider.getMin() && sliderValue <= frequencySlider.getMax()) {
             addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText);
-            addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
+            //addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
         }
     }
 
@@ -107,7 +115,7 @@ public class MainPageController {
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         for (String morseText: morseTextList){
             try {
-                SoundProducer.ProduceSound(morseText.split(":  ")[1]);
+                SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
             } catch (LineUnavailableException e){
                 e.printStackTrace();
             }
@@ -119,7 +127,7 @@ public class MainPageController {
         morseInput.setText(morseInput.getText() + ".");
 
         try {
-            SoundProducer.ProduceSound("e");
+            SoundProducer.ProduceSound("e", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -130,7 +138,7 @@ public class MainPageController {
         morseInput.setText(morseInput.getText() + "-");
 
         try {
-            SoundProducer.ProduceSound("t");
+            SoundProducer.ProduceSound("t", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -227,5 +235,15 @@ public class MainPageController {
             default:
                 return null;
         }
+    }
+
+    public void initialize() {
+        //frequencySelection.getItems().addAll(List.of(FREQUENCIES));
+        //frequencySelection.setValue(FREQUENCIES[0]);
+        effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
+        effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
+        characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
+        characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
+
     }
 }
