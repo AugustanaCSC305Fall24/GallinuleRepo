@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import edu.augustana.ui.BasePage;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,7 +10,7 @@ import javax.sound.sampled.LineUnavailableException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainPageController {
+public class MainPageController extends BasePage{
 
     @FXML
     private VBox morseMessagesVBox;
@@ -31,6 +32,7 @@ public class MainPageController {
     public ComboBox<String> effectiveSpeedSelection;
     @FXML
     public ComboBox<String> characterSpeedSelection;
+    private Slider volumeSlider;
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
     private final ArrayList<String> frequency2Morse = new ArrayList<>();
@@ -49,6 +51,18 @@ public class MainPageController {
     public static String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
     public static String[] CHARACTER_SPEED = {"200", "300", "400", "500", "600"};
     public static String[] EFFECTIVE_SPEED = {"200", "300", "400", "500", "600", "700", "800", "900"};
+    private int volume = 50;
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        //frequencySelection.getItems().addAll(List.of(FREQUENCIES));
+        //frequencySelection.setValue(FREQUENCIES[0]);
+        effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
+        effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
+        characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
+        characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
+    }
 
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
@@ -115,11 +129,15 @@ public class MainPageController {
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         for (String morseText: morseTextList){
             try {
-                SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
+                SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
             } catch (LineUnavailableException e){
                 e.printStackTrace();
             }
         }
+    }
+    @FXML
+    private void getVolume(){
+        volume = (int) volumeSlider.getValue();
     }
 
     @FXML
@@ -127,7 +145,7 @@ public class MainPageController {
         morseInput.setText(morseInput.getText() + ".");
 
         try {
-            SoundProducer.ProduceSound("e", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
+            SoundProducer.ProduceSound("e", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -138,7 +156,7 @@ public class MainPageController {
         morseInput.setText(morseInput.getText() + "-");
 
         try {
-            SoundProducer.ProduceSound("t", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
+            SoundProducer.ProduceSound("t", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -235,15 +253,5 @@ public class MainPageController {
             default:
                 return null;
         }
-    }
-
-    public void initialize() {
-        //frequencySelection.getItems().addAll(List.of(FREQUENCIES));
-        //frequencySelection.setValue(FREQUENCIES[0]);
-        effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
-        effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
-        characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
-        characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
-
     }
 }

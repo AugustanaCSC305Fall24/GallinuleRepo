@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.BasePage">
+   <children>
+      <ImageView fx:id="helperImage" fitHeight="130.0" fitWidth="270.0" layoutX="315.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <VBox layoutX="16.0" layoutY="136.0" prefHeight="250.0" prefWidth="569.0" />
+      <Button fx:id="helperButton" alignment="CENTER" layoutX="463.0" layoutY="14.0" mnemonicParsing="false" onAction="#showHelperImage" style="-fx-text-fill: White; -fx-background-color: #000040; -fx-background-radius: 50;" text="Show Helper Image " textAlignment="CENTER" />
+   </children>
+</AnchorPane>
+
