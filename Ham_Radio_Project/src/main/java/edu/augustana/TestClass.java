@@ -19,15 +19,20 @@ public class TestClass {
 //        System.out.println();
 //        System.out.println(converter.MorseToEnglish(".... . .-.. .-.. --- -.-.--   .... --- .--   .- .-. .   -.-- --- ..- "));
 
-        //SoundProducer.ProduceSound("Hello World");
-        //SoundProducer.ProduceSound("Hello! how are you");
+        SoundProducer.ProduceSound("Hello World");
+        SoundProducer.ProduceSound("Hello! how are you");
 
         //to test the AIHandler class
+
         //System.out.println(openAI("hello, how are you?"));
         boolean isTrue;
         do {
             isTrue = ChatBot.shouldChatSendRandomMessage();
             System.out.println(isTrue);
         } while (!isTrue);
+
+       // System.out.println(openAI("hello, how are you?"));
+
+
     }
 }

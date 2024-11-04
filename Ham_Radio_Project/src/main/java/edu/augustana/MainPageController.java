@@ -1,16 +1,28 @@
 package edu.augustana;
 
+
 import edu.augustana.ui.BasePage;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import javax.sound.sampled.LineUnavailableException;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainPageController extends BasePage{
+
+
+public class MainPageController {
+
 
     @FXML
     private VBox morseMessagesVBox;
@@ -21,7 +33,7 @@ public class MainPageController extends BasePage{
     @FXML
     private ScrollPane englishMessagesScrollPane;
     @FXML
-    private Label morseInput = new Label();
+    private Label morseInput;
     @FXML
     private Slider frequencySlider;
     @FXML
@@ -33,6 +45,7 @@ public class MainPageController extends BasePage{
     @FXML
     public ComboBox<String> characterSpeedSelection;
     private Slider volumeSlider;
+
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
     private final ArrayList<String> frequency2Morse = new ArrayList<>();
@@ -48,6 +61,8 @@ public class MainPageController extends BasePage{
 
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
+
+
     public static String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
     public static String[] CHARACTER_SPEED = {"200", "300", "400", "500", "600"};
     public static String[] EFFECTIVE_SPEED = {"200", "300", "400", "500", "600", "700", "800", "900"};
@@ -64,11 +79,127 @@ public class MainPageController extends BasePage{
         characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
     }
 
+    private boolean isTypingEnabled = true;
+
+    // Constants for timing
+    private static final int CHAR_SPACE_DELAY = 1000; // 1 second
+    private static final int WORD_SPACE_DELAY = 1500; // 1.5 seconds
+
+
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
         Label label = new Label(message);
         label.setWrapText(true);
         vbox.getChildren().add(label);
+    }
+
+    @FXML
+    private void initialize() {
+
+        Platform.runLater(() -> {
+            morseInput.requestFocus();
+            morseInput.getScene().setOnKeyPressed(this::handleKeyPress);
+            morseInput.getScene().setOnKeyReleased(this::handleKeyRelease);
+        });
+    }
+
+    private void handleKeyPress(KeyEvent event ) {
+        System.out.println("Key Pressed: " + event.getCode());
+        if (!isTypingEnabled) {
+            event.consume();
+            return;
+        }
+        if (event.getCode() == KeyCode.N) {
+            addDit();
+            event.consume();
+        } else if (event.getCode() == KeyCode.M) {
+            addDah();
+            event.consume();
+        } else if (event.getCode() == KeyCode.SPACE) {
+            addWordSpace();
+            event.consume();
+        }
+        addCharacterSpace();
+    }
+
+    private void handleKeyRelease(KeyEvent event) {
+        if (event.getCode() == KeyCode.N || event.getCode() == KeyCode.M) { // Invalid Case handling
+            addCharacterSpace();
+
+        }
+    }
+
+    private void addDit() {
+        if (isTypingEnabled) {
+            morseInput.setText(morseInput.getText() + ".");
+            playSound("e");
+            triggerChracterSpaceAfterDelay();
+        }
+    }
+
+    private void addDah() {
+        if (isTypingEnabled) {
+            morseInput.setText(morseInput.getText() + "_");
+            playSound("t");
+            triggerChracterSpaceAfterDelay();
+        }
+    }
+
+    private void triggerChracterSpaceAfterDelay() {
+        disableTypingTemporarily(CHAR_SPACE_DELAY);
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(CHAR_SPACE_DELAY),
+                event -> addCharacterSpaceIfNeeded()
+        ));
+        timeline.play();
+    }
+
+    private void addCharacterSpaceIfNeeded() {
+        if (isTypingEnabled && !morseInput.getText().endsWith(" ")) {
+            morseInput.setText(morseInput.getText() + " ");
+        }
+    }
+
+    private void addCharacterSpace() {
+        if (isTypingEnabled) {
+            disableTypingTemporarily(CHAR_SPACE_DELAY);
+            if (!morseInput.getText().endsWith(" ")) {
+                Timeline timeline = new Timeline(new KeyFrame(
+                        Duration.millis(CHAR_SPACE_DELAY),
+                        e -> morseInput.setText(morseInput.getText() + " ")
+                ));
+                timeline.play();
+            }
+        }
+    }
+
+    private void addWordSpace () {
+        if (isTypingEnabled) {
+            disableTypingTemporarily(WORD_SPACE_DELAY);
+            String currentText = morseInput.getText().trim();
+            Timeline timeline = new Timeline(new KeyFrame(
+                    Duration.millis(WORD_SPACE_DELAY),
+                    e -> morseInput.setText(currentText + "   ")
+            ));
+            timeline.play();
+        }
+    }
+
+    private void disableTypingTemporarily(int delayMillis) {
+        isTypingEnabled = false;
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.millis(delayMillis),
+                e -> isTypingEnabled = true
+        ));
+        timeline.play();
+    }
+
+    private void playSound (String soundChar) {
+        try {
+            SoundProducer.ProduceSound(soundChar);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -150,10 +281,13 @@ public class MainPageController extends BasePage{
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
+        addDit();
+
     }
 
     @FXML
     private void dahButton(){
+
         morseInput.setText(morseInput.getText() + "-");
 
         try {
@@ -161,19 +295,20 @@ public class MainPageController extends BasePage{
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
+
+        addDah();
+
     }
 
     @FXML
     private void charSpaceButton(){
-        morseInput.setText(morseInput.getText() + " ");
+        addCharacterSpace();
     }
 
     @FXML
     private void wordSpaceButton(){
-        morseInput.setText(morseInput.getText() + "   ");
-
+        addWordSpace();
     }
-
 
     private void addMessageToFrequency(int sliderValue, String morseText, String englishText) {
         switch (sliderValue) {
