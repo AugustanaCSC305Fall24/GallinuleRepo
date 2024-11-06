@@ -1,17 +1,19 @@
 package edu.augustana.sound;
 
 import edu.augustana.MorseCodeConverter;
+import edu.augustana.ui.MainPageController;
 
 import javax.sound.sampled.*;
 
 
 public class SoundProducer {
 
-    private static int DOT_DURATION = 200;  // Duration for a dot (in milliseconds)
+    private static int DOT_DURATION = 20;  // Duration for a dot (in milliseconds)
     private static int DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
     private static int DOT_GAP = DOT_DURATION; // Gap between dots and dashes
-    private static int CHARACTER_GAP = 600; // Gap between characters
+    private static int CHARACTER_GAP = 60; // Gap between characters
     private static int WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
+    public static int frequencyVal;
 
     public static void playDit(int volume) throws LineUnavailableException {
         playSound(DOT_DURATION, volume); // Play a 'dit' sound
@@ -45,7 +47,8 @@ public class SoundProducer {
         line.close();
     }
 
-    public static void ProduceSound(String message, String characterSpeed, String effectiveSpeed, int volume) throws LineUnavailableException {
+    public static void ProduceSound(String message, String characterSpeed, String effectiveSpeed, int volume, int frequency) throws LineUnavailableException {
+        frequencyVal = frequency;
         setSpeeds(characterSpeed, effectiveSpeed);
         final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         try (SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat)) {
@@ -104,7 +107,7 @@ enum Note {
 
     public byte[] data(int volume){
         byte[] sin = new byte[SAMPLE_RATE * 2];
-        double frequency = 440.0;  // Frequency for the note A
+        double frequency = SoundProducer.frequencyVal;  // Frequency for the note A
         for (int i = 0; i < sin.length; i++) {
             double period = (double) SAMPLE_RATE / frequency; // Calculate the period
             double angle = 2.0 * Math.PI * i / period; // Calculate the angle

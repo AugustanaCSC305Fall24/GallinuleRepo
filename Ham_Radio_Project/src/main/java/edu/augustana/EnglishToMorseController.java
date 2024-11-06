@@ -42,7 +42,7 @@ public class EnglishToMorseController {
     private void playSound(){
         String morseText = englishInput.getText();
         try {
-            SoundProducer.ProduceSound(morseText, "200", "600", 5); // ERROR: extract from main
+            SoundProducer.ProduceSound(morseText, "200", "600", 5, 440); // ERROR: extract from main
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
