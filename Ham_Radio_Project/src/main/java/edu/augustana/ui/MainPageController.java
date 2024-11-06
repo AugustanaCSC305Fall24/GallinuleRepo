@@ -1,5 +1,6 @@
 package edu.augustana.ui;
 
+import edu.augustana.FrequencySelection;
 import edu.augustana.MorseCodeConverter;
 import edu.augustana.data.CwBotRecord;
 import edu.augustana.data.ScriptedBot;
@@ -57,16 +58,16 @@ public class MainPageController extends BasePage {
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
     public static String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
-    public static String[] CHARACTER_SPEED = {"200", "300", "400", "500", "600"};
-    public static String[] EFFECTIVE_SPEED = {"200", "300", "400", "500", "600", "700", "800", "900"};
+    public static String[] CHARACTER_SPEED = {"100", "300", "400", "500", "600"};
+    public static String[] EFFECTIVE_SPEED = {"100", "300", "400", "500", "600", "700", "800", "900"};
     private int volume = 50;
     public static List<ScriptedBot> bots = new ArrayList<>();
 
     @Override
     public void initialize() {
         super.initialize();
-        //frequencySelection.getItems().addAll(List.of(FREQUENCIES));
-        //frequencySelection.setValue(FREQUENCIES[0]);
+        frequencySelection.getItems().addAll(List.of(FREQUENCIES));
+        frequencySelection.setValue(FREQUENCIES[0]);
         effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
         effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
         characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
@@ -101,7 +102,7 @@ public class MainPageController extends BasePage {
 
     private void writeMessages(int sliderValue, String morseText, String englishText) {
         if (sliderValue >= frequencySlider.getMin() && sliderValue <= frequencySlider.getMax()) {
-            addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText);
+            addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText + " ");
             //addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
         }
     }
@@ -140,7 +141,7 @@ public class MainPageController extends BasePage {
         for (String morseText: morseTextList){
             try {
                 morseText += " ";
-                SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
+                SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
             } catch (LineUnavailableException e){
                 e.printStackTrace();
             }
@@ -156,7 +157,7 @@ public class MainPageController extends BasePage {
         morseInput.setText(morseInput.getText() + ".");
 
         try {
-            SoundProducer.ProduceSound("e ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
+            SoundProducer.ProduceSound("e ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -167,7 +168,7 @@ public class MainPageController extends BasePage {
         morseInput.setText(morseInput.getText() + "-");
 
         try {
-            SoundProducer.ProduceSound("t ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
+            SoundProducer.ProduceSound("t ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
