@@ -19,8 +19,8 @@ public class TestClass {
 //        System.out.println();
 //        System.out.println(converter.MorseToEnglish(".... . .-.. .-.. --- -.-.--   .... --- .--   .- .-. .   -.-- --- ..- "));
 
-        SoundProducer.ProduceSound("Hello World");
-        SoundProducer.ProduceSound("Hello! how are you");
+        //SoundProducer.ProduceSound("Hello World");
+        //SoundProducer.ProduceSound("Hello! how are you");
 
         //to test the AIHandler class
 

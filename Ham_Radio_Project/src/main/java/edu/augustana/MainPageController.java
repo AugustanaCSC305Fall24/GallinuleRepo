@@ -21,9 +21,6 @@ import java.util.List;
 public class MainPageController extends BasePage{
 
 
-public class MainPageController {
-
-
     @FXML
     private VBox morseMessagesVBox;
     @FXML
@@ -77,6 +74,11 @@ public class MainPageController {
         effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
         characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
         characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
+        Platform.runLater(() -> {
+            morseInput.requestFocus();
+            morseInput.getScene().setOnKeyPressed(this::handleKeyPress);
+            morseInput.getScene().setOnKeyReleased(this::handleKeyRelease);
+        });
     }
 
     private boolean isTypingEnabled = true;
@@ -91,16 +93,6 @@ public class MainPageController {
         Label label = new Label(message);
         label.setWrapText(true);
         vbox.getChildren().add(label);
-    }
-
-    @FXML
-    private void initialize() {
-
-        Platform.runLater(() -> {
-            morseInput.requestFocus();
-            morseInput.getScene().setOnKeyPressed(this::handleKeyPress);
-            morseInput.getScene().setOnKeyReleased(this::handleKeyRelease);
-        });
     }
 
     private void handleKeyPress(KeyEvent event ) {
