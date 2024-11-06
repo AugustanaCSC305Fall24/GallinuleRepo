@@ -260,7 +260,6 @@ public class MainPageController {
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         for (String morseText: morseTextList){
             try {
-                morseText += " ";
                 SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
             } catch (LineUnavailableException e){
                 e.printStackTrace();
