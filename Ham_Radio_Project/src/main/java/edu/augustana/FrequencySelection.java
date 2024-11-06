@@ -1,6 +1,8 @@
 package edu.augustana;
 
 import java.io.IOException;
+
+import edu.augustana.ui.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
@@ -53,8 +55,8 @@ public class FrequencySelection {
         }
     }
 
-    @FXML
+    /*@FXML
     private void switchToMorseToEnglish() throws IOException {
         App.setRoot("MorseToEnglish");
-    }
+    }*/
 }

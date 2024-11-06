@@ -1,4 +1,6 @@
-package edu.augustana;
+package edu.augustana.sound;
+
+import edu.augustana.MorseCodeConverter;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -35,6 +37,7 @@ public class SoundProducer {
         // Play sound
         AudioFormat format = new AudioFormat(sampleRate, 8, 1, true, true);
         SourceDataLine line = AudioSystem.getSourceDataLine(format);
+        //line.get
         line.open(format);
         line.start();
         line.write(buffer, 0, buffer.length);

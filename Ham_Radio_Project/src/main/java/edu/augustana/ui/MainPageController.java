@@ -1,16 +1,19 @@
-package edu.augustana;
+package edu.augustana.ui;
 
-import edu.augustana.ui.BasePage;
-import javafx.application.Platform;
+import edu.augustana.MorseCodeConverter;
+import edu.augustana.data.CwBotRecord;
+import edu.augustana.data.ScriptedBot;
+import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainPageController extends BasePage{
+public class MainPageController extends BasePage {
 
     @FXML
     private VBox morseMessagesVBox;
@@ -32,7 +35,12 @@ public class MainPageController extends BasePage{
     public ComboBox<String> effectiveSpeedSelection;
     @FXML
     public ComboBox<String> characterSpeedSelection;
-    private Slider volumeSlider;
+    @FXML
+    private ListView<CwBotRecord> CwBotsListView;
+    @FXML
+    public Slider volumeSlider;
+    @FXML
+    private Button addBotButton;
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
     private final ArrayList<String> frequency2Morse = new ArrayList<>();
@@ -52,6 +60,7 @@ public class MainPageController extends BasePage{
     public static String[] CHARACTER_SPEED = {"200", "300", "400", "500", "600"};
     public static String[] EFFECTIVE_SPEED = {"200", "300", "400", "500", "600", "700", "800", "900"};
     private int volume = 50;
+    public static List<ScriptedBot> bots = new ArrayList<>();
 
     @Override
     public void initialize() {
@@ -62,6 +71,7 @@ public class MainPageController extends BasePage{
         effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
         characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
         characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
+
     }
 
     //Code from exam 1 (Chatter Box)
@@ -146,7 +156,7 @@ public class MainPageController extends BasePage{
         morseInput.setText(morseInput.getText() + ".");
 
         try {
-            SoundProducer.ProduceSound("e", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
+            SoundProducer.ProduceSound("e ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -157,7 +167,7 @@ public class MainPageController extends BasePage{
         morseInput.setText(morseInput.getText() + "-");
 
         try {
-            SoundProducer.ProduceSound("t", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
+            SoundProducer.ProduceSound("t ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume);
         } catch (LineUnavailableException e){
             e.printStackTrace();
         }
@@ -254,5 +264,10 @@ public class MainPageController extends BasePage{
             default:
                 return null;
         }
+    }
+
+    @FXML
+    private void openCwBotAddPage() throws IOException  {
+        App.switchToAddNewBotView();
     }
 }

@@ -1,6 +1,9 @@
 package edu.augustana;
 
 import java.io.IOException;
+
+import edu.augustana.sound.SoundProducer;
+import edu.augustana.ui.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
@@ -41,13 +44,13 @@ public class MorseToEnglishController {
         }
     }
 
-    @FXML
+   /* @FXML
     private void switchToEnglishToMorse() throws IOException {
         App.setRoot("EnglishToMorse");
-    }
+    }*/
 
-    @FXML
+    /*@FXML
     private void switchToFrequency() throws IOException{
         App.setRoot("FrequencySelection");
-    }
+    }*/
 }
