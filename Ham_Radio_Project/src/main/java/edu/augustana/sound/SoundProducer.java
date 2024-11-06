@@ -2,11 +2,7 @@ package edu.augustana.sound;
 
 import edu.augustana.MorseCodeConverter;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
-
+import javax.sound.sampled.*;
 
 
 public class SoundProducer {
@@ -37,7 +33,10 @@ public class SoundProducer {
         // Play sound
         AudioFormat format = new AudioFormat(sampleRate, 8, 1, true, true);
         SourceDataLine line = AudioSystem.getSourceDataLine(format);
-        //line.get
+        FloatControl volumeControl = (FloatControl) line.getControl(FloatControl.Type.MASTER_GAIN);
+        float currentVolume = volumeControl.getValue();
+        float newVolume = volume;
+        volumeControl.setValue(newVolume);
         line.open(format);
         line.start();
         line.write(buffer, 0, buffer.length);
