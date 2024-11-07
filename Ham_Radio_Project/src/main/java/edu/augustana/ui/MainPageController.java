@@ -32,6 +32,7 @@ public class MainPageController extends BasePage {
 
     @FXML
     private Button backButton;
+    @FXML
     private ListView<ScriptedBot> botListView;
     @FXML
     private VBox morseMessagesVBox;
