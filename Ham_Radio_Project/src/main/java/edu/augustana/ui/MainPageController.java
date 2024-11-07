@@ -8,13 +8,16 @@ import edu.augustana.sound.CWBotPlayer;
 import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -58,18 +61,8 @@ public class MainPageController extends BasePage {
     private ListView<CwBotRecord> CwBotsListView;
     @FXML
     public Slider volumeSlider;
-
-    private final ArrayList<String> frequency1Morse = new ArrayList<>();
-    private final ArrayList<String> frequency2Morse = new ArrayList<>();
-    private final ArrayList<String> frequency3Morse = new ArrayList<>();
-    private final ArrayList<String> frequency4Morse = new ArrayList<>();
-    private final ArrayList<String> frequency5Morse = new ArrayList<>();
-
-    private final ArrayList<String> frequency1English = new ArrayList<>();
-    private final ArrayList<String> frequency2English = new ArrayList<>();
-    private final ArrayList<String> frequency3English = new ArrayList<>();
-    private final ArrayList<String> frequency4English = new ArrayList<>();
-    private final ArrayList<String> frequency5English = new ArrayList<>();
+    @FXML
+    private Button helperBtn;
 
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
@@ -82,10 +75,22 @@ public class MainPageController extends BasePage {
     private StringBuilder inputSequence = new StringBuilder();
     private Timeline timeline;
 
-
+    Map<Integer, ArrayList<String>> EnglishFrequencies;
+    Map<Integer, ArrayList<String>> MorseFrequencies;
     @Override
     public void initialize() {
+        Thread thread = new Thread(() -> {
+            EnglishFrequencies = new HashMap<>();
+            MorseFrequencies = new HashMap<>();
+            for (int index = 0; index < 68; index++) {
+                EnglishFrequencies.put(index, new ArrayList<>());
+                MorseFrequencies.put(index, new ArrayList<>());
+            }
+
+        });
+        thread.start();
         super.initialize();
+        helperBtn.setOnAction(event -> helperPopUp());
         frequencySelection.getItems().addAll(List.of(FREQUENCIES));
         frequencySelection.setValue(FREQUENCIES[0]);
         effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
@@ -105,7 +110,23 @@ public class MainPageController extends BasePage {
         backButton.setOnAction(event -> goBack());
 
     }
+    private void helperPopUp() {
+        ImageView imageView = new ImageView(new Image("MorseCodeImageHelper.png"));
+        imageView.setFitWidth(400);
+        imageView.setFitHeight(400);
+        imageView.setPreserveRatio(true);
 
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Morse Code Tree");
+        // chatgpt summary
+        alert.setContentText("A Morse Code tree visually represents Morse Code, helping decode sequences of dots (.) and dashes (-). Starting at the root, each left branch corresponds to a dot, while each right branch corresponds to a dash. By following branches based on a sequence of signals, you reach the letter or number represented by that sequence.\n" +
+                "\n" +
+                "For example, to decode .-, start at the root, move left for the dot, and then right for the dash. Each character has a unique path down the tree, making it easy to decode messages by following the branches in the order of the signals.");
+        alert.setGraphic(imageView);
+
+        alert.show();
+    }
     @FXML
     private void goBack() {
         App.backToMainMenu();
@@ -262,30 +283,8 @@ public class MainPageController extends BasePage {
 
 
     private void addMessageToFrequency(int sliderValue, String morseText, String englishText) {
-        switch (sliderValue) {
-            case 1:
-                frequency1Morse.add(morseText);
-                frequency1English.add(englishText);
-                break;
-            case 2:
-                frequency2Morse.add(morseText);
-                frequency2English.add(englishText);
-                break;
-            case 3:
-                frequency3Morse.add(morseText);
-                frequency3English.add(englishText);
-                break;
-            case 4:
-                frequency4Morse.add(morseText);
-                frequency4English.add(englishText);
-                break;
-            case 5:
-                frequency5Morse.add(morseText);
-                frequency5English.add(englishText);
-                break;
-            default:
-                break;
-        }
+        MorseFrequencies.get(sliderValue).add(morseText);
+        EnglishFrequencies.get(sliderValue).add(englishText);
     }
 
     private void displayMorseMessagesFromFrequency(int sliderValue) {
@@ -309,37 +308,11 @@ public class MainPageController extends BasePage {
     }
 
     private ArrayList<String> getFrequencyMorseList(int sliderValue) {
-        switch (sliderValue) {
-            case 1:
-                return frequency1Morse;
-            case 2:
-                return frequency2Morse;
-            case 3:
-                return frequency3Morse;
-            case 4:
-                return frequency4Morse;
-            case 5:
-                return frequency5Morse;
-            default:
-                return null;
-        }
+        return MorseFrequencies.get(sliderValue);
     }
 
     private ArrayList<String> getFrequencyEnglishList(int sliderValue) {
-        switch (sliderValue) {
-            case 1:
-                return frequency1English;
-            case 2:
-                return frequency2English;
-            case 3:
-                return frequency3English;
-            case 4:
-                return frequency4English;
-            case 5:
-                return frequency5English;
-            default:
-                return null;
-        }
+        return EnglishFrequencies.get(sliderValue);
     }
 
     @FXML
