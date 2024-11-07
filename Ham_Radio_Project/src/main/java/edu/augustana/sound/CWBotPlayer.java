@@ -13,9 +13,19 @@ public class CWBotPlayer {
 
     public void playBot() {
         Thread thread = new Thread(() -> {
+            String soundSpace;
+            if (scriptedBot.getEffectiveSpeed() == 100){
+                soundSpace = "         ";
+            } else if (scriptedBot.getEffectiveSpeed() == 200){
+                soundSpace = "    ";
+            } else if (scriptedBot.getEffectiveSpeed() == 300){
+                soundSpace = " ";
+            } else {
+                soundSpace = "";
+            }
             try {
                 for (int i = 0; i < scriptedBot.getRepeatAmount(); i++) {
-                    SoundProducer.ProduceSound(scriptedBot.getMessage() + "       ",
+                    SoundProducer.ProduceSound(scriptedBot.getMessage() + soundSpace,
                             String.valueOf(scriptedBot.getCharSpeed()),
                             String.valueOf(scriptedBot.getEffectiveSpeed()),
                             scriptedBot.getVolume(),

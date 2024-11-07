@@ -48,8 +48,8 @@ public class Level1Controller extends BasePage {
         // Initialize stages (group of letters for each level)
         stages.add(List.of('E', 'I', 'S', 'H'));   // Stage 1: Learn E, I, S, H
         stages.add(List.of('T', 'M', 'O'));         // Stage 2: Learn T, M, O
-        stages.add(List.of('A', 'N', 'U', 'D', 'K', 'R', 'L', 'P', 'C', 'F', 'B')); // Stage 3: 10 more letters
-        stages.add(List.of('G', 'J', 'Y', 'Q', 'Z', 'X', 'W', 'V')); // Stage 4: Last 7 letters
+        stages.add(List.of('A', 'N', 'G', 'W', 'R', 'U', 'K', 'D', 'C', 'F', 'B')); // Stage 3: 10 more letters
+        stages.add(List.of('L', 'J', 'Y', 'Q', 'Z', 'X', 'P', 'V')); // Stage 4: Last 7 letters
 
         // Start with the first stage
         currentLetterSet = stages.get(0);
