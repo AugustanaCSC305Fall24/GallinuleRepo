@@ -67,8 +67,8 @@ public class MainPageController extends BasePage {
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
     public static String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
-    public static String[] CHARACTER_SPEED = {"100", "300", "400", "500", "600"};
-    public static String[] EFFECTIVE_SPEED = {"100", "300", "400", "500", "600", "700", "800", "900"};
+    public static String[] CHARACTER_SPEED = {"100", "200", "300", "400", "500", "600"};
+    public static String[] EFFECTIVE_SPEED = {"100", "200", "300", "400", "500", "600", "700", "800", "900"};
     private int volume = 50;
     public static List<ScriptedBot> bots = new ArrayList<>();
 
@@ -135,11 +135,18 @@ public class MainPageController extends BasePage {
     private void handleKeyPress(KeyCode code) {
         timeline.stop();
         timeline.playFromStart();
-
+        String soundSpace = "";
+        if (effectiveSpeedSelection.getValue().equals("100")){
+            soundSpace = "         ";
+        } else if (effectiveSpeedSelection.getValue().equals("200")){
+            soundSpace = "    ";
+        } else if (effectiveSpeedSelection.getValue().equals("300")){
+            soundSpace = " ";
+        }
         if (code == KeyCode.N) {
             inputSequence.append(".");
                 try {
-                    SoundProducer.ProduceSound("e         ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
+                    SoundProducer.ProduceSound("e" + soundSpace, characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
                 } catch (LineUnavailableException e) {
                     e.printStackTrace();
                 }
@@ -148,7 +155,7 @@ public class MainPageController extends BasePage {
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
                 try {
-                    SoundProducer.ProduceSound("t         ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
+                    SoundProducer.ProduceSound("t" + soundSpace, characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
                 } catch (LineUnavailableException e) {
                     e.printStackTrace();
                 }
@@ -229,12 +236,21 @@ public class MainPageController extends BasePage {
     @FXML
     private void playSound(){
         int sliderValue = (int) frequencySlider.getValue();
-
+        String soundSpace;
+        if (effectiveSpeedSelection.getValue().equals("100")){
+            soundSpace = "         ";
+        } else if (effectiveSpeedSelection.getValue().equals("200")){
+            soundSpace = "    ";
+        } else if (effectiveSpeedSelection.getValue().equals("300")){
+            soundSpace = " ";
+        } else {
+            soundSpace = "";
+        }
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         Thread thread = new Thread(() -> {
             for (String morseText : morseTextList) {
                 try {
-                    morseText += "         ";
+                    morseText += soundSpace;
                     SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
                 } catch (LineUnavailableException e) {
                     e.printStackTrace();
