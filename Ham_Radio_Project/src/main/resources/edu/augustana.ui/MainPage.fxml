@@ -66,6 +66,17 @@
          <center>
             <VBox alignment="CENTER" prefHeight="297.0" prefWidth="493.0" BorderPane.alignment="CENTER">
                <children>
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Back">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets bottom="20.0" top="2.0" />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="30.0" right="30.0" />
+                     </VBox.margin>
+                  </Button>
                   <Label alignment="CENTER" contentDisplay="TOP" text="Morse Text" textFill="#000040">
                      <font>
                         <Font name="System Bold" size="18.0" />

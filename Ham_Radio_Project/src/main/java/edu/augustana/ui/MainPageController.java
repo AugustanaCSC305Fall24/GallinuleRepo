@@ -17,6 +17,8 @@ import java.util.List;
 public class MainPageController extends BasePage {
 
     @FXML
+    private Button backButton;
+    @FXML
     private VBox morseMessagesVBox;
     @FXML
     private VBox englishMessagesVBox;
@@ -73,8 +75,15 @@ public class MainPageController extends BasePage {
         characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
         characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
 
+        backButton.setOnAction(event -> goBack());
+
     }
 
+    @FXML
+    private void goBack() {
+        App.backToMainMenu();
+    }
+    
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
         Label label = new Label(message);

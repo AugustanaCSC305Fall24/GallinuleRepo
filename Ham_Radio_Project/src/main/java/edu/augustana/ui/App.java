@@ -19,6 +19,7 @@ public class App extends Application {
     private static CwBotLog currentCwBotLog = new CwBotLog();
     private static File currentCwBotLogFile = null;
 
+
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -31,7 +32,6 @@ public class App extends Application {
             showError("Error loading main menu: " + e.getMessage());
         }
     }
-
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -86,7 +86,32 @@ public class App extends Application {
         }
     }
 
+    public static void switchToLevel1() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level1.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public static void backToMainMenu(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/MainMenu.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void backToLevelPage(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/LevelPage.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void main(String[] args) {
         launch();
     }

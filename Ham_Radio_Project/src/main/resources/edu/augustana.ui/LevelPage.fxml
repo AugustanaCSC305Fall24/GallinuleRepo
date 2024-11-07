@@ -6,7 +6,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.LevelPageController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="186.0" layoutY="69.0" prefHeight="40.0" prefWidth="200.0" style="-fx-text-fill: #000040;" text="Learn">
@@ -14,7 +13,7 @@
             <Font name="System Bold" size="29.0" />
          </font>
       </Label>
-      <Button fx:id="level1Button" layoutX="136.0" layoutY="125.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-text-fill: WHITE; -fx-background-color: #008080; -fx-background-radius: 50; -fx-border-width: 1.5px;" styleClass="rounded-button" text="1">
+      <Button fx:id="level1Button" layoutX="136.0" layoutY="125.0" mnemonicParsing="false" onAction="#startLearning" prefHeight="50.0" prefWidth="50.0" style="-fx-text-fill: WHITE; -fx-background-color: #008080; -fx-background-radius: 50; -fx-border-width: 1.5px;" styleClass="rounded-button" text="1">
          <font>
             <Font size="20.0" />
          </font>
@@ -45,5 +44,10 @@
          </font>
       </Button>
       <Line endX="87.0" layoutX="14.0" layoutY="326.0" startX="53.5" startY="74.0" />
+      <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="BACK">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

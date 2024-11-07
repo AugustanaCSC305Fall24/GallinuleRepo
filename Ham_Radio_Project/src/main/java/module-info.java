@@ -4,6 +4,7 @@ module edu.augustana {
     requires java.desktop;
     requires com.google.gson;
     requires com.opencsv;
+    requires javafx.media;
 
     opens edu.augustana to javafx.fxml;
     exports edu.augustana;
