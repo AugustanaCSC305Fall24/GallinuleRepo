@@ -143,6 +143,7 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="helperBtn" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-background-color: #000040;" text="HELP" textAlignment="RIGHT" textFill="WHITE" translateX="53.0" />
             <Label text="Character Speed" translateY="50.0" />
             <ComboBox fx:id="characterSpeedSelection" prefWidth="150.0" translateY="60.0" />
             <Label text="Effective Speed" translateY="100.0" />

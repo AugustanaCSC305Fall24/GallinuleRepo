@@ -8,6 +8,7 @@ import edu.augustana.sound.CWBotPlayer;
 import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
@@ -60,6 +61,8 @@ public class MainPageController extends BasePage {
     private ListView<CwBotRecord> CwBotsListView;
     @FXML
     public Slider volumeSlider;
+    @FXML
+    private Button helperBtn;
 
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
@@ -87,6 +90,7 @@ public class MainPageController extends BasePage {
         });
         thread.start();
         super.initialize();
+        helperBtn.setOnAction(event -> helperPopUp());
         frequencySelection.getItems().addAll(List.of(FREQUENCIES));
         frequencySelection.setValue(FREQUENCIES[0]);
         effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
@@ -106,7 +110,23 @@ public class MainPageController extends BasePage {
         backButton.setOnAction(event -> goBack());
 
     }
+    private void helperPopUp() {
+        ImageView imageView = new ImageView(new Image("MorseCodeImageHelper.png"));
+        imageView.setFitWidth(400);
+        imageView.setFitHeight(400);
+        imageView.setPreserveRatio(true);
 
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Morse Code Tree");
+        // chatgpt summary
+        alert.setContentText("A Morse Code tree visually represents Morse Code, helping decode sequences of dots (.) and dashes (-). Starting at the root, each left branch corresponds to a dot, while each right branch corresponds to a dash. By following branches based on a sequence of signals, you reach the letter or number represented by that sequence.\n" +
+                "\n" +
+                "For example, to decode .-, start at the root, move left for the dot, and then right for the dash. Each character has a unique path down the tree, making it easy to decode messages by following the branches in the order of the signals.");
+        alert.setGraphic(imageView);
+
+        alert.show();
+    }
     @FXML
     private void goBack() {
         App.backToMainMenu();
