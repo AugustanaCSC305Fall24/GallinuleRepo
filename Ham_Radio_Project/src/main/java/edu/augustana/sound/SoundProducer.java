@@ -69,6 +69,7 @@ public class SoundProducer {
     private static void playMorseCode(SourceDataLine line, String message, int volume) {
         MorseCodeConverter converter = new MorseCodeConverter();
         //message = message + " ";
+        System.out.println(message);
         for (char letter : message.toUpperCase().toCharArray()) {
             String morseLetter = converter.EnglishToMorse(Character.toString(letter));
             if (morseLetter.equals(" ")) {

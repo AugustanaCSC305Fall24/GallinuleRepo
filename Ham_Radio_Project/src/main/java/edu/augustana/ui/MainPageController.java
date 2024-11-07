@@ -4,6 +4,7 @@ import edu.augustana.FrequencySelection;
 import edu.augustana.MorseCodeConverter;
 import edu.augustana.data.CwBotRecord;
 import edu.augustana.data.ScriptedBot;
+import edu.augustana.sound.CWBotPlayer;
 import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -16,6 +17,8 @@ import java.util.List;
 
 public class MainPageController extends BasePage {
 
+    @FXML
+    private ListView<ScriptedBot> botListView;
     @FXML
     private VBox morseMessagesVBox;
     @FXML
@@ -40,8 +43,6 @@ public class MainPageController extends BasePage {
     private ListView<CwBotRecord> CwBotsListView;
     @FXML
     public Slider volumeSlider;
-    @FXML
-    private Button addBotButton;
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
     private final ArrayList<String> frequency2Morse = new ArrayList<>();
@@ -72,7 +73,10 @@ public class MainPageController extends BasePage {
         effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
         characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
         characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
+        if (bots != null){
+            botListView.getItems().addAll(bots);
 
+        }
     }
 
     //Code from exam 1 (Chatter Box)
@@ -270,5 +274,28 @@ public class MainPageController extends BasePage {
     @FXML
     private void openCwBotAddPage() throws IOException  {
         App.switchToAddNewBotView();
+    }
+
+    @FXML
+    private void playCurrentBot() {
+        ScriptedBot botToPlay = botListView.getSelectionModel().getSelectedItem();
+        if (botToPlay!= null) {
+            CWBotPlayer botPlayer = new CWBotPlayer(botToPlay);
+            botPlayer.playBot();
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Select a bot to play first!").show();
+        }
+    }
+
+    @FXML
+    private void actionDeleteBot() {
+        ScriptedBot botToDelete = botListView.getSelectionModel().getSelectedItem();
+        if (botToDelete!= null) {
+            bots.remove(botToDelete);
+            botListView.getItems().clear();
+            botListView.getItems().addAll(bots);
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Select a bot to delete first!").show();
+        }
     }
 }
