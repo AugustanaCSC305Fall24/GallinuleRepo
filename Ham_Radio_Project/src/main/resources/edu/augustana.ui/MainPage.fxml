@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="674.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainPageController">
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <bottom>
@@ -32,36 +32,16 @@
                      </VBox.margin>
                   </Label>
                   <HBox prefHeight="67.0" prefWidth="500.0" spacing="20.0">
-                     <children>
-                        <Button mnemonicParsing="false" onAction="#writeToFrequency" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Send" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold Italic" size="10.0" />
-                           </font></Button>
-                        <Button mnemonicParsing="false" onAction="#ditButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Dit" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold Italic" size="10.0" />
-                           </font></Button>
-                        <Button mnemonicParsing="false" onAction="#dahButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Dah" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold Italic" size="10.0" />
-                           </font></Button>
-                        <Button mnemonicParsing="false" onAction="#charSpaceButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Char space" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold Italic" size="10.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#wordSpaceButton" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Word space" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold Italic" size="10.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#openCwBotAddPage" text="Add Bot" />
-                        <Button mnemonicParsing="false" onAction="#playCurrentBot" text="Play Selected bot" />
-                        <Button mnemonicParsing="false" onAction="#actionDeleteBot" text="Delete Selected bot" />
-                     </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#writeToFrequency" style="-fx-background-color: #000040; -fx-background-radius: 50; -fx-min-height: 55; -fx-min-width: 55;" text="Send" textFill="WHITE" translateX="180.0">
+                           <font>
+                              <Font name="System Bold Italic" size="10.0" />
+                           </font>
+                        </Button>
+                     </children>
                   </HBox>
                </children>
             </VBox>
@@ -69,17 +49,6 @@
          <center>
             <VBox alignment="CENTER" prefHeight="381.0" prefWidth="481.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Back">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets bottom="20.0" top="2.0" />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets bottom="30.0" right="30.0" />
-                     </VBox.margin>
-                  </Button>
                   <Label alignment="CENTER" contentDisplay="TOP" text="Morse Text" textFill="#000040">
                      <font>
                         <Font name="System Bold" size="18.0" />
@@ -129,18 +98,29 @@
    <left>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="119.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Back">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets bottom="20.0" top="2.0" />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="30.0" right="30.0" />
+               </VBox.margin>
+            </Button>
             <Slider fx:id="volumeSlider" majorTickUnit="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0" />
             <Button mnemonicParsing="false" onAction="#getVolume" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Set volume" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="10.0" />
                </font></Button>
             <Label text="Select Range" translateY="25.0" />
-            <Slider fx:id="rangeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" />
+            <Slider fx:id="rangeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="4.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" />
             <Button mnemonicParsing="false" onAction="#displayFrequency" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Display Frequency" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="10.0" />
                </font></Button>
-            <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" value="1.0">
+            <Slider fx:id="frequencySlider" blockIncrement="4.0" majorTickUnit="4.0" max="67.0" minorTickCount="4" showTickLabels="true" snapToTicks="true" value="1.0">
                <padding>
                   <Insets left="5.0" right="5.0" />
                </padding></Slider>
@@ -157,10 +137,23 @@
                   <Font name="System Bold Italic" size="10.0" />
                </font>
             </Button>
-            <ComboBox fx:id="characterSpeedSelection" prefWidth="150.0" scaleX="0.8" />
-            <ComboBox fx:id="effectiveSpeedSelection" prefWidth="150.0" scaleX="0.8" />
-            <ComboBox fx:id="frequencySelection" prefWidth="150.0" scaleX="0.8" />
          </children>
       </VBox>
    </left>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="helperBtn" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-background-color: #000040;" text="HELP" textAlignment="RIGHT" textFill="WHITE" translateX="53.0" />
+            <Label text="Character Speed" translateY="50.0" />
+            <ComboBox fx:id="characterSpeedSelection" prefWidth="150.0" translateY="60.0" />
+            <Label text="Effective Speed" translateY="100.0" />
+            <ComboBox fx:id="effectiveSpeedSelection" prefWidth="150.0" translateY="110.0" />
+            <Label text="Frequency" translateY="150.0" />
+            <ComboBox fx:id="frequencySelection" prefWidth="150.0" translateY="160.0" />
+            <Button mnemonicParsing="false" onAction="#openCwBotAddPage" text="Add Bot" translateY="200.0" />
+            <Button mnemonicParsing="false" onAction="#playCurrentBot" text="Play Selected bot" translateY="250.0" />
+            <Button mnemonicParsing="false" onAction="#actionDeleteBot" text="Delete Selected bot" translateY="300.0" />
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
