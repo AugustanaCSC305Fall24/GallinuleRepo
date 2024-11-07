@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainMenu">
+<BorderPane prefHeight="638.0" prefWidth="1077.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainMenu">
    <top>
-      <Label alignment="CENTER" prefHeight="60.0" prefWidth="600.0" style="-fx-text-fill: #000040;" text="Ham Radio Simulator" textAlignment="CENTER">
+      <Label alignment="CENTER" prefHeight="116.0" prefWidth="763.0" style="-fx-text-fill: #000040;" text="Ham Radio Simulator" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="34.0" />
          </font>
@@ -20,6 +21,9 @@
                <font>
                   <Font size="30.0" />
                </font>
+               <BorderPane.margin>
+                  <Insets left="100.0" top="200.0" />
+               </BorderPane.margin>
             </Button>
          </left>
          <right>
@@ -27,6 +31,9 @@
                <font>
                   <Font size="30.0" />
                </font>
+               <BorderPane.margin>
+                  <Insets right="100.0" top="200.0" />
+               </BorderPane.margin>
             </Button>
          </right>
       </BorderPane>

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
@@ -55,6 +56,8 @@
                            </font>
                         </Button>
                         <Button mnemonicParsing="false" onAction="#openCwBotAddPage" text="Add Bot" />
+                        <Button mnemonicParsing="false" onAction="#playCurrentBot" text="Play Selected bot" />
+                        <Button mnemonicParsing="false" onAction="#actionDeleteBot" text="Delete Selected bot" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />
@@ -64,7 +67,7 @@
             </VBox>
          </bottom>
          <center>
-            <VBox alignment="CENTER" prefHeight="297.0" prefWidth="493.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="381.0" prefWidth="481.0" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Back">
                      <font>
@@ -84,7 +87,7 @@
                   </Label>
                   <ScrollPane fx:id="morseMessagesScrollPane" prefHeight="113.0" prefWidth="471.0">
                      <content>
-                        <VBox fx:id="morseMessagesVBox" prefHeight="104.0" prefWidth="450.0">
+                        <VBox fx:id="morseMessagesVBox" prefHeight="123.0" prefWidth="450.0">
                            <padding>
                               <Insets left="5.0" right="5.0" />
                            </padding>
@@ -104,7 +107,7 @@
                   </Label>
                   <ScrollPane fx:id="englishMessagesScrollPane" prefHeight="87.0" prefWidth="472.0">
                      <content>
-                        <VBox fx:id="englishMessagesVBox" prefHeight="76.0" prefWidth="459.0" />
+                        <VBox fx:id="englishMessagesVBox" prefHeight="93.0" prefWidth="459.0" />
                      </content>
                      <padding>
                         <Insets left="5.0" right="5.0" />
@@ -113,6 +116,11 @@
                         <Insets right="10.0" />
                      </VBox.margin>
                   </ScrollPane>
+                  <ListView fx:id="botListView" prefHeight="114.0" prefWidth="281.0">
+                     <VBox.margin>
+                        <Insets left="100.0" right="100.0" top="50.0" />
+                     </VBox.margin>
+                  </ListView>
                </children>
             </VBox>
          </center>

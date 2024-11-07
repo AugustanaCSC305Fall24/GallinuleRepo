@@ -1,8 +1,6 @@
 package edu.augustana.ui;
 
-import edu.augustana.data.CwBotRecord;
 import edu.augustana.data.ScriptedBot;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -14,6 +12,8 @@ public class AddBotController {
     @FXML private Slider effectiveSpeed;
     @FXML private Slider frequency;
     @FXML private Slider volume;
+    @FXML private Slider tone;
+    @FXML private Slider repeats;
 
 
 
@@ -29,11 +29,11 @@ public class AddBotController {
         int effectiveSpeedValue = (int) effectiveSpeed.getValue();
         int frequencyValue = (int) frequency.getValue();
         int volumeValue = (int) volume.getValue();
+        int toneValue = (int) tone.getValue();
+        int repeatsValue = (int) repeats.getValue();
 
-
-        ScriptedBot newBot = new ScriptedBot(botNameValue, messageValue, charSpeedValue, effectiveSpeedValue, frequencyValue, volumeValue);
+        ScriptedBot newBot = new ScriptedBot(botNameValue, messageValue, charSpeedValue, effectiveSpeedValue, frequencyValue, volumeValue, toneValue, repeatsValue);
         MainPageController.bots.add(newBot);
-        System.out.println(MainPageController.bots);
         App.switchToMainPage();
     }
 
