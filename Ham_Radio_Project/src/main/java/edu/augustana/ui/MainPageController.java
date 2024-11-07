@@ -14,7 +14,9 @@ import javafx.scene.layout.VBox;
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -59,18 +61,6 @@ public class MainPageController extends BasePage {
     @FXML
     public Slider volumeSlider;
 
-    private final ArrayList<String> frequency1Morse = new ArrayList<>();
-    private final ArrayList<String> frequency2Morse = new ArrayList<>();
-    private final ArrayList<String> frequency3Morse = new ArrayList<>();
-    private final ArrayList<String> frequency4Morse = new ArrayList<>();
-    private final ArrayList<String> frequency5Morse = new ArrayList<>();
-
-    private final ArrayList<String> frequency1English = new ArrayList<>();
-    private final ArrayList<String> frequency2English = new ArrayList<>();
-    private final ArrayList<String> frequency3English = new ArrayList<>();
-    private final ArrayList<String> frequency4English = new ArrayList<>();
-    private final ArrayList<String> frequency5English = new ArrayList<>();
-
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
     public static String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
@@ -82,9 +72,20 @@ public class MainPageController extends BasePage {
     private StringBuilder inputSequence = new StringBuilder();
     private Timeline timeline;
 
-
+    Map<Integer, ArrayList<String>> EnglishFrequencies;
+    Map<Integer, ArrayList<String>> MorseFrequencies;
     @Override
     public void initialize() {
+        Thread thread = new Thread(() -> {
+            EnglishFrequencies = new HashMap<>();
+            MorseFrequencies = new HashMap<>();
+            for (int index = 0; index < 68; index++) {
+                EnglishFrequencies.put(index, new ArrayList<>());
+                MorseFrequencies.put(index, new ArrayList<>());
+            }
+
+        });
+        thread.start();
         super.initialize();
         frequencySelection.getItems().addAll(List.of(FREQUENCIES));
         frequencySelection.setValue(FREQUENCIES[0]);
@@ -244,30 +245,8 @@ public class MainPageController extends BasePage {
 
 
     private void addMessageToFrequency(int sliderValue, String morseText, String englishText) {
-        switch (sliderValue) {
-            case 1:
-                frequency1Morse.add(morseText);
-                frequency1English.add(englishText);
-                break;
-            case 2:
-                frequency2Morse.add(morseText);
-                frequency2English.add(englishText);
-                break;
-            case 3:
-                frequency3Morse.add(morseText);
-                frequency3English.add(englishText);
-                break;
-            case 4:
-                frequency4Morse.add(morseText);
-                frequency4English.add(englishText);
-                break;
-            case 5:
-                frequency5Morse.add(morseText);
-                frequency5English.add(englishText);
-                break;
-            default:
-                break;
-        }
+        MorseFrequencies.get(sliderValue).add(morseText);
+        EnglishFrequencies.get(sliderValue).add(englishText);
     }
 
     private void displayMorseMessagesFromFrequency(int sliderValue) {
@@ -291,37 +270,11 @@ public class MainPageController extends BasePage {
     }
 
     private ArrayList<String> getFrequencyMorseList(int sliderValue) {
-        switch (sliderValue) {
-            case 1:
-                return frequency1Morse;
-            case 2:
-                return frequency2Morse;
-            case 3:
-                return frequency3Morse;
-            case 4:
-                return frequency4Morse;
-            case 5:
-                return frequency5Morse;
-            default:
-                return null;
-        }
+        return MorseFrequencies.get(sliderValue);
     }
 
     private ArrayList<String> getFrequencyEnglishList(int sliderValue) {
-        switch (sliderValue) {
-            case 1:
-                return frequency1English;
-            case 2:
-                return frequency2English;
-            case 3:
-                return frequency3English;
-            case 4:
-                return frequency4English;
-            case 5:
-                return frequency5English;
-            default:
-                return null;
-        }
+        return EnglishFrequencies.get(sliderValue);
     }
 
     @FXML

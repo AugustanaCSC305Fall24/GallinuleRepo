@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="674.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainPageController">
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <bottom>
@@ -135,12 +135,12 @@
                   <Font name="System Bold Italic" size="10.0" />
                </font></Button>
             <Label text="Select Range" translateY="25.0" />
-            <Slider fx:id="rangeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" />
+            <Slider fx:id="rangeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="4.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" />
             <Button mnemonicParsing="false" onAction="#displayFrequency" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Display Frequency" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="10.0" />
                </font></Button>
-            <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" value="1.0">
+            <Slider fx:id="frequencySlider" blockIncrement="4.0" majorTickUnit="4.0" max="67.0" minorTickCount="4" showTickLabels="true" snapToTicks="true" value="1.0">
                <padding>
                   <Insets left="5.0" right="5.0" />
                </padding></Slider>
