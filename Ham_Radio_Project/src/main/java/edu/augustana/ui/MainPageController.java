@@ -117,16 +117,30 @@ public class MainPageController extends BasePage {
 
         if (code == KeyCode.N) {
             inputSequence.append(".");
+                try {
+                    SoundProducer.ProduceSound("e         ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                }
+
+
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
-        }
+                try {
+                    SoundProducer.ProduceSound("t         ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                }
 
+        }
         morseInput.setText(inputSequence.toString());
     }
 
     private void handleNoInput() {
-        inputSequence.append(" ");
-        morseInput.setText(inputSequence.toString());
+        if (!inputSequence.toString().isEmpty()){
+            inputSequence.append(" ");
+            morseInput.setText(inputSequence.toString());
+        }
     }
 
 
@@ -136,6 +150,7 @@ public class MainPageController extends BasePage {
         Label label = new Label(message);
         label.setWrapText(true);
         vbox.getChildren().add(label);
+        inputSequence = new StringBuilder("");
     }
 
     @FXML
@@ -195,14 +210,17 @@ public class MainPageController extends BasePage {
         int sliderValue = (int) frequencySlider.getValue();
 
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
-        for (String morseText: morseTextList){
-            try {
-                morseText += " ";
-                SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-            } catch (LineUnavailableException e){
-                e.printStackTrace();
+        Thread thread = new Thread(() -> {
+            for (String morseText : morseTextList) {
+                try {
+                    morseText += "         ";
+                    SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        });
+        thread.start();
     }
     @FXML
     private void getVolume(){
