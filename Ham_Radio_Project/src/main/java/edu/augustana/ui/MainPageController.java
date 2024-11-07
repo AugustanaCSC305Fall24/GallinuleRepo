@@ -154,6 +154,7 @@ public class MainPageController extends BasePage {
 
         displayMorseMessagesFromFrequency(sliderValue);
         morseInput.setText("");
+        inputSequence = new StringBuilder();
     }
 
     private void writeMessages(int sliderValue, String morseText, String englishText) {
