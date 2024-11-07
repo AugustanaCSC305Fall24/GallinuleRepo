@@ -4,6 +4,7 @@ import edu.augustana.FrequencySelection;
 import edu.augustana.MorseCodeConverter;
 import edu.augustana.data.CwBotRecord;
 import edu.augustana.data.ScriptedBot;
+import edu.augustana.sound.CWBotPlayer;
 import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -30,6 +31,8 @@ import static edu.augustana.ui.App.scene;
 public class MainPageController extends BasePage {
 
     @FXML
+    private ListView<ScriptedBot> botListView;
+    @FXML
     private VBox morseMessagesVBox;
     @FXML
     private VBox englishMessagesVBox;
@@ -53,8 +56,6 @@ public class MainPageController extends BasePage {
     private ListView<CwBotRecord> CwBotsListView;
     @FXML
     public Slider volumeSlider;
-    @FXML
-    private Button addBotButton;
 
     private final ArrayList<String> frequency1Morse = new ArrayList<>();
     private final ArrayList<String> frequency2Morse = new ArrayList<>();
@@ -89,7 +90,9 @@ public class MainPageController extends BasePage {
         effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
         characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
         characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
-
+        if (bots != null) {
+            botListView.getItems().addAll(bots);
+        }
         scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> handleNoInput()));
@@ -98,7 +101,6 @@ public class MainPageController extends BasePage {
         timeline.play();
 
     }
-
 
     private void handleKeyPress(KeyCode code) {
         timeline.stop();
@@ -117,6 +119,8 @@ public class MainPageController extends BasePage {
         inputSequence.append(" ");
         morseInput.setText(inputSequence.toString());
     }
+
+
 
     //Code from exam 1 (Chatter Box)
     private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
@@ -314,4 +318,29 @@ public class MainPageController extends BasePage {
     private void openCwBotAddPage() throws IOException  {
         App.switchToAddNewBotView();
     }
+
+    @FXML
+    private void playCurrentBot() {
+        ScriptedBot botToPlay = botListView.getSelectionModel().getSelectedItem();
+        if (botToPlay!= null) {
+            CWBotPlayer botPlayer = new CWBotPlayer(botToPlay);
+            botPlayer.playBot();
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Select a bot to play first!").show();
+        }
+    }
+
+    @FXML
+    private void actionDeleteBot() {
+        ScriptedBot botToDelete = botListView.getSelectionModel().getSelectedItem();
+        if (botToDelete!= null) {
+            bots.remove(botToDelete);
+            botListView.getItems().clear();
+            botListView.getItems().addAll(bots);
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Select a bot to delete first!").show();
+        }
+    }
 }
+
+
