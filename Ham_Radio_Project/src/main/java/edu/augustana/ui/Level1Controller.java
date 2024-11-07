@@ -3,11 +3,13 @@ package edu.augustana.ui;
 import edu.augustana.MorseCodeConverter;
 import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javax.sound.sampled.LineUnavailableException;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,8 @@ public class Level1Controller extends BasePage {
     private Label levelProgress;
     @FXML
     private Button revealButton;
+    @FXML
+    private Label sentenceLabel;
     private boolean isRevealed = false;
 
     // List of stages (letters will be shown in these sets)
@@ -50,7 +54,7 @@ public class Level1Controller extends BasePage {
         // Start with the first stage
         currentLetterSet = stages.get(0);
         currentLetterIndex = 0;
-        generateNewLetter(); // Generate first letter for the user to type
+        //generateNewLetter(); // Generate first letter for the user to type
     }
 
     @FXML
@@ -64,8 +68,8 @@ public class Level1Controller extends BasePage {
         currentLetterMorse = morseConverter.EnglishToMorse(String.valueOf(currentLetter)); // Get Morse code for the letter
 
         // Display the Morse code for the user to type
-        morseCodeLabel.setText(currentLetterMorse);
-        levelProgress.setText("Level Progress: " + (currentLetterIndex + 1) + "/" + currentLetterSet.size());
+        //morseCodeLabel.setText(currentLetterMorse);
+        levelProgress.setText("Level Progress:  1 / 5" + (currentLetterIndex + 1) + "/" + currentLetterSet.size());
 
         // Play sound of the Morse code using SoundProducer
         try {
@@ -150,6 +154,12 @@ public class Level1Controller extends BasePage {
             answerField.clear();
         }
     }
-
+    @FXML
+    private void showAnswer() {
+        // Display the full sentence for the current level
+        sentenceLabel.setText("Answer: EISH EISH");
+        sentenceLabel.setStyle("-fx-background-color:white;");
+        sentenceLabel.setAlignment(Pos.CENTER);
+    }
 
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.Level1Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="559.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.Level1Controller">
    <top>
       <Label alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="606.0" style="-fx-text-fill: #000040;" text="                    Morse Code Learning - Level 1" BorderPane.alignment="CENTER">
          <font>
@@ -30,9 +30,9 @@
    <center>
       <VBox prefHeight="342.0" prefWidth="580.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="400.0" prefWidth="600.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="563.0" prefWidth="749.0" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox prefHeight="560.0" prefWidth="632.0" style="-fx-background-color: #C0C0C0;">
+                  <VBox maxHeight="1.7976931348623157E308" prefHeight="689.0" prefWidth="547.0" style="-fx-background-color: #C0C0C0;">
                      <children>
                         <Label prefHeight="25.0" prefWidth="584.0" text="-Tap each letter to play the code and become familiar" textAlignment="CENTER">
                            <font>
@@ -132,22 +132,44 @@
                            <padding>
                               <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
                            </padding></TextField>
-                        <Button fx:id="resultLabel" alignment="CENTER" mnemonicParsing="false" onAction="#checkAnswer" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="Check Answer" textAlignment="CENTER">
+                        <Button fx:id="resultLabel" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#checkAnswer" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="Check Answer     " textAlignment="CENTER">
                            <VBox.margin>
-                              <Insets left="270.0" />
+                              <Insets bottom="10.0" left="270.0" right="10.0" />
                            </VBox.margin>
                            <padding>
-                              <Insets bottom="10.0" left="40.0" />
+                              <Insets bottom="10.0" left="20.0" top="6.0" />
                            </padding>
-                        </Button>
-                        <Label fx:id="levelProgress" text="Level Progress" />
-                        <Button mnemonicParsing="false" text="Next Lesson" />
-                        <Label fx:id="morseCodeLabel" prefHeight="17.0" prefWidth="292.0" text="Display Morse Code" />
-                        <Button mnemonicParsing="false" text="Show">
                            <font>
-                              <Font size="16.0" />
+                              <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
+                        <Button fx:id="showAnswerButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAnswer" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Show Right Answer">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" right="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Label fx:id="sentenceLabel" alignment="CENTER" contentDisplay="CENTER">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="150.0" top="20.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="levelProgress" text="      Level Progress      1 /  5">
+                           <VBox.margin>
+                              <Insets bottom="30.0" top="10.0" />
+                           </VBox.margin></Label>
+                        <Button mnemonicParsing="false" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Next Lesson">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Button>
                      </children>
                   </VBox>
                </content>
