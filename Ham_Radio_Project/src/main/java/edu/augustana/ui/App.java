@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class App extends Application {
 
-    private static Scene scene;
+    public static Scene scene;
     private static CwBotLog currentCwBotLog = new CwBotLog();
     private static File currentCwBotLogFile = null;
 

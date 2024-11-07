@@ -7,12 +7,25 @@ import edu.augustana.data.ScriptedBot;
 import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import static edu.augustana.ui.App.scene;
+
 
 public class MainPageController extends BasePage {
 
@@ -63,6 +76,10 @@ public class MainPageController extends BasePage {
     private int volume = 50;
     public static List<ScriptedBot> bots = new ArrayList<>();
 
+    private StringBuilder inputSequence = new StringBuilder();
+    private Timeline timeline;
+
+
     @Override
     public void initialize() {
         super.initialize();
@@ -73,6 +90,32 @@ public class MainPageController extends BasePage {
         characterSpeedSelection.getItems().addAll(List.of(CHARACTER_SPEED));
         characterSpeedSelection.setValue(CHARACTER_SPEED[0]);
 
+        scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
+
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> handleNoInput()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+
+        timeline.play();
+
+    }
+
+
+    private void handleKeyPress(KeyCode code) {
+        timeline.stop();
+        timeline.playFromStart();
+
+        if (code == KeyCode.N) {
+            inputSequence.append(".");
+        } else if (code == KeyCode.M) {
+            inputSequence.append("-");
+        }
+
+        morseInput.setText(inputSequence.toString());
+    }
+
+    private void handleNoInput() {
+        inputSequence.append(" ");
+        morseInput.setText(inputSequence.toString());
     }
 
     //Code from exam 1 (Chatter Box)
