@@ -46,7 +46,6 @@ public class MorseCodeConverter {
 
 
             // Numbers
-
             EnglishToMorse.put('0', "-----");
             EnglishToMorse.put('1', ".----");
             EnglishToMorse.put('2', "..---");
