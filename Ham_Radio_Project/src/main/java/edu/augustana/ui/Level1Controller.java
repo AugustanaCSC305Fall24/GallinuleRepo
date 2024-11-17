@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +42,10 @@ public class Level1Controller extends BasePage {
     // List of stages (letters will be shown in these sets)
     private List<List<Character>> stages = new ArrayList<>();
 
+    private SourceDataLine levelLine;
+
     @FXML
-    public void initialize() {
+    public void initialize() throws LineUnavailableException {
 
         backButton.setOnAction(event -> goBack());
         // Initialize stages (group of letters for each level)
@@ -55,6 +58,8 @@ public class Level1Controller extends BasePage {
         currentLetterSet = stages.get(0);
         currentLetterIndex = 0;
         //generateNewLetter(); // Generate first letter for the user to type
+
+        levelLine = SoundProducer.openLine();
     }
 
     @FXML
@@ -72,11 +77,7 @@ public class Level1Controller extends BasePage {
         levelProgress.setText("Level Progress:  1 / 5" + (currentLetterIndex + 1) + "/" + currentLetterSet.size());
 
         // Play sound of the Morse code using SoundProducer
-        try {
-            SoundProducer.ProduceSound(currentLetterMorse, "20", "60", 100, 440); // Play Morse code sound
-        } catch (LineUnavailableException e) {
-            e.printStackTrace(); // Handle the exception if the sound can't be played
-        }
+        SoundProducer.ProduceSound(levelLine, currentLetterMorse, 100, 440); // Play Morse code sound
     }
 
     @FXML
@@ -96,11 +97,7 @@ public class Level1Controller extends BasePage {
     @FXML
     private void playMorseCodeForLetter(char letter) {
         String letterMorse = String.valueOf(letter) + " ";
-        try {
-            SoundProducer.ProduceSound(letterMorse, "90", "700", 100, 700); // Play the Morse code sound for the letter
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        SoundProducer.ProduceSound(levelLine, letterMorse, 100, 700); // Play the Morse code sound for the letter
     }
 
     @FXML

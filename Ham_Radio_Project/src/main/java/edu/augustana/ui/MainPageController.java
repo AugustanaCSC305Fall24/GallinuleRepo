@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import static edu.augustana.ui.App.scene;
+import static edu.augustana.ui.App.switchToMainPage;
 
 
 public class MainPageController extends BasePage {
@@ -77,8 +79,11 @@ public class MainPageController extends BasePage {
 
     Map<Integer, ArrayList<String>> EnglishFrequencies;
     Map<Integer, ArrayList<String>> MorseFrequencies;
+
+    private SourceDataLine inputLine;
+
     @Override
-    public void initialize() {
+    public void initialize() throws LineUnavailableException {
         Thread thread = new Thread(() -> {
             EnglishFrequencies = new HashMap<>();
             MorseFrequencies = new HashMap<>();
@@ -108,8 +113,9 @@ public class MainPageController extends BasePage {
         timeline.play();
 
         backButton.setOnAction(event -> goBack());
-
+        inputLine = SoundProducer.openLine();
     }
+
     private void helperPopUp() {
         ImageView imageView = new ImageView(new Image("MorseCodeImageHelper.png"));
         imageView.setFitWidth(400);
@@ -127,6 +133,7 @@ public class MainPageController extends BasePage {
 
         alert.show();
     }
+
     @FXML
     private void goBack() {
         App.backToMainMenu();
@@ -145,20 +152,15 @@ public class MainPageController extends BasePage {
         }
         if (code == KeyCode.N) {
             inputSequence.append(".");
-                try {
-                    SoundProducer.ProduceSound("e" + soundSpace, characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                }
+            soundSpace = ""; //TODO remove this debug line!
+
+            SoundProducer.ProduceSound(inputLine, "e" + soundSpace, volume, Integer.parseInt(frequencySelection.getValue()));
 
 
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
-                try {
-                    SoundProducer.ProduceSound("t" + soundSpace, characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                }
+            soundSpace = ""; //TODO remove this debug line!
+            SoundProducer.ProduceSound(inputLine, "t" + soundSpace, volume, Integer.parseInt(frequencySelection.getValue()));
 
         }
         morseInput.setText(inputSequence.toString());
@@ -249,12 +251,9 @@ public class MainPageController extends BasePage {
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         Thread thread = new Thread(() -> {
             for (String morseText : morseTextList) {
-                try {
-                    morseText += soundSpace;
-                    SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                }
+                morseText += soundSpace;
+                SoundProducer.setSpeeds(characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
+                SoundProducer.ProduceSound(inputLine, morseText.split(":  ")[1], volume, Integer.parseInt(frequencySelection.getValue()));
             }
         });
         thread.start();
@@ -262,39 +261,6 @@ public class MainPageController extends BasePage {
     @FXML
     private void getVolume(){
         volume = (int) volumeSlider.getValue();
-    }
-
-    @FXML
-    private void ditButton(){
-        morseInput.setText(morseInput.getText() + ".");
-
-        try {
-            SoundProducer.ProduceSound("e ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-        } catch (LineUnavailableException e){
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void dahButton(){
-        morseInput.setText(morseInput.getText() + "-");
-
-        try {
-            SoundProducer.ProduceSound("t ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-        } catch (LineUnavailableException e){
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void charSpaceButton(){
-        morseInput.setText(morseInput.getText() + " ");
-    }
-
-    @FXML
-    private void wordSpaceButton(){
-        morseInput.setText(morseInput.getText() + "   ");
-
     }
 
 
@@ -337,7 +303,7 @@ public class MainPageController extends BasePage {
     }
 
     @FXML
-    private void playCurrentBot() {
+    private void playCurrentBot() throws LineUnavailableException {
         ScriptedBot botToPlay = botListView.getSelectionModel().getSelectedItem();
         if (botToPlay!= null) {
             CWBotPlayer botPlayer = new CWBotPlayer(botToPlay);
