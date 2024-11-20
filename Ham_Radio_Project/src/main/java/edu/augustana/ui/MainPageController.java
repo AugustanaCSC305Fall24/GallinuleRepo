@@ -35,67 +35,52 @@ import static edu.augustana.ui.App.switchToMainPage;
 
 public class MainPageController extends BasePage {
 
-    @FXML
-    private Button backButton;
-    @FXML
-    private ListView<ScriptedBot> botListView;
-    @FXML
-    private VBox morseMessagesVBox;
-    @FXML
-    private VBox englishMessagesVBox;
-    @FXML
-    private ScrollPane morseMessagesScrollPane;
-    @FXML
-    private ScrollPane englishMessagesScrollPane;
-    @FXML
-    private Label morseInput = new Label();
-    @FXML
-    private Slider frequencySlider;
-    @FXML
-    private Slider rangeSlider;
-    @FXML
-    public ComboBox<String> frequencySelection;
-    @FXML
-    public ComboBox<String> effectiveSpeedSelection;
-    @FXML
-    public ComboBox<String> characterSpeedSelection;
-    @FXML
-    private ListView<CwBotRecord> CwBotsListView;
-    @FXML
-    public Slider volumeSlider;
-    @FXML
-    private Button helperBtn;
+    @FXML private Button backButton;
+    @FXML private ListView<ScriptedBot> botListView;
+    @FXML private VBox morseMessagesVBox, englishMessagesVBox;
+    @FXML private ScrollPane morseMessagesScrollPane, englishMessagesScrollPane;
+    @FXML private Label morseInput = new Label();
+    @FXML private Slider frequencySlider, rangeSlider, volumeSlider;
+    @FXML public ComboBox<String> frequencySelection, effectiveSpeedSelection, characterSpeedSelection;
+    @FXML private ListView<CwBotRecord> CwBotsListView;
+    @FXML private Button helperBtn;
 
     private final MorseCodeConverter converter = new MorseCodeConverter();
     private Boolean isTranslationHidden = true;
-    public static String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
-    public static String[] CHARACTER_SPEED = {"100", "200", "300", "400", "500", "600"};
-    public static String[] EFFECTIVE_SPEED = {"100", "200", "300", "400", "500", "600", "700", "800", "900"};
+    public static final String[] FREQUENCIES = {"200", "300", "400", "500", "600", "700", "800", "900"};
+    public static final String[] CHARACTER_SPEED = {"100", "200", "300", "400", "500", "600"};
+    public static final String[] EFFECTIVE_SPEED = {"100", "200", "300", "400", "500", "600", "700", "800", "900"};
     private int volume = 50;
     public static List<ScriptedBot> bots = new ArrayList<>();
-
     private StringBuilder inputSequence = new StringBuilder();
     private Timeline timeline;
 
-    Map<Integer, ArrayList<String>> EnglishFrequencies;
-    Map<Integer, ArrayList<String>> MorseFrequencies;
-
+    private Map<Integer, ArrayList<String>> EnglishFrequencies = new HashMap<>();
+    private Map<Integer, ArrayList<String>> MorseFrequencies = new HashMap<>();
     private SourceDataLine inputLine;
 
     @Override
     public void initialize() throws LineUnavailableException {
+        initializeFrequencyMaps();
+        super.initialize();
+        configureUIComponents();
+        initializeSoundLine();
+        setupKeyEventHandler();
+        startNoInputTimeline();
+    }
+
+    private void initializeFrequencyMaps() {
         Thread thread = new Thread(() -> {
-            EnglishFrequencies = new HashMap<>();
-            MorseFrequencies = new HashMap<>();
             for (int index = 0; index < 68; index++) {
                 EnglishFrequencies.put(index, new ArrayList<>());
                 MorseFrequencies.put(index, new ArrayList<>());
             }
-
         });
         thread.start();
-        super.initialize();
-        helperBtn.setOnAction(event -> helperPopUp());
+    }
+
+    private void configureUIComponents() {
+        helperBtn.setOnAction(event -> showHelperPopUp());
         frequencySelection.getItems().addAll(List.of(FREQUENCIES));
         frequencySelection.setValue(FREQUENCIES[0]);
         effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
@@ -105,18 +90,24 @@ public class MainPageController extends BasePage {
         if (bots != null) {
             botListView.getItems().addAll(bots);
         }
-        scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
+        backButton.setOnAction(event -> App.backToMainMenu());
+    }
 
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> handleNoInput()));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-
-        timeline.play();
-
-        backButton.setOnAction(event -> goBack());
+    private void initializeSoundLine() throws LineUnavailableException {
         inputLine = SoundProducer.openLine();
     }
 
-    private void helperPopUp() {
+    private void setupKeyEventHandler() {
+        scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
+    }
+
+    private void startNoInputTimeline(){
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> handleNoInput()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    private void showHelperPopUp() {
         ImageView imageView = new ImageView(new Image("MorseCodeImageHelper.png"));
         imageView.setFitWidth(400);
         imageView.setFitHeight(400);
@@ -130,57 +121,47 @@ public class MainPageController extends BasePage {
                 "\n" +
                 "For example, to decode .-, start at the root, move left for the dot, and then right for the dash. Each character has a unique path down the tree, making it easy to decode messages by following the branches in the order of the signals.");
         alert.setGraphic(imageView);
-
         alert.show();
     }
 
-    @FXML
-    private void goBack() {
+    @FXML private void goBack() {
         App.backToMainMenu();
     }
-    
+
     private void handleKeyPress(KeyCode code) {
-        timeline.stop();
-        timeline.playFromStart();
-        String soundSpace = "";
-        if (effectiveSpeedSelection.getValue().equals("100")){
-            soundSpace = "         ";
-        } else if (effectiveSpeedSelection.getValue().equals("200")){
-            soundSpace = "    ";
-        } else if (effectiveSpeedSelection.getValue().equals("300")){
-            soundSpace = " ";
-        }
+        resetTimeline();
+        String soundSpace = getSoundSpace();
         if (code == KeyCode.N) {
-            inputSequence.append(".");
-            soundSpace = ""; //TODO remove this debug line!
-
-            SoundProducer.ProduceSound(inputLine, "e" + soundSpace, volume, Integer.parseInt(frequencySelection.getValue()));
-
-
+            processInput(".", "e" + soundSpace);
         } else if (code == KeyCode.M) {
-            inputSequence.append("-");
-            soundSpace = ""; //TODO remove this debug line!
-            SoundProducer.ProduceSound(inputLine, "t" + soundSpace, volume, Integer.parseInt(frequencySelection.getValue()));
-
+            processInput("-", "t" + soundSpace);
         }
         morseInput.setText(inputSequence.toString());
     }
 
+    private void resetTimeline() {
+        timeline.stop();
+        timeline.playFromStart();
+    }
+
+    private String getSoundSpace() {
+        switch (effectiveSpeedSelection.getValue()) {
+            case "100": return "         ";
+            case "200": return "    ";
+            case "300": return " ";
+            default: return "";
+        }
+    }
+
+    private void processInput(String symbol, String sound){
+        inputSequence.append(symbol);
+        SoundProducer.ProduceSound(inputLine, sound, volume, Integer.parseInt(frequencySelection.getValue()));
+    }
     private void handleNoInput() {
         if (!inputSequence.toString().isEmpty()){
             inputSequence.append(" ");
             morseInput.setText(inputSequence.toString());
         }
-    }
-
-
-
-    //Code from exam 1 (Chatter Box)
-    private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
-        Label label = new Label(message);
-        label.setWrapText(true);
-        vbox.getChildren().add(label);
-        inputSequence = new StringBuilder("");
     }
 
     @FXML
@@ -269,6 +250,14 @@ public class MainPageController extends BasePage {
         EnglishFrequencies.get(sliderValue).add(englishText);
     }
 
+    //Code from exam 1 (Chatter Box)
+    private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
+        Label label = new Label(message);
+        label.setWrapText(true);
+        vbox.getChildren().add(label);
+        inputSequence = new StringBuilder("");
+    }
+    
     private void displayMorseMessagesFromFrequency(int sliderValue) {
         ArrayList<String> frequencyMorse = getFrequencyMorseList(sliderValue);
 
