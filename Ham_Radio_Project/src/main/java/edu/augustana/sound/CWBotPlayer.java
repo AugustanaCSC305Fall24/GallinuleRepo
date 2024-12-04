@@ -20,8 +20,8 @@ public class CWBotPlayer {
                 SoundProducer.setSpeeds(String.valueOf(scriptedBot.getCharSpeed()),
                         String.valueOf(scriptedBot.getEffectiveSpeed()));
                 SoundProducer.ProduceSound(botLine, scriptedBot.getMessage(),
-                        scriptedBot.getVolume(),
-                        scriptedBot.getTone());
+                        50,
+                        600);
             }
         });
         thread.start();

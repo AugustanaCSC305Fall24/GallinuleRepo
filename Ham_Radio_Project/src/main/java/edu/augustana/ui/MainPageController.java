@@ -81,6 +81,7 @@ public class MainPageController extends BasePage {
     Map<Integer, ArrayList<String>> MorseFrequencies;
 
     private SourceDataLine inputLine;
+    private SourceDataLine staticNoiceLine;
 
     @Override
     public void initialize() throws LineUnavailableException {
@@ -114,6 +115,16 @@ public class MainPageController extends BasePage {
 
         backButton.setOnAction(event -> goBack());
         inputLine = SoundProducer.openLine();
+
+        Thread thread2 = new Thread(() -> {
+            try {
+                staticNoiceLine = SoundProducer.openLine();
+                SoundProducer.playStaticNoise(staticNoiceLine, 1);
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
+        });
+        thread2.start();
     }
 
     private void helperPopUp() {
@@ -137,30 +148,20 @@ public class MainPageController extends BasePage {
     @FXML
     private void goBack() {
         App.backToMainMenu();
+        staticNoiceLine.close();
     }
     
     private void handleKeyPress(KeyCode code) {
         timeline.stop();
         timeline.playFromStart();
-        String soundSpace = "";
-        if (effectiveSpeedSelection.getValue().equals("100")){
-            soundSpace = "         ";
-        } else if (effectiveSpeedSelection.getValue().equals("200")){
-            soundSpace = "    ";
-        } else if (effectiveSpeedSelection.getValue().equals("300")){
-            soundSpace = " ";
-        }
         if (code == KeyCode.N) {
             inputSequence.append(".");
-            soundSpace = ""; //TODO remove this debug line!
-
-            SoundProducer.ProduceSound(inputLine, "e" + soundSpace, volume, Integer.parseInt(frequencySelection.getValue()));
+            SoundProducer.ProduceSound(inputLine, "e", volume, Integer.parseInt(frequencySelection.getValue()));
 
 
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
-            soundSpace = ""; //TODO remove this debug line!
-            SoundProducer.ProduceSound(inputLine, "t" + soundSpace, volume, Integer.parseInt(frequencySelection.getValue()));
+            SoundProducer.ProduceSound(inputLine, "t", volume, Integer.parseInt(frequencySelection.getValue()));
 
         }
         morseInput.setText(inputSequence.toString());
@@ -300,6 +301,7 @@ public class MainPageController extends BasePage {
     @FXML
     private void openCwBotAddPage() throws IOException  {
         App.switchToAddNewBotView();
+        staticNoiceLine.close();
     }
 
     @FXML

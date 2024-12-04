@@ -1,8 +1,6 @@
 package edu.augustana.sound;
 
 import edu.augustana.MorseCodeConverter;
-import edu.augustana.ui.MainPageController;
-
 import javax.sound.sampled.*;
 
 
@@ -34,7 +32,6 @@ public class SoundProducer {
 
     public static void ProduceSound(SourceDataLine line, String message, int volume, int frequency) {
         MorseCodeConverter converter = new MorseCodeConverter();
-        //message = message + " ";
         for (char letter : message.toUpperCase().toCharArray()) {
             String morseLetter = converter.EnglishToMorse(Character.toString(letter));
             if (morseLetter.equals(" ")) {
@@ -62,6 +59,15 @@ public class SoundProducer {
         int length = Note.SAMPLE_RATE * duration / 1000;
         byte[] silence = new byte[length];
         line.write(silence, 0, length);
+    }
+
+    public static void playStaticNoise(SourceDataLine line, int volume) {
+            int length = Note.SAMPLE_RATE * 10000;
+            byte[] noise = new byte[length];
+            for (int i = 0; i < noise.length; i++) {
+                noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * volume / 100);
+            }
+            line.write(noise, 0, length);
     }
 }
 

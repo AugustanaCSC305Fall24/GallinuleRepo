@@ -11,8 +11,6 @@ public class AddBotController {
     @FXML private Slider charSpeed;
     @FXML private Slider effectiveSpeed;
     @FXML private Slider frequency;
-    @FXML private Slider volume;
-    @FXML private Slider tone;
     @FXML private Slider repeats;
 
 
@@ -28,11 +26,9 @@ public class AddBotController {
         int charSpeedValue = (int) charSpeed.getValue();
         int effectiveSpeedValue = (int) effectiveSpeed.getValue();
         int frequencyValue = (int) frequency.getValue();
-        int volumeValue = (int) volume.getValue();
-        int toneValue = (int) tone.getValue();
         int repeatsValue = (int) repeats.getValue();
 
-        ScriptedBot newBot = new ScriptedBot(botNameValue, messageValue, charSpeedValue, effectiveSpeedValue, frequencyValue, volumeValue, toneValue, repeatsValue);
+        ScriptedBot newBot = new ScriptedBot(botNameValue, messageValue, charSpeedValue, effectiveSpeedValue, frequencyValue, repeatsValue);
         MainPageController.bots.add(newBot);
         App.switchToMainPage();
     }
