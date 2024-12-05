@@ -35,7 +35,7 @@ public class SoundProducer {
         for (char letter : message.toUpperCase().toCharArray()) {
             String morseLetter = converter.EnglishToMorse(Character.toString(letter));
             if (morseLetter.equals(" ")) {
-               pause(line, WORD_GAP); // Pause for word gap
+               pause(line, WORD_GAP);
             } else {
                 for (char click: morseLetter.toCharArray()) {
                     if (click == '.') {
@@ -43,9 +43,9 @@ public class SoundProducer {
                     } else if(click == '-') {
                         playNote(line, DASH_DURATION, volume); // Play dash
                     }
-                    pause(line, DOT_GAP);  // Pause between parts of the letter
+                    pause(line, DOT_GAP);
                 }
-                pause(line, CHARACTER_GAP); // Pause between letters
+                pause(line, CHARACTER_GAP);
             }
         }
     }
