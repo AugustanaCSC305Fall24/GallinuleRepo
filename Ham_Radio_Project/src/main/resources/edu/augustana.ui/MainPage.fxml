@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="674.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="674.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.MainPageController">
    <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <BorderPane BorderPane.alignment="CENTER">
          <bottom>
             <VBox alignment="BOTTOM_LEFT" prefHeight="93.0" prefWidth="500.0" spacing="5.0" BorderPane.alignment="CENTER_LEFT">
                <children>
@@ -47,7 +47,7 @@
             </VBox>
          </bottom>
          <center>
-            <VBox alignment="CENTER" prefHeight="381.0" prefWidth="481.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="470.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <Label alignment="CENTER" contentDisplay="TOP" text="Morse Text" textFill="#000040">
                      <font>
@@ -91,57 +91,15 @@
                      </VBox.margin>
                   </ListView>
                </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
             </VBox>
          </center>
       </BorderPane>
    </center>
-   <left>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="119.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Back">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets bottom="20.0" top="2.0" />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="30.0" right="30.0" />
-               </VBox.margin>
-            </Button>
-            <Slider fx:id="volumeSlider" majorTickUnit="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="50.0" />
-            <Button mnemonicParsing="false" onAction="#getVolume" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Set volume" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="10.0" />
-               </font></Button>
-            <Label text="Select Range" translateY="25.0" />
-            <Slider fx:id="rangeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="4.0" minorTickCount="1" showTickLabels="true" snapToTicks="true" />
-            <Button mnemonicParsing="false" onAction="#displayFrequency" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Display Frequency" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="10.0" />
-               </font></Button>
-            <Slider fx:id="frequencySlider" blockIncrement="4.0" majorTickUnit="4.0" max="67.0" minorTickCount="4" showTickLabels="true" snapToTicks="true" value="1.0">
-               <padding>
-                  <Insets left="5.0" right="5.0" />
-               </padding></Slider>
-            <Button mnemonicParsing="false" onAction="#playSound" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Play sound" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="10.0" />
-               </font></Button>
-            <Button mnemonicParsing="false" onAction="#showTranslation" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Show translation" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="10.0" />
-               </font></Button>
-            <Button mnemonicParsing="false" onAction="#hideTranslation" style="-fx-background-color: #000040; -fx-background-radius: 10;" text="Hide translation" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="10.0" />
-               </font>
-            </Button>
-         </children>
-      </VBox>
-   </left>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="helperBtn" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-background-color: #000040;" text="HELP" textAlignment="RIGHT" textFill="WHITE" translateX="53.0" />
             <Label text="Character Speed" translateY="50.0" />
@@ -156,4 +114,79 @@
          </children>
       </VBox>
    </right>
+   <left>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="119.0" spacing="20.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Back">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets bottom="20.0" top="2.0" />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="30.0" right="30.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Slider fx:id="volumeSlider" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0" />
+                  <Button mnemonicParsing="false" onAction="#getVolume" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Set volume" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#playSound" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Play sound" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#showTranslation" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Show translation" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#hideTranslation" style="-fx-background-color: #000040; -fx-background-radius: 10;" text="Hide translation" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Frequency:">
+                     <padding>
+                        <Insets left="15.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="0.01" max="7.067" min="7.0" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="14.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="7.0">
+                     <padding>
+                        <Insets bottom="10.0" left="35.0" top="10.0" />
+                     </padding>
+                  </Slider>
+                  <Button mnemonicParsing="false" onAction="#displayFrequency" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Display Frequency" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="10.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Range:">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Slider fx:id="rangeSlider" blockIncrement="0.001" majorTickUnit="0.001" max="0.01" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="14.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                     <padding>
+                        <Insets bottom="10.0" left="35.0" top="10.0" />
+                     </padding>
+                  </Slider>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </left>
 </BorderPane>

@@ -15,10 +15,7 @@ import javafx.scene.layout.VBox;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -35,7 +32,6 @@ import static edu.augustana.ui.App.switchToMainPage;
 
 public class MainPageController extends BasePage {
 
-    @FXML private Button backButton;
     @FXML private ListView<ScriptedBot> botListView;
     @FXML private VBox morseMessagesVBox, englishMessagesVBox;
     @FXML private ScrollPane morseMessagesScrollPane, englishMessagesScrollPane;
@@ -57,13 +53,13 @@ public class MainPageController extends BasePage {
 
     private Map<Integer, ArrayList<String>> EnglishFrequencies = new HashMap<>();
     private Map<Integer, ArrayList<String>> MorseFrequencies = new HashMap<>();
+
     private SourceDataLine inputLine;
     private SourceDataLine staticNoiceLine;
 
     @Override
     public void initialize() throws LineUnavailableException {
         initializeFrequencyMaps();
-        super.initialize();
         configureUIComponents();
         initializeSoundLine();
         setupKeyEventHandler();
@@ -91,7 +87,6 @@ public class MainPageController extends BasePage {
         if (bots != null) {
             botListView.getItems().addAll(bots);
         }
-        backButton.setOnAction(event -> App.backToMainMenu());
     }
 
     private void initializeSoundLine() throws LineUnavailableException {
@@ -135,9 +130,11 @@ public class MainPageController extends BasePage {
         alert.show();
     }
 
-    @FXML private void goBack() {
-        App.backToMainMenu();
+    @FXML
+    private void goBack() {
         staticNoiceLine.close();
+        App.backToMainMenu();
+
     }
 
     private void handleKeyPress(KeyCode code) {
@@ -178,28 +175,34 @@ public class MainPageController extends BasePage {
         }
     }
 
+    private int getFrequencyIntVal(Double frequencyValue){
+        double transformedValue = (frequencyValue - 7) * 1000;
+        return (int) Math.round(transformedValue);
+    }
     @FXML
     private void writeToFrequency() {
-        int rangeValue = (int) rangeSlider.getValue();
+        int rangeValue = (int) Math.round(rangeSlider.getValue() * 1000);
+
         morseMessagesVBox.getChildren().clear();
         String morseText = morseInput.getText();
         String englishText = converter.MorseToEnglish(morseText);
-        int sliderValue = (int) frequencySlider.getValue();
+        int intTransformedValue = getFrequencyIntVal(frequencySlider.getValue());
 
-        writeMessages(sliderValue, morseText, englishText);
+        writeMessages(intTransformedValue, morseText, englishText);
         for (int i = 1; i < rangeValue; i++ ) {
-            writeMessages(sliderValue + i, morseText, englishText);
-            writeMessages(sliderValue - i, morseText, englishText);
+            writeMessages(intTransformedValue + i, morseText, englishText);
+            writeMessages(intTransformedValue - i, morseText, englishText);
         }
 
-        displayMorseMessagesFromFrequency(sliderValue);
+        displayMorseMessagesFromFrequency(intTransformedValue);
         morseInput.setText("");
         inputSequence = new StringBuilder();
     }
 
     private void writeMessages(int sliderValue, String morseText, String englishText) {
-        if (sliderValue >= frequencySlider.getMin() && sliderValue <= frequencySlider.getMax()) {
+        if (sliderValue >= getFrequencyIntVal(frequencySlider.getMin()) && sliderValue <= getFrequencyIntVal(frequencySlider.getMax())) {
             addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText + " ");
+
             //addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
         }
     }
@@ -208,11 +211,11 @@ public class MainPageController extends BasePage {
     private void displayFrequency() {
         morseMessagesVBox.getChildren().clear();
         englishMessagesVBox.getChildren().clear();
-        int sliderValue = (int) frequencySlider.getValue();
+        int intTransformedValue = getFrequencyIntVal(frequencySlider.getValue());
 
-        displayMorseMessagesFromFrequency(sliderValue);
+        displayMorseMessagesFromFrequency(intTransformedValue);
         if (!isTranslationHidden){
-            displayEnglishMessagesFromFrequency(sliderValue);
+            displayEnglishMessagesFromFrequency(intTransformedValue);
         }
     }
 
@@ -233,26 +236,16 @@ public class MainPageController extends BasePage {
     @FXML
     private void playSound(){
         int sliderValue = (int) frequencySlider.getValue();
-        String soundSpace;
-        if (effectiveSpeedSelection.getValue().equals("100")){
-            soundSpace = "         ";
-        } else if (effectiveSpeedSelection.getValue().equals("200")){
-            soundSpace = "    ";
-        } else if (effectiveSpeedSelection.getValue().equals("300")){
-            soundSpace = " ";
-        } else {
-            soundSpace = "";
-        }
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         Thread thread = new Thread(() -> {
             for (String morseText : morseTextList) {
-                morseText += soundSpace;
                 SoundProducer.setSpeeds(characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
                 SoundProducer.ProduceSound(inputLine, morseText.split(":  ")[1], volume, Integer.parseInt(frequencySelection.getValue()));
             }
         });
         thread.start();
     }
+
     @FXML
     private void getVolume(){
         volume = (int) volumeSlider.getValue();
@@ -262,6 +255,7 @@ public class MainPageController extends BasePage {
     private void addMessageToFrequency(int sliderValue, String morseText, String englishText) {
         MorseFrequencies.get(sliderValue).add(morseText);
         EnglishFrequencies.get(sliderValue).add(englishText);
+
     }
 
     //Code from exam 1 (Chatter Box)
@@ -302,8 +296,9 @@ public class MainPageController extends BasePage {
 
     @FXML
     private void openCwBotAddPage() throws IOException  {
-        App.switchToAddNewBotView();
         staticNoiceLine.close();
+        App.switchToAddNewBotView();
+
     }
 
     @FXML
