@@ -1,5 +1,6 @@
 package edu.augustana.sound;
 
+import edu.augustana.data.HamRadio;
 import edu.augustana.data.ScriptedBot;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -24,15 +25,14 @@ public class CWBotPlayer {
             } else {
                 soundSpace = "";
             }
-
             for (int i = 0; i < scriptedBot.getRepeatAmount(); i++) {
                 SoundProducer.produceSound(scriptedBot.getMessage() + soundSpace,
                         scriptedBot.getCharSpeed(),
                         scriptedBot.getEffectiveSpeed(),
-                        scriptedBot.getVolume(),
-                        scriptedBot.getTone());
+                        HamRadio.theRadio.getVolume(),
+                        600
+                );
             }
-
         });
         thread.start();
     }

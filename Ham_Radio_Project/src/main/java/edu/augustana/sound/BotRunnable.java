@@ -1,5 +1,6 @@
 package edu.augustana.sound;
 
+import edu.augustana.data.HamRadio;
 import edu.augustana.data.ScriptedBot;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -24,8 +25,8 @@ public class BotRunnable implements Runnable {
                         bot.getMessage(),
                         bot.getCharSpeed(),
                         bot.getEffectiveSpeed(),
-                        bot.getVolume(),
-                        bot.getTone()
+                        HamRadio.theRadio.getVolume(),
+                        600
                 );
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

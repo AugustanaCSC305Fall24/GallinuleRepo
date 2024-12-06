@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javax.sound.sampled.LineUnavailableException;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class Level1Controller extends BasePage {
         levelProgress.setText("Level Progress:  1 / 5" + (currentLetterIndex + 1) + "/" + currentLetterSet.size());
 
         // Play sound of the Morse code using SoundProducer
-        SoundProducer.produceSound(currentLetterMorse, 20, 60, 100, 600); // Play Morse code sound
+        SoundProducer.produceSound(currentLetterMorse, 20, 60, 100, 440); // Play Morse code sound
     }
 
     @FXML
@@ -114,6 +115,7 @@ public class Level1Controller extends BasePage {
     private void playMorseH() {
         playMorseCodeForLetter('H');
     }
+
     @FXML
     private void playSampleSentence() {
         currentSentence = "EISH EISH";
@@ -146,6 +148,7 @@ public class Level1Controller extends BasePage {
             answerField.clear();
         }
     }
+
     @FXML
     private void showAnswer() {
         // Display the full sentence for the current level

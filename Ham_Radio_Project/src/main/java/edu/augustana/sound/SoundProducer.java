@@ -14,6 +14,7 @@ public class SoundProducer {
     private static int WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
     public static int frequencyVal;
     private static final MorseCodeConverter converter = new MorseCodeConverter();
+
     public static void playDit(int volume) throws LineUnavailableException {
         playSound(DOT_DURATION, volume); // Play a 'dit' sound
     }
@@ -46,6 +47,50 @@ public class SoundProducer {
         line.close();
     }
 
+    public static SourceDataLine openLine()  {
+        try {
+            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+            SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat);
+//            line.open(audioFormat, Note.SAMPLE_RATE);
+            line.open(audioFormat, 1024);
+            line.start();
+
+            return line;
+        } catch (LineUnavailableException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static void playStaticNoise(SourceDataLine line, int volume) {
+        int length = Note.SAMPLE_RATE * 10000;
+        byte[] noise = new byte[length];
+        for (int i = 0; i < noise.length; i++) {
+            noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * volume / 100);
+        }
+        line.write(noise, 0, length);
+    }
+
+    public static void produceSound(SourceDataLine line, String message, int volume, int frequency) {
+        MorseCodeConverter converter = new MorseCodeConverter();
+        for (char letter : message.toUpperCase().toCharArray()) {
+            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
+            if (morseLetter.equals(" ")) {
+                pause(line, WORD_GAP); // Pause for word gap
+            } else {
+                for (char click: morseLetter.toCharArray()) {
+                    if (click == '.') {
+                        playNote(line, DOT_DURATION, volume); // Play dot
+                    } else if(click == '-') {
+                        playNote(line, DASH_DURATION, volume); // Play dash
+                    }
+                    pause(line, DOT_GAP);  // Pause between parts of the letter
+                }
+                pause(line, CHARACTER_GAP); // Pause between letters
+            }
+        }
+        pause(line, 1000);
+    }
+
     public static void produceSound(String message, int characterSpeed, int effectiveSpeed, int volume, int frequency) {
         frequencyVal = frequency;
         setSpeeds(characterSpeed, effectiveSpeed);
@@ -64,7 +109,7 @@ public class SoundProducer {
         }
     }
 
-    private static void setSpeeds(int characterSpeed, int effectiveSpeed) {
+    public static void setSpeeds(int characterSpeed, int effectiveSpeed) {
         DOT_DURATION = characterSpeed; // Duration for a dot (in milliseconds)
         CHARACTER_GAP = effectiveSpeed; // Gap between characters
         DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
