@@ -1,9 +1,6 @@
 package edu.augustana;
 
-import java.io.IOException;
-
 import edu.augustana.sound.SoundProducer;
-import edu.augustana.ui.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
@@ -41,11 +38,7 @@ public class EnglishToMorseController {
     @FXML
     private void playSound(){
         String morseText = englishInput.getText();
-        try {
-            SoundProducer.ProduceSound(morseText, "200", "600", 5, 440); // ERROR: extract from main
-        } catch (LineUnavailableException e){
-            e.printStackTrace();
-        }
+        SoundProducer.produceSound(morseText, 200, 600, 5, 440); // ERROR: extract from main
     }
     /*@FXML
     private void switchToMorseToEnglish() throws IOException {

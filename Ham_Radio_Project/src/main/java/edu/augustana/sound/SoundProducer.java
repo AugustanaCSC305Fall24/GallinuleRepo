@@ -1,7 +1,6 @@
 package edu.augustana.sound;
 
 import edu.augustana.MorseCodeConverter;
-import edu.augustana.ui.MainPageController;
 
 import javax.sound.sampled.*;
 
@@ -14,7 +13,7 @@ public class SoundProducer {
     private static int CHARACTER_GAP = 60; // Gap between characters
     private static int WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
     public static int frequencyVal;
-
+    private static final MorseCodeConverter converter = new MorseCodeConverter();
     public static void playDit(int volume) throws LineUnavailableException {
         playSound(DOT_DURATION, volume); // Play a 'dit' sound
     }
@@ -47,27 +46,49 @@ public class SoundProducer {
         line.close();
     }
 
-    public static void ProduceSound(String message, String characterSpeed, String effectiveSpeed, int volume, int frequency) throws LineUnavailableException {
+    public static void produceSound(String message, int characterSpeed, int effectiveSpeed, int volume, int frequency) {
         frequencyVal = frequency;
         setSpeeds(characterSpeed, effectiveSpeed);
         final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         try (SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat)) {
             line.open(audioFormat, Note.SAMPLE_RATE);
             line.start();
-            playMorseCode(line, message, volume);
+            if (converter.getEnglishToMorseMap().containsKey(message.charAt(0))) {
+                playEnglishMessage(line, message, volume);
+            } else if (converter.getMorseToEnglishMap().containsKey(Character.toString(message.charAt(0)))) {
+                playMorseMessage(line, message, volume);
+            }
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    private static void setSpeeds(String characterSpeed, String effectiveSpeed) {
-        DOT_DURATION = Integer.parseInt(characterSpeed); // Duration for a dot (in milliseconds)
-        CHARACTER_GAP = Integer.parseInt(effectiveSpeed); // Gap between characters
+    private static void setSpeeds(int characterSpeed, int effectiveSpeed) {
+        DOT_DURATION = characterSpeed; // Duration for a dot (in milliseconds)
+        CHARACTER_GAP = effectiveSpeed; // Gap between characters
         DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
         DOT_GAP = DOT_DURATION; // Gap between dots and dashes
         WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
     }
 
-    private static void playMorseCode(SourceDataLine line, String message, int volume) {
-        MorseCodeConverter converter = new MorseCodeConverter();
+    private static void playMorseMessage(SourceDataLine line, String message, int volume) {
+        System.out.println(message);
+        for (char letter : message.toCharArray()) {
+            if (letter == ' ') {
+                pause(line, CHARACTER_GAP); // Pause for character gap
+            } else {
+                if (letter == '.') {
+                    playNote(line, DOT_DURATION, volume); // Play dot
+                } else if(letter == '-') {
+                    playNote(line, DASH_DURATION, volume); // Play dash
+                }
+            }
+            pause(line, DOT_GAP); // Pause between letters
+        }
+    }
+
+    private static void playEnglishMessage(SourceDataLine line, String message, int volume) {
         //message = message + " ";
         System.out.println(message);
         for (char letter : message.toUpperCase().toCharArray()) {

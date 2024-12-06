@@ -5,6 +5,11 @@ module edu.augustana {
     requires com.google.gson;
     requires com.opencsv;
     requires javafx.media;
+    requires tyrus.standalone.client;
+
+    requires java.net.http;
+    requires swiss.ameri.gemini.api;
+    requires swiss.ameri.gemini.gson;
 
     opens edu.augustana to javafx.fxml;
     exports edu.augustana;

@@ -1,8 +1,9 @@
 package edu.augustana.ui;
 
-import edu.augustana.FrequencySelection;
 import edu.augustana.MorseCodeConverter;
+import edu.augustana.data.CWMessage;
 import edu.augustana.data.CwBotRecord;
+import edu.augustana.data.HamRadio;
 import edu.augustana.data.ScriptedBot;
 import edu.augustana.sound.CWBotPlayer;
 import edu.augustana.sound.SoundProducer;
@@ -21,11 +22,8 @@ import java.util.Map;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import static edu.augustana.ui.App.scene;
@@ -77,8 +75,11 @@ public class MainPageController extends BasePage {
 
     Map<Integer, ArrayList<String>> EnglishFrequencies;
     Map<Integer, ArrayList<String>> MorseFrequencies;
+
     @Override
     public void initialize() {
+
+
         Thread thread = new Thread(() -> {
             EnglishFrequencies = new HashMap<>();
             MorseFrequencies = new HashMap<>();
@@ -109,7 +110,10 @@ public class MainPageController extends BasePage {
 
         backButton.setOnAction(event -> goBack());
 
+        HamRadio.theRadio.setMessageReceivedListener(msg -> System.out.println("we'd like to play this message as SOUND: " + msg));
+        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));
     }
+
     private void helperPopUp() {
         ImageView imageView = new ImageView(new Image("MorseCodeImageHelper.png"));
         imageView.setFitWidth(400);
@@ -127,50 +131,39 @@ public class MainPageController extends BasePage {
 
         alert.show();
     }
+
     @FXML
     private void goBack() {
         App.backToMainMenu();
     }
-    
+
     private void handleKeyPress(KeyCode code) {
         timeline.stop();
         timeline.playFromStart();
         String soundSpace = "";
-        if (effectiveSpeedSelection.getValue().equals("100")){
+        if (effectiveSpeedSelection.getValue().equals("100")) {
             soundSpace = "         ";
-        } else if (effectiveSpeedSelection.getValue().equals("200")){
+        } else if (effectiveSpeedSelection.getValue().equals("200")) {
             soundSpace = "    ";
-        } else if (effectiveSpeedSelection.getValue().equals("300")){
+        } else if (effectiveSpeedSelection.getValue().equals("300")) {
             soundSpace = " ";
         }
         if (code == KeyCode.N) {
             inputSequence.append(".");
-                try {
-                    SoundProducer.ProduceSound("e" + soundSpace, characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                }
-
-
+            SoundProducer.produceSound("e" + soundSpace, Integer.parseInt(characterSpeedSelection.getValue()), Integer.parseInt(effectiveSpeedSelection.getValue()), volume, Integer.parseInt(frequencySelection.getValue()));
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
-                try {
-                    SoundProducer.ProduceSound("t" + soundSpace, characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                }
-
+            SoundProducer.produceSound("t" + soundSpace, Integer.parseInt(characterSpeedSelection.getValue()), Integer.parseInt(effectiveSpeedSelection.getValue()), volume, Integer.parseInt(frequencySelection.getValue()));
         }
         morseInput.setText(inputSequence.toString());
     }
 
     private void handleNoInput() {
-        if (!inputSequence.toString().isEmpty()){
+        if (!inputSequence.toString().isEmpty()) {
             inputSequence.append(" ");
             morseInput.setText(inputSequence.toString());
         }
     }
-
 
 
     //Code from exam 1 (Chatter Box)
@@ -187,15 +180,17 @@ public class MainPageController extends BasePage {
         morseMessagesVBox.getChildren().clear();
         String morseText = morseInput.getText();
         String englishText = converter.MorseToEnglish(morseText);
-        int sliderValue = (int) frequencySlider.getValue();
+        int frequency = (int) frequencySlider.getValue();
+        CWMessage message = new CWMessage(HamRadio.theRadio.getUserName(), morseText, frequency);
+        HamRadio.theRadio.sendMessage(message);
 
-        writeMessages(sliderValue, morseText, englishText);
-        for (int i = 1; i < rangeValue; i++ ) {
-            writeMessages(sliderValue + i, morseText, englishText);
-            writeMessages(sliderValue - i, morseText, englishText);
+        writeMessages(frequency, morseText, englishText);
+        for (int i = 1; i < rangeValue; i++) {
+            writeMessages(frequency + i, morseText, englishText);
+            writeMessages(frequency - i, morseText, englishText);
         }
 
-        displayMorseMessagesFromFrequency(sliderValue);
+        displayMorseMessagesFromFrequency(frequency);
         morseInput.setText("");
         inputSequence = new StringBuilder();
     }
@@ -214,13 +209,13 @@ public class MainPageController extends BasePage {
         int sliderValue = (int) frequencySlider.getValue();
 
         displayMorseMessagesFromFrequency(sliderValue);
-        if (!isTranslationHidden){
+        if (!isTranslationHidden) {
             displayEnglishMessagesFromFrequency(sliderValue);
         }
     }
 
     @FXML
-    private void showTranslation(){
+    private void showTranslation() {
         englishMessagesVBox.getChildren().clear();
         int sliderValue = (int) frequencySlider.getValue();
         displayEnglishMessagesFromFrequency(sliderValue);
@@ -228,20 +223,20 @@ public class MainPageController extends BasePage {
     }
 
     @FXML
-    private void hideTranslation(){
+    private void hideTranslation() {
         englishMessagesVBox.getChildren().clear();
         isTranslationHidden = true;
     }
 
     @FXML
-    private void playSound(){
+    private void playSound() {
         int sliderValue = (int) frequencySlider.getValue();
         String soundSpace;
-        if (effectiveSpeedSelection.getValue().equals("100")){
+        if (effectiveSpeedSelection.getValue().equals("100")) {
             soundSpace = "         ";
-        } else if (effectiveSpeedSelection.getValue().equals("200")){
+        } else if (effectiveSpeedSelection.getValue().equals("200")) {
             soundSpace = "    ";
-        } else if (effectiveSpeedSelection.getValue().equals("300")){
+        } else if (effectiveSpeedSelection.getValue().equals("300")) {
             soundSpace = " ";
         } else {
             soundSpace = "";
@@ -249,50 +244,37 @@ public class MainPageController extends BasePage {
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         Thread thread = new Thread(() -> {
             for (String morseText : morseTextList) {
-                try {
-                    morseText += soundSpace;
-                    SoundProducer.ProduceSound(morseText.split(":  ")[1], characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                }
+                morseText += soundSpace;
+                SoundProducer.produceSound(morseText.split(":  ")[1], Integer.parseInt(characterSpeedSelection.getValue()), Integer.parseInt(effectiveSpeedSelection.getValue()), volume, Integer.parseInt(frequencySelection.getValue()));
             }
         });
         thread.start();
     }
+
     @FXML
-    private void getVolume(){
+    private void getVolume() {
         volume = (int) volumeSlider.getValue();
     }
 
     @FXML
-    private void ditButton(){
+    private void ditButton() {
         morseInput.setText(morseInput.getText() + ".");
-
-        try {
-            SoundProducer.ProduceSound("e ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-        } catch (LineUnavailableException e){
-            e.printStackTrace();
-        }
+        SoundProducer.produceSound("e ", Integer.parseInt(characterSpeedSelection.getValue()), Integer.parseInt(effectiveSpeedSelection.getValue()), volume, Integer.parseInt(frequencySelection.getValue()));
     }
 
     @FXML
-    private void dahButton(){
+    private void dahButton() {
         morseInput.setText(morseInput.getText() + "-");
-
-        try {
-            SoundProducer.ProduceSound("t ", characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue(), volume, Integer.parseInt(frequencySelection.getValue()));
-        } catch (LineUnavailableException e){
-            e.printStackTrace();
-        }
+        SoundProducer.produceSound("t ", Integer.parseInt(characterSpeedSelection.getValue()), Integer.parseInt(effectiveSpeedSelection.getValue()), volume, Integer.parseInt(frequencySelection.getValue()));
     }
 
     @FXML
-    private void charSpaceButton(){
+    private void charSpaceButton() {
         morseInput.setText(morseInput.getText() + " ");
     }
 
     @FXML
-    private void wordSpaceButton(){
+    private void wordSpaceButton() {
         morseInput.setText(morseInput.getText() + "   ");
 
     }
@@ -332,14 +314,14 @@ public class MainPageController extends BasePage {
     }
 
     @FXML
-    private void openCwBotAddPage() throws IOException  {
+    private void openCwBotAddPage() throws IOException {
         App.switchToAddNewBotView();
     }
 
     @FXML
     private void playCurrentBot() {
         ScriptedBot botToPlay = botListView.getSelectionModel().getSelectedItem();
-        if (botToPlay!= null) {
+        if (botToPlay != null) {
             CWBotPlayer botPlayer = new CWBotPlayer(botToPlay);
             botPlayer.playBot();
         } else {
@@ -350,7 +332,7 @@ public class MainPageController extends BasePage {
     @FXML
     private void actionDeleteBot() {
         ScriptedBot botToDelete = botListView.getSelectionModel().getSelectedItem();
-        if (botToDelete!= null) {
+        if (botToDelete != null) {
             bots.remove(botToDelete);
             botListView.getItems().clear();
             botListView.getItems().addAll(bots);

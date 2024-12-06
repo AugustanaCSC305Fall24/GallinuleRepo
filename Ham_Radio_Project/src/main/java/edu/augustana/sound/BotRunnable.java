@@ -20,15 +20,15 @@ public class BotRunnable implements Runnable {
     public void run() {
         while (keepPlaying) {  // Keep playing until stop signal is given
             try {
-                SoundProducer.ProduceSound(
+                SoundProducer.produceSound(
                         bot.getMessage(),
-                        String.valueOf(bot.getCharSpeed()),
-                        String.valueOf(bot.getEffectiveSpeed()),
+                        bot.getCharSpeed(),
+                        bot.getEffectiveSpeed(),
                         bot.getVolume(),
                         bot.getTone()
                 );
                 Thread.sleep(1000);
-            } catch (InterruptedException | LineUnavailableException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

@@ -1,82 +1,90 @@
 package edu.augustana;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MorseCodeConverter {
-    Map<Character, String> EnglishToMorse;
-   Map<String, Character> MorseToEnglish;
+    Map<Character, String> englishToMorseMap;
+
+    public Map<Character, String> getEnglishToMorseMap() {
+        return englishToMorseMap;
+    }
+
+    public Map<String, Character> getMorseToEnglishMap() {
+        return morseToEnglishMap;
+    }
+
+    Map<String, Character> morseToEnglishMap;
 
     public MorseCodeConverter() {
-        EnglishToMorse = new HashMap<>();
-        MorseToEnglish = new HashMap<>();
+        englishToMorseMap = new HashMap<>();
+        morseToEnglishMap = new HashMap<>();
         initializeMappins();
     }
 
         private void initializeMappins () {
 
             //Letters
-            EnglishToMorse.put('A', ".-");
-            EnglishToMorse.put('B', "-...");
-            EnglishToMorse.put('C', "-.-.");
-            EnglishToMorse.put('D', "-..");
-            EnglishToMorse.put('E', ".");
-            EnglishToMorse.put('F', "..-.");
-            EnglishToMorse.put('G', "--.");
-            EnglishToMorse.put('H', "....");
-            EnglishToMorse.put('I', "..");
-            EnglishToMorse.put('J', ".---");
-            EnglishToMorse.put('K', "-.-");
-            EnglishToMorse.put('L', ".-..");
-            EnglishToMorse.put('M', "--");
-            EnglishToMorse.put('N', "-.");
-            EnglishToMorse.put('O', "---");
-            EnglishToMorse.put('P', ".--.");
-            EnglishToMorse.put('Q', "--.-");
-            EnglishToMorse.put('R', ".-.");
-            EnglishToMorse.put('S', "...");
-            EnglishToMorse.put('T', "-");
-            EnglishToMorse.put('U', "..-");
-            EnglishToMorse.put('V', "...-");
-            EnglishToMorse.put('W', ".--");
-            EnglishToMorse.put('X', "-..-");
-            EnglishToMorse.put('Y', "-.--");
-            EnglishToMorse.put('Z', "--..");
+            englishToMorseMap.put('A', ".-");
+            englishToMorseMap.put('B', "-...");
+            englishToMorseMap.put('C', "-.-.");
+            englishToMorseMap.put('D', "-..");
+            englishToMorseMap.put('E', ".");
+            englishToMorseMap.put('F', "..-.");
+            englishToMorseMap.put('G', "--.");
+            englishToMorseMap.put('H', "....");
+            englishToMorseMap.put('I', "..");
+            englishToMorseMap.put('J', ".---");
+            englishToMorseMap.put('K', "-.-");
+            englishToMorseMap.put('L', ".-..");
+            englishToMorseMap.put('M', "--");
+            englishToMorseMap.put('N', "-.");
+            englishToMorseMap.put('O', "---");
+            englishToMorseMap.put('P', ".--.");
+            englishToMorseMap.put('Q', "--.-");
+            englishToMorseMap.put('R', ".-.");
+            englishToMorseMap.put('S', "...");
+            englishToMorseMap.put('T', "-");
+            englishToMorseMap.put('U', "..-");
+            englishToMorseMap.put('V', "...-");
+            englishToMorseMap.put('W', ".--");
+            englishToMorseMap.put('X', "-..-");
+            englishToMorseMap.put('Y', "-.--");
+            englishToMorseMap.put('Z', "--..");
 
 
             // Numbers
-            EnglishToMorse.put('0', "-----");
-            EnglishToMorse.put('1', ".----");
-            EnglishToMorse.put('2', "..---");
-            EnglishToMorse.put('3', "...--");
-            EnglishToMorse.put('4', "....-");
-            EnglishToMorse.put('5', ".....");
-            EnglishToMorse.put('6', "-....");
-            EnglishToMorse.put('7', "--...");
-            EnglishToMorse.put('8', "---..");
-            EnglishToMorse.put('9', "----.");
+            englishToMorseMap.put('0', "-----");
+            englishToMorseMap.put('1', ".----");
+            englishToMorseMap.put('2', "..---");
+            englishToMorseMap.put('3', "...--");
+            englishToMorseMap.put('4', "....-");
+            englishToMorseMap.put('5', ".....");
+            englishToMorseMap.put('6', "-....");
+            englishToMorseMap.put('7', "--...");
+            englishToMorseMap.put('8', "---..");
+            englishToMorseMap.put('9', "----.");
 
 
             // Punctuation
-            EnglishToMorse.put(' ', " ");
-            EnglishToMorse.put('.', ".-.-.-");
-            EnglishToMorse.put(',', "--..--");
-            EnglishToMorse.put('?', "..--..");
-            EnglishToMorse.put(':', "---...");
-            EnglishToMorse.put('/', "-..-.");
-            EnglishToMorse.put('-', "-....-");
-            EnglishToMorse.put('=', "-...-");
-            EnglishToMorse.put('\'', ".----.");
-            EnglishToMorse.put('_', "..--.-");
-            EnglishToMorse.put('!', "-.-.--");
-            EnglishToMorse.put('&', ".-...");
-            EnglishToMorse.put(';', "-.-.-.");
-            EnglishToMorse.put('$', "...-..-");
+            englishToMorseMap.put(' ', " ");
+            englishToMorseMap.put('.', ".-.-.-");
+            englishToMorseMap.put(',', "--..--");
+            englishToMorseMap.put('?', "..--..");
+            englishToMorseMap.put(':', "---...");
+            englishToMorseMap.put('/', "-..-.");
+            englishToMorseMap.put('-', "-....-");
+            englishToMorseMap.put('=', "-...-");
+            englishToMorseMap.put('\'', ".----.");
+            englishToMorseMap.put('_', "..--.-");
+            englishToMorseMap.put('!', "-.-.--");
+            englishToMorseMap.put('&', ".-...");
+            englishToMorseMap.put(';', "-.-.-.");
+            englishToMorseMap.put('$', "...-..-");
 
 
-            for (Map.Entry<Character, String> entry : EnglishToMorse.entrySet()) {
-                MorseToEnglish.put(entry.getValue(), entry.getKey());
+            for (Map.Entry<Character, String> entry : englishToMorseMap.entrySet()) {
+                morseToEnglishMap.put(entry.getValue(), entry.getKey());
             }
         }
 
@@ -84,8 +92,8 @@ public class MorseCodeConverter {
         char[] inputArray = input.toUpperCase().toCharArray();
         StringBuilder sentence = new StringBuilder(); // Use StringBuilder for efficiency
         for (char letter : inputArray) {
-            if (EnglishToMorse.containsKey(letter)) {
-                sentence.append(EnglishToMorse.get(letter)).append(" ");
+            if (englishToMorseMap.containsKey(letter)) {
+                sentence.append(englishToMorseMap.get(letter)).append(" ");
             }
         }
         return sentence.toString().trim(); // Return trimmed string
@@ -95,8 +103,8 @@ public class MorseCodeConverter {
         String[] inputArray = input.trim().toUpperCase().replaceAll("  ", " ").split(" "); // Trim input
         StringBuilder sentence = new StringBuilder(); // Use StringBuilder for efficiency
         for (String letter : inputArray) {
-            if (MorseToEnglish.containsKey(letter)) {
-                sentence.append(MorseToEnglish.get(letter));
+            if (morseToEnglishMap.containsKey(letter)) {
+                sentence.append(morseToEnglishMap.get(letter));
             } else {
                 sentence.append(" "); // Handle unknown symbols
             }
