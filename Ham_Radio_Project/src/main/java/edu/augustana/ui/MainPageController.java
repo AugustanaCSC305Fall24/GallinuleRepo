@@ -1,7 +1,9 @@
 package edu.augustana.ui;
 
 import edu.augustana.MorseCodeConverter;
+import edu.augustana.data.CWMessage;
 import edu.augustana.data.CwBotRecord;
+import edu.augustana.data.HamRadio;
 import edu.augustana.data.ScriptedBot;
 import edu.augustana.sound.CWBotPlayer;
 import edu.augustana.sound.SoundProducer;
@@ -102,6 +104,9 @@ public class MainPageController extends BasePage {
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> handleNoInput()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
+        HamRadio.theRadio.setMessageReceivedListener(msg -> System.out.println("we'd like to play this message as SOUND: " + msg));
+        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));
     }
 
     private void showHelperPopUp() {
@@ -137,6 +142,7 @@ public class MainPageController extends BasePage {
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
             SoundProducer.playSendingDah();
+
         }
     }
 
@@ -146,7 +152,7 @@ public class MainPageController extends BasePage {
     }
 
     private void handleNoInput() {
-        if (!inputSequence.toString().isEmpty()){
+        if (!inputSequence.toString().isEmpty()) {
             inputSequence.append(" ");
             morseInput.setText(inputSequence.toString());
         }
@@ -165,6 +171,10 @@ public class MainPageController extends BasePage {
         String morseText = morseInput.getText();
         String englishText = converter.MorseToEnglish(morseText);
         int intTransformedValue = getFrequencyIntVal(frequencySlider.getValue());
+
+        CWMessage message = new CWMessage(HamRadio.theRadio.getUserName(), morseText, intTransformedValue);
+        HamRadio.theRadio.sendMessage(message);
+
 
         writeMessages(intTransformedValue, morseText, englishText);
         for (int i = 1; i < rangeValue; i++ ) {
@@ -198,7 +208,7 @@ public class MainPageController extends BasePage {
     }
 
     @FXML
-    private void showTranslation(){
+    private void showTranslation() {
         englishMessagesVBox.getChildren().clear();
         int intTransformedValue = getFrequencyIntVal(frequencySlider.getValue());
         displayEnglishMessagesFromFrequency(intTransformedValue);
@@ -206,18 +216,19 @@ public class MainPageController extends BasePage {
     }
 
     @FXML
-    private void hideTranslation(){
+    private void hideTranslation() {
         englishMessagesVBox.getChildren().clear();
         isTranslationHidden = true;
     }
 
     @FXML
-    private void playSound(){
+    private void playSound() {
         int sliderValue = (int) frequencySlider.getValue();
         ArrayList<String> morseTextList = getFrequencyEnglishList(sliderValue);
         Thread thread = new Thread(() -> {
             for (String morseText : morseTextList) {
-                SoundProducer.setSpeeds(characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
+
+                SoundProducer.setSpeeds(Integer.parseInt(characterSpeedSelection.getValue()), Integer.parseInt(effectiveSpeedSelection.getValue()));
                 SoundProducer.produceSound(inputLine, morseText.split(":  ")[1], volume, Integer.parseInt(frequencySelection.getValue()));
             }
         });
@@ -225,10 +236,9 @@ public class MainPageController extends BasePage {
     }
 
     @FXML
-    private void getVolume(){
+    private void getVolume() {
         volume = (int) volumeSlider.getValue();
     }
-
 
     private void addMessageToFrequency(int sliderValue, String morseText, String englishText) {
         MorseFrequencies.get(sliderValue).add(morseText);
@@ -282,7 +292,7 @@ public class MainPageController extends BasePage {
     @FXML
     private void playCurrentBot() throws LineUnavailableException {
         ScriptedBot botToPlay = botListView.getSelectionModel().getSelectedItem();
-        if (botToPlay!= null) {
+        if (botToPlay != null) {
             CWBotPlayer botPlayer = new CWBotPlayer(botToPlay);
             botPlayer.playBot();
         } else {
@@ -293,7 +303,7 @@ public class MainPageController extends BasePage {
     @FXML
     private void actionDeleteBot() {
         ScriptedBot botToDelete = botListView.getSelectionModel().getSelectedItem();
-        if (botToDelete!= null) {
+        if (botToDelete != null) {
             bots.remove(botToDelete);
             botListView.getItems().clear();
             botListView.getItems().addAll(bots);

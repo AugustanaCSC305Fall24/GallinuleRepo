@@ -8,13 +8,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Level1Controller extends BasePage {
 
-    private final MorseCodeConverter morseConverter = new MorseCodeConverter(); // Initialize MorseCodeConverter
+    private MorseCodeConverter morseConverter = new MorseCodeConverter(); // Initialize MorseCodeConverter
     private List<Character> currentLetterSet;
     private int currentLetterIndex;
     private char currentLetter;
@@ -35,54 +36,84 @@ public class Level1Controller extends BasePage {
     private Button revealButton;
     @FXML
     private Label sentenceLabel;
-
     private boolean isRevealed = false;
-    private final List<List<Character>> stages = new ArrayList<>();
-    private SourceDataLine levelLine;
+
+    // List of stages (letters will be shown in these sets)
+    private List<List<Character>> stages = new ArrayList<>();
 
     @FXML
     public void initialize() {
 
         backButton.setOnAction(event -> goBack());
-        setupStages();
+        // Initialize stages (group of letters for each level)
+        stages.add(List.of('E', 'I', 'S', 'H'));   // Stage 1: Learn E, I, S, H
+        stages.add(List.of('T', 'M', 'O'));         // Stage 2: Learn T, M, O
+        stages.add(List.of('A', 'N', 'G', 'W', 'R', 'U', 'K', 'D', 'C', 'F', 'B')); // Stage 3: 10 more letters
+        stages.add(List.of('L', 'J', 'Y', 'Q', 'Z', 'X', 'P', 'V')); // Stage 4: Last 7 letters
+
+        // Start with the first stage
         currentLetterSet = stages.get(0);
         currentLetterIndex = 0;
-       initializeSoundLine();
+        //generateNewLetter(); // Generate first letter for the user to type
     }
 
-    private void setupStages(){
-        stages.add(List.of('E', 'I', 'S', 'H'));
-        stages.add(List.of('T', 'M', 'O'));
-        stages.add(List.of('A', 'N', 'G', 'W', 'R', 'U', 'K', 'D', 'C', 'F', 'B'));
-        stages.add(List.of('L', 'J', 'Y', 'Q', 'Z', 'X', 'P', 'V'));
-    }
-
-    private void initializeSoundLine() {
-        levelLine = SoundProducer.openLine();
+    @FXML
+    private void goBack() {
+        App.backToLevelPage();
     }
 
     private void generateNewLetter() {
+        // Get the current letter from the set
         currentLetter = currentLetterSet.get(currentLetterIndex);
-        currentLetterMorse = morseConverter.EnglishToMorse(String.valueOf(currentLetter));
-        levelProgress.setText("Level Progress: " + (currentLetterIndex + 1) + "/" + currentLetterSet.size());
-        playMorseCodeSound(currentLetterMorse);
-    }
+        currentLetterMorse = morseConverter.EnglishToMorse(String.valueOf(currentLetter)); // Get Morse code for the letter
 
-    private void playMorseCodeSound(String morseCode) {
-        SoundProducer.produceSound(levelLine, morseCode, 100, 440);
+        // Display the Morse code for the user to type
+        //morseCodeLabel.setText(currentLetterMorse);
+        levelProgress.setText("Level Progress:  1 / 5" + (currentLetterIndex + 1) + "/" + currentLetterSet.size());
+
+        // Play sound of the Morse code using SoundProducer
+        SoundProducer.produceSound(currentLetterMorse, 20, 60, 100, 440); // Play Morse code sound
     }
 
     @FXML
     private void revealMessage() {
-        isRevealed = !isRevealed;
-        morseCodeLabel.setText(isRevealed ? currentLetterMorse : "");
-        revealButton.setText(isRevealed ? "Hide" : "Reveal");
+        if (isRevealed) {
+            morseCodeLabel.setText("");  // Clear Morse code display
+            revealButton.setText("Reveal");
+        } else {
+            morseCodeLabel.setText(currentLetterMorse);  // Show correct message
+            revealButton.setText("Hide");
+        }
+        isRevealed = !isRevealed;  // Toggle reveal state
+    }
+
+
+    // Add methods to play Morse code when a button is pressed
+    @FXML
+    private void playMorseCodeForLetter(char letter) {
+        String letterMorse = String.valueOf(letter) + " ";
+        SoundProducer.produceSound(letterMorse, 90, 700, 100, 700); // Play the Morse code sound for the letter
+
     }
 
     @FXML
-    private void playMorseCodeForLetter(char letter) {
-        String letterMorse = morseConverter.EnglishToMorse(String.valueOf(letter));
-        playMorseCodeSound(letterMorse);
+    private void playMorseE() {
+        playMorseCodeForLetter('E');
+    }
+
+    @FXML
+    private void playMorseI() {
+        playMorseCodeForLetter('I');
+    }
+
+    @FXML
+    private void playMorseS() {
+        playMorseCodeForLetter('S');
+    }
+
+    @FXML
+    private void playMorseH() {
+        playMorseCodeForLetter('H');
     }
 
     @FXML
@@ -92,40 +123,38 @@ public class Level1Controller extends BasePage {
             if (letter != ' ') {
                 playMorseCodeForLetter(letter);
             } else {
-                sleepBeforeNextCharacter();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-    }
-
-    private void sleepBeforeNextCharacter() {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
     @FXML
     private void checkAnswer() {
-        String userAnswer = cleanInput(answerField.getText());
-        String expectedAnswer = "EISHEISH";
-        resultLabel.setText(userAnswer.equals(expectedAnswer) ? "Correct!" : "Listen and try again!");
-        answerField.clear();
+        String userAnswer = answerField.getText().toUpperCase().replaceAll(" ", "");  // Clean input, removing spaces
+
+        // Debugging logs to check the values
+        System.out.println("Current Sentence (before comparison): " + currentSentence);  // Should print "EISH EISH"
+        System.out.println("User's Input (after processing): " + userAnswer);  // Should print the cleaned user input
+
+        if (userAnswer.equals("EISHEISH")) {
+            resultLabel.setText("Correct!");
+            answerField.clear();
+        } else {
+            resultLabel.setText("Listen and try again!");
+            answerField.clear();
+        }
     }
 
-    private String cleanInput(String input) {
-        return input.toUpperCase().replaceAll(" ", "");
-    }
     @FXML
     private void showAnswer() {
+        // Display the full sentence for the current level
         sentenceLabel.setText("Answer: EISH EISH");
         sentenceLabel.setStyle("-fx-background-color:white;");
         sentenceLabel.setAlignment(Pos.CENTER);
-    }
-
-    @FXML
-    private void goBack() {
-        App.backToLevelPage();
     }
 
 }
