@@ -13,13 +13,21 @@ public class SoundProducer {
     private static int WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
     public static int frequencyVal = 600;
 
-    public static SourceDataLine openLine() throws LineUnavailableException {
-        final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
-        SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat);
-            line.open(audioFormat, Note.SAMPLE_RATE);
+    private static SourceDataLine INPUT_CW_LINE = openLine();
+    private static SourceDataLine STATIC_NOISE_LINE = openLine();
+
+    public static SourceDataLine openLine()  {
+        try {
+            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+            SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat);
+//            line.open(audioFormat, Note.SAMPLE_RATE);
+            line.open(audioFormat, 1024);
             line.start();
 
-        return line;
+            return line;
+        } catch (LineUnavailableException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public static void setSpeeds(String characterSpeed, String effectiveSpeed) {
@@ -30,7 +38,7 @@ public class SoundProducer {
         WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
     }
 
-    public static void ProduceSound(SourceDataLine line, String message, int volume, int frequency) {
+    public static void produceSound(SourceDataLine line, String message, int volume, int frequency) {
         MorseCodeConverter converter = new MorseCodeConverter();
         for (char letter : message.toUpperCase().toCharArray()) {
             String morseLetter = converter.EnglishToMorse(Character.toString(letter));
@@ -48,6 +56,17 @@ public class SoundProducer {
                 pause(line, CHARACTER_GAP); // Pause between letters
             }
         }
+        pause(line, 1000);
+    }
+
+    public static void playSendingDit() {
+        playNote(INPUT_CW_LINE, DOT_DURATION, 100);
+        pause(INPUT_CW_LINE, DOT_DURATION);
+    }
+
+    public static void playSendingDah() {
+        playNote(INPUT_CW_LINE, DASH_DURATION, 100);
+        pause(INPUT_CW_LINE, DOT_DURATION);
     }
 
     private static void playNote(SourceDataLine line, int duration, int volume) {

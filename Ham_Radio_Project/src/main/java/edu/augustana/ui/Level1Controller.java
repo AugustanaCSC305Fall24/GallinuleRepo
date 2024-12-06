@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +58,7 @@ public class Level1Controller extends BasePage {
     }
 
     private void initializeSoundLine() {
-        try {
-            levelLine = SoundProducer.openLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        levelLine = SoundProducer.openLine();
     }
 
     private void generateNewLetter() {
@@ -74,7 +69,7 @@ public class Level1Controller extends BasePage {
     }
 
     private void playMorseCodeSound(String morseCode) {
-        SoundProducer.ProduceSound(levelLine, morseCode, 100, 440);
+        SoundProducer.produceSound(levelLine, morseCode, 100, 440);
     }
 
     @FXML

@@ -160,7 +160,7 @@
                         <Insets left="15.0" top="10.0" />
                      </padding>
                   </Label>
-                  <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="0.01" max="7.067" min="7.0" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="14.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="7.0">
+                  <Slider fx:id="frequencySlider" blockIncrement="1.0" majorTickUnit="0.01" max="7.067" min="7.0" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="78.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: grey; -fx-background-radius: 10;" value="7.0">
                      <padding>
                         <Insets bottom="10.0" left="35.0" top="10.0" />
                      </padding>
@@ -179,7 +179,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Slider fx:id="rangeSlider" blockIncrement="0.001" majorTickUnit="0.001" max="0.01" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="14.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+                  <Slider fx:id="rangeSlider" blockIncrement="0.001" majorTickUnit="0.001" max="0.01" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="79.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: grey; -fx-background-radius: 10;">
                      <padding>
                         <Insets bottom="10.0" left="35.0" top="10.0" />
                      </padding>

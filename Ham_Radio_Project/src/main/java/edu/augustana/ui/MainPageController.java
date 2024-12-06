@@ -1,6 +1,5 @@
 package edu.augustana.ui;
 
-import edu.augustana.FrequencySelection;
 import edu.augustana.MorseCodeConverter;
 import edu.augustana.data.CwBotRecord;
 import edu.augustana.data.ScriptedBot;
@@ -19,15 +18,11 @@ import java.util.*;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import static edu.augustana.ui.App.scene;
-import static edu.augustana.ui.App.switchToMainPage;
 
 
 public class MainPageController extends BasePage {
@@ -89,16 +84,12 @@ public class MainPageController extends BasePage {
         }
     }
 
-    private void initializeSoundLine() throws LineUnavailableException {
+    private void initializeSoundLine()  {
         inputLine = SoundProducer.openLine();
 
         Thread thread2 = new Thread(() -> {
-            try {
-                staticNoiceLine = SoundProducer.openLine();
-                SoundProducer.playStaticNoise(staticNoiceLine, 1);
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
+            staticNoiceLine = SoundProducer.openLine();
+            SoundProducer.playStaticNoise(staticNoiceLine, 5);
         });
         thread2.start();
     }
@@ -134,19 +125,18 @@ public class MainPageController extends BasePage {
     private void goBack() {
         staticNoiceLine.close();
         App.backToMainMenu();
-
     }
 
     private void handleKeyPress(KeyCode code) {
         resetTimeline();
         if (code == KeyCode.N) {
             inputSequence.append(".");
-            SoundProducer.ProduceSound(inputLine, "e", volume, Integer.parseInt(frequencySelection.getValue()));
+            SoundProducer.playSendingDit();
 
 
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
-            SoundProducer.ProduceSound(inputLine, "t", volume, Integer.parseInt(frequencySelection.getValue()));
+            SoundProducer.playSendingDah();
         }
     }
 
@@ -155,19 +145,6 @@ public class MainPageController extends BasePage {
         timeline.playFromStart();
     }
 
-    private String getSoundSpace() {
-        switch (effectiveSpeedSelection.getValue()) {
-            case "100": return "         ";
-            case "200": return "    ";
-            case "300": return " ";
-            default: return "";
-        }
-    }
-
-    private void processInput(String symbol, String sound){
-        inputSequence.append(symbol);
-        SoundProducer.ProduceSound(inputLine, sound, volume, Integer.parseInt(frequencySelection.getValue()));
-    }
     private void handleNoInput() {
         if (!inputSequence.toString().isEmpty()){
             inputSequence.append(" ");
@@ -179,6 +156,7 @@ public class MainPageController extends BasePage {
         double transformedValue = (frequencyValue - 7) * 1000;
         return (int) Math.round(transformedValue);
     }
+
     @FXML
     private void writeToFrequency() {
         int rangeValue = (int) Math.round(rangeSlider.getValue() * 1000);
@@ -222,8 +200,8 @@ public class MainPageController extends BasePage {
     @FXML
     private void showTranslation(){
         englishMessagesVBox.getChildren().clear();
-        int sliderValue = (int) frequencySlider.getValue();
-        displayEnglishMessagesFromFrequency(sliderValue);
+        int intTransformedValue = getFrequencyIntVal(frequencySlider.getValue());
+        displayEnglishMessagesFromFrequency(intTransformedValue);
         isTranslationHidden = false;
     }
 
@@ -240,7 +218,7 @@ public class MainPageController extends BasePage {
         Thread thread = new Thread(() -> {
             for (String morseText : morseTextList) {
                 SoundProducer.setSpeeds(characterSpeedSelection.getValue(), effectiveSpeedSelection.getValue());
-                SoundProducer.ProduceSound(inputLine, morseText.split(":  ")[1], volume, Integer.parseInt(frequencySelection.getValue()));
+                SoundProducer.produceSound(inputLine, morseText.split(":  ")[1], volume, Integer.parseInt(frequencySelection.getValue()));
             }
         });
         thread.start();

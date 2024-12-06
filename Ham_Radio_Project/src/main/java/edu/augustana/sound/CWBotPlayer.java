@@ -19,7 +19,7 @@ public class CWBotPlayer {
             for (int i = 0; i < scriptedBot.getRepeatAmount(); i++) {
                 SoundProducer.setSpeeds(String.valueOf(scriptedBot.getCharSpeed()),
                         String.valueOf(scriptedBot.getEffectiveSpeed()));
-                SoundProducer.ProduceSound(botLine, scriptedBot.getMessage(),
+                SoundProducer.produceSound(botLine, scriptedBot.getMessage(),
                         50,
                         600);
             }
