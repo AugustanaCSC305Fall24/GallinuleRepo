@@ -265,13 +265,18 @@ public class MainPageController extends BasePage {
             for (int i = 1; i <= rangeValue; i++) {
                 morseTextList = getFrequencyMorseList(transformedValue + i);
                 ArrayList<String> morseTextList2 = getFrequencyMorseList(transformedValue - i);
-                for (String morseText : morseTextList) {
-                    SoundProducer.playSoundLine(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 + 20 * i);
+                if (morseTextList != null) {
+                    for (String morseText : morseTextList) {
+                        SoundProducer.playSoundLine(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 + 20 * i);
+                    }
                 }
 
-                for (String morseText : morseTextList2) {
-                    SoundProducer.playSoundLine(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 - 20 * i);
+                if (morseTextList2 != null) {
+                    for (String morseText : morseTextList2) {
+                        SoundProducer.playSoundLine(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 - 20 * i);
+                    }
                 }
+
 
             }
 

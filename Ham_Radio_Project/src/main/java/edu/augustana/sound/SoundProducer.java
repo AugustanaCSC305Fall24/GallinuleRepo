@@ -90,7 +90,7 @@ public class SoundProducer {
         int length = Note.SAMPLE_RATE * 10000;
         byte[] noise = new byte[length];
         for (int i = 0; i < noise.length; i++) {
-            noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * 0 / 100);
+            noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * 10 / 100);
         }
         STATIC_NOISE_LINE.write(noise, 0, length);
 
