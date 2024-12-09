@@ -12,18 +12,20 @@ import java.util.List;
 public class GeminiAIBot {
     private String systemPromptText;
     private JsonParser parser;
-    GenAi genAi;
+    private GenAi genAi;
 
     private final String name;
     private final HamRadio radio;
     private final double frequency;
     private List<String> myChatHistory = new ArrayList<>();
+    public boolean messageReceived;
+    public String geminiResponse;
 
-    public GeminiAIBot(String name, double frequency, HamRadio radio, String systemPromptText) {
+    public GeminiAIBot(String name, double frequency, HamRadio radio) {
         this.name = name;
         this.frequency = frequency;
         this.radio = radio;
-        this.systemPromptText = systemPromptText;
+        this.systemPromptText = "You are a HAM Radio operator talking to another person on the same frequency as you.";
         this.parser = new GsonJsonParser();
         this.genAi = new GenAi(GeminiAPITest.getGeminiApiKey(), parser);
     }
@@ -37,8 +39,8 @@ public class GeminiAIBot {
         return getName() + " [AI]";
     }
 
-    public void requestMessage() {
-        StringBuilder transcript = new StringBuilder();
+    public void requestMessage(StringBuilder msgLog) {
+        StringBuilder transcript = msgLog;
 //        for (CWMessage message : getRadio().getChatMessageList()) {
 //            transcript.append(message.getSender()).append(": ").append(message.getMorseMessageText()).append("\n");
 //        }
@@ -52,7 +54,9 @@ public class GeminiAIBot {
         genAi.generateContent(model)
                 .thenAccept(gcr -> {
                     String geminiResponse = gcr.text();
-                    System.out.println("Debug: GeminiBirdBot received response: " + geminiResponse);
+                    System.out.println("Debug: GeminiBot received response: " + geminiResponse);
+                    messageReceived = true;
+                    this.geminiResponse = geminiResponse;
 //                    getRadio().addMessage(new CWMessage(getName(), geminiResponse, 3));
 
                 });

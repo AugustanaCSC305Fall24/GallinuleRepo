@@ -13,9 +13,14 @@ public class MainMenu {
     private Button interactButton;
 
     @FXML
+    private Button testButton;
+
+    @FXML
     private void initialize() {
         learnButton.setOnAction(event -> openLevelPage());
         interactButton.setOnAction(event -> openInteractPage());
+        testButton.setOnAction(event -> openTestPage());
+        new Thread(() ->App.connectToServer("34.57.163.173")).start();
     }
 
     @FXML
@@ -30,4 +35,10 @@ public class MainMenu {
         thread2.start();
         App.switchToMainPage();
     }
+
+    @FXML
+    private void openTestPage() {
+        App.switchToTestPage();
+    }
+
 }
