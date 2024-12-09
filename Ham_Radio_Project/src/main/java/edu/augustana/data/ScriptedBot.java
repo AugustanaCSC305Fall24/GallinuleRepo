@@ -2,18 +2,16 @@ package edu.augustana.data;
 
 
 public class ScriptedBot {
-    private String botName;
-    private String message;
-    private int charSpeed;
-    private int effectiveSpeed;
-    private int frequency;
-    private int repeats;
+    private final String botName;
+    private final String message;
+    private final int effectiveSpeed;
+    private final double frequency;
+    private final int repeats;
 
 
-    public ScriptedBot(String botName, String message, int charSpeed, int effectiveSpeed, int frequency, int repeats){
+    public ScriptedBot(String botName, String message, int effectiveSpeed, double frequency, int repeats){
         this.botName = botName;
         this.message = message;
-        this.charSpeed = charSpeed;
         this.effectiveSpeed = effectiveSpeed;
         this.frequency = frequency;
         this.repeats = repeats;
@@ -21,14 +19,13 @@ public class ScriptedBot {
 
     public String getBotID() {return botName;}
     public String getMessage() {return message;}
-    public int getCharSpeed() {return charSpeed;}
     public int getEffectiveSpeed() {return effectiveSpeed;}
-    public int getFrequency() {return frequency;}
+    public double getFrequency() {return frequency;}
     public int getRepeatAmount() {return repeats;}
 
     @Override
     public String toString() {
-        return "Bot " + botName + " is on frequency: " + frequency + "Mhz";
+        return "Bot " + botName + " is on frequency: " + Math.round(frequency * 1000.0) / 1000.0 + "Mhz";
 
     }
 }

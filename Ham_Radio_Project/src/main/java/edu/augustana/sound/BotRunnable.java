@@ -23,7 +23,6 @@ public class BotRunnable implements Runnable {
             try {
                 SoundProducer.produceSound(
                         bot.getMessage(),
-                        bot.getCharSpeed(),
                         bot.getEffectiveSpeed(),
                         HamRadio.theRadio.getVolume(),
                         600

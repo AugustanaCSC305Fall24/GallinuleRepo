@@ -72,7 +72,7 @@ public class Level1Controller extends BasePage {
         levelProgress.setText("Level Progress:  1 / 5" + (currentLetterIndex + 1) + "/" + currentLetterSet.size());
 
         // Play sound of the Morse code using SoundProducer
-        SoundProducer.produceSound(currentLetterMorse, 20, 60, 100, 440); // Play Morse code sound
+        SoundProducer.produceSound(currentLetterMorse, 60, 100, 440); // Play Morse code sound
     }
 
     @FXML
@@ -92,7 +92,7 @@ public class Level1Controller extends BasePage {
     @FXML
     private void playMorseCodeForLetter(char letter) {
         String letterMorse = String.valueOf(letter) + " ";
-        SoundProducer.produceSound(letterMorse, 90, 700, 100, 700); // Play the Morse code sound for the letter
+        SoundProducer.produceSound(letterMorse, 700, 100, 700); // Play the Morse code sound for the letter
 
     }
 

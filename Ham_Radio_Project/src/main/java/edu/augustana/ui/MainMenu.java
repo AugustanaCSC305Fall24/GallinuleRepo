@@ -1,5 +1,6 @@
 package edu.augustana.ui;
 
+import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -24,6 +25,9 @@ public class MainMenu {
 
     @FXML
     private void openInteractPage() {
+        SoundProducer.openStaticLine();
+        Thread thread2 = new Thread(SoundProducer::playStaticNoise);
+        thread2.start();
         App.switchToMainPage();
     }
 }

@@ -7,24 +7,17 @@ import javax.sound.sampled.*;
 
 public class SoundProducer {
 
-    private static int DOT_DURATION = 20;  // Duration for a dot (in milliseconds)
+    private static int DOT_DURATION = 80;  // Duration for a dot (in milliseconds)
     private static int DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
-    private static int DOT_GAP = DOT_DURATION; // Gap between dots and dashes
+    private static int DOT_GAP = DOT_DURATION / 2; // Gap between dots and dashes
     private static int CHARACTER_GAP = 60; // Gap between characters
     private static int WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
-    public static int frequencyVal;
     private static final MorseCodeConverter converter = new MorseCodeConverter();
 
-    private static SourceDataLine INPUT_CW_LINE = openLine();
-    private static SourceDataLine STATIC_NOISE_LINE = openLine();
+    private static SourceDataLine INPUT_CW_LINE;
+    private static SourceDataLine STATIC_NOISE_LINE;
+    private static SourceDataLine PLAY_SOUND_LINE;
 
-//    public static void playDit(int volume) throws LineUnavailableException {
-//        playSound(DOT_DURATION, volume); // Play a 'dit' sound
-//    }
-//
-//    public static void playDah(int volume) throws LineUnavailableException {
-//        playSound(DASH_DURATION, volume); // Play a 'dah' sound
-//    }
 
     private static void playSound(int duration, int volume) throws LineUnavailableException {
         // Create a sine wave sound
@@ -50,30 +43,60 @@ public class SoundProducer {
         line.close();
     }
 
-    public static SourceDataLine openLine()  {
+    public static void openInputLine()  {
         try {
             final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
-            SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat);
-//            line.open(audioFormat, Note.SAMPLE_RATE);
-            line.open(audioFormat, 1024);
-            line.start();
+            INPUT_CW_LINE = AudioSystem.getSourceDataLine(audioFormat);
+            INPUT_CW_LINE.open(audioFormat, 1024);
+            INPUT_CW_LINE.start();
+        } catch (LineUnavailableException ex) {
+            throw new RuntimeException(ex);
+        }
 
-            return line;
+    }
+
+    public static void openPlaysoundLine() {
+        try {
+            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+            PLAY_SOUND_LINE = AudioSystem.getSourceDataLine(audioFormat);
+            PLAY_SOUND_LINE.open(audioFormat, Note.SAMPLE_RATE);
+            PLAY_SOUND_LINE.start();
         } catch (LineUnavailableException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    public static void playStaticNoise(SourceDataLine line, int volume) {
+
+    public static void openStaticLine()  {
+        try {
+            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+            STATIC_NOISE_LINE = AudioSystem.getSourceDataLine(audioFormat);
+            STATIC_NOISE_LINE.open(audioFormat, Note.SAMPLE_RATE);
+            STATIC_NOISE_LINE.start();
+        } catch (LineUnavailableException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static void closeStaticLine(){
+        STATIC_NOISE_LINE.close();
+    }
+
+    public static void closeInputLine(){
+        INPUT_CW_LINE.close();
+    }
+
+    public static void playStaticNoise() {
         int length = Note.SAMPLE_RATE * 10000;
         byte[] noise = new byte[length];
         for (int i = 0; i < noise.length; i++) {
-            noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * volume / 100);
+            noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * 0 / 100);
         }
-        line.write(noise, 0, length);
+        STATIC_NOISE_LINE.write(noise, 0, length);
+
     }
 
-    public static void produceSound(SourceDataLine line, String message, int volume, int frequency) {
+    public static void produceSound(SourceDataLine line, String message, int volume, int tone) {
         MorseCodeConverter converter = new MorseCodeConverter();
         for (char letter : message.toUpperCase().toCharArray()) {
             String morseLetter = converter.EnglishToMorse(Character.toString(letter));
@@ -82,9 +105,9 @@ public class SoundProducer {
             } else {
                 for (char click: morseLetter.toCharArray()) {
                     if (click == '.') {
-                        playNote(line, DOT_DURATION, volume); // Play dot
+                        playNote(line, DOT_DURATION, volume, tone); // Play dot
                     } else if(click == '-') {
-                        playNote(line, DASH_DURATION, volume); // Play dash
+                        playNote(line, DASH_DURATION, volume, tone); // Play dash
                     }
                     pause(line, DOT_GAP);  // Pause between parts of the letter
                 }
@@ -94,52 +117,53 @@ public class SoundProducer {
         pause(line, 1000);
     }
 
-    public static void produceSound(String message, int characterSpeed, int effectiveSpeed, int volume, int frequency) {
-        frequencyVal = frequency;
-        setSpeeds(characterSpeed, effectiveSpeed);
+    public static void produceSound(String message, int effectiveSpeed, int volume, int tone) {
+        setSpeeds(effectiveSpeed);
         final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         try (SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat)) {
             line.open(audioFormat, Note.SAMPLE_RATE);
             line.start();
-            if (converter.getEnglishToMorseMap().containsKey(message.charAt(0))) {
-                playEnglishMessage(line, message, volume);
-            } else if (converter.getMorseToEnglishMap().containsKey(Character.toString(message.charAt(0)))) {
-                playMorseMessage(line, message, volume);
-            }
+            playMorseMessage(line, message, volume, tone);
         } catch (LineUnavailableException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
-    public static void setSpeeds(int characterSpeed, int effectiveSpeed) {
-        DOT_DURATION = characterSpeed; // Duration for a dot (in milliseconds)
-        CHARACTER_GAP = effectiveSpeed; // Gap between characters
-        DASH_DURATION = DOT_DURATION * 3; // Duration for a dash
-        DOT_GAP = DOT_DURATION; // Gap between dots and dashes
-        WORD_GAP = (int) (CHARACTER_GAP * 2.333); // Gap between words
+    public static void setSpeeds(int effectiveSpeed) {
+        if (effectiveSpeed == 5) {
+            CHARACTER_GAP = 1200;
+        } else if (effectiveSpeed == 10) {
+            CHARACTER_GAP = 600;
+        } else if (effectiveSpeed == 15) {
+            CHARACTER_GAP = 300;
+        } else if (effectiveSpeed == 18) {
+            CHARACTER_GAP = 150;
+        } else {
+            CHARACTER_GAP = 100;
+        }
+        WORD_GAP = (int) (CHARACTER_GAP * 2.333);
     }
 
 
-    private static void playMorseMessage(SourceDataLine line, String message, int volume) {
-        System.out.println(message);
+    private static void playMorseMessage(SourceDataLine line, String message, int volume, int tone) {
+
         for (char letter : message.toCharArray()) {
             if (letter == ' ') {
                 pause(line, CHARACTER_GAP); // Pause for character gap
             } else {
                 if (letter == '.') {
-                    playNote(line, DOT_DURATION, volume); // Play dot
+                    playNote(line, DOT_DURATION, volume, tone); // Play dot
                 } else if(letter == '-') {
-                    playNote(line, DASH_DURATION, volume); // Play dash
+                    playNote(line, DASH_DURATION, volume, tone); // Play dash
                 }
             }
             pause(line, DOT_GAP); // Pause between letters
         }
     }
 
-    private static void playEnglishMessage(SourceDataLine line, String message, int volume) {
+    private static void playEnglishMessage(SourceDataLine line, String message, int volume, int tone) {
         //message = message + " ";
-        System.out.println(message);
         for (char letter : message.toUpperCase().toCharArray()) {
             String morseLetter = converter.EnglishToMorse(Character.toString(letter));
             if (morseLetter.equals(" ")) {
@@ -147,9 +171,9 @@ public class SoundProducer {
             } else {
                 for (char click: morseLetter.toCharArray()) {
                     if (click == '.') {
-                        playNote(line, DOT_DURATION, volume); // Play dot
+                        playNote(line, DOT_DURATION, volume, tone); // Play dot
                     } else if(click == '-') {
-                        playNote(line, DASH_DURATION, volume); // Play dash
+                        playNote(line, DASH_DURATION, volume, tone); // Play dash
                     }
                     pause(line, DOT_GAP);  // Pause between parts of the letter
                 }
@@ -159,19 +183,25 @@ public class SoundProducer {
         pause(line, 1000);
     }
 
-    public static void playSendingDit() {
-        playNote(INPUT_CW_LINE, DOT_DURATION, 100);
+    public static void playSoundLine(String message, int volume, int speed, int tone) {
+        setSpeeds(speed);
+        playMorseMessage(PLAY_SOUND_LINE, message, volume, tone);
+        PLAY_SOUND_LINE.drain();
+    }
+
+    public static void playSendingDit(int volume) {
+        playNote(INPUT_CW_LINE, DOT_DURATION , volume, 600);
         pause(INPUT_CW_LINE, DOT_DURATION);
     }
 
-    public static void playSendingDah() {
-        playNote(INPUT_CW_LINE, DASH_DURATION, 100);
+    public static void playSendingDah(int volume) {
+        playNote(INPUT_CW_LINE, DASH_DURATION , volume, 600);
         pause(INPUT_CW_LINE, DOT_DURATION);
     }
 
-    private static void playNote(SourceDataLine line, int duration, int volume) {
+    private static void playNote(SourceDataLine line, int duration, int volume, int tone) {
         int length = Note.SAMPLE_RATE * duration / 1000;
-        line.write(Note.A4.data(volume), 0, length);  // Playing the note for the specified duration
+        line.write(Note.A4.data(volume, tone), 0, length);  // Playing the note for the specified duration
     }
 
     private static void pause(SourceDataLine line, int duration) {
@@ -187,11 +217,10 @@ enum Note {
     public static final int SAMPLE_RATE = 16 * 1024; // ~16KHz
     // Array to hold the sine wave data
 
-    public byte[] data(int volume){
+    public byte[] data(int volume, int tone){
         byte[] sin = new byte[SAMPLE_RATE * 2];
-        double frequency = SoundProducer.frequencyVal;  // Frequency for the note A
         for (int i = 0; i < sin.length; i++) {
-            double period = (double) SAMPLE_RATE / frequency; // Calculate the period
+            double period = (double) SAMPLE_RATE / tone; // Calculate the period
             double angle = 2.0 * Math.PI * i / period; // Calculate the angle
             sin[i] = (byte) (Math.sin(angle) * 127f * volume / 100);  // Generate the sine wave
         }

@@ -38,7 +38,7 @@ public class EnglishToMorseController {
     @FXML
     private void playSound(){
         String morseText = englishInput.getText();
-        SoundProducer.produceSound(morseText, 200, 600, 5, 440); // ERROR: extract from main
+        SoundProducer.produceSound(morseText, 600, 5, 440); // ERROR: extract from main
     }
     /*@FXML
     private void switchToMorseToEnglish() throws IOException {
