@@ -1,6 +1,7 @@
 package edu.augustana.data;
 
 import edu.augustana.sound.SoundProducer;
+import edu.augustana.ui.App;
 
 import java.util.Random;
 
@@ -67,10 +68,11 @@ public class HamRadio {
         this.messageReceivedListener = messageReceivedListener;
     }
 
-    public void sendMessage(CWMessage message) {
-        // turn message into JSON string, and send it
-
-
+    public void sendMessageFromHumanUser(CWMessage message) {
+        App.sendMessageToServer(message);
+//        if (messageReceivedListener != null) {
+//            messageReceivedListener.onNewMessage(message);
+//        }
     }
 
     public void receiveMessage(CWMessage msg) {

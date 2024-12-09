@@ -7,6 +7,7 @@ import edu.augustana.data.HamRadio;
 import edu.augustana.data.ScriptedBot;
 import edu.augustana.sound.CWBotPlayer;
 import edu.augustana.sound.SoundProducer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -56,6 +57,7 @@ public class MainPageController extends BasePage {
 
     @Override
     public void initialize() throws LineUnavailableException {
+        HamRadio.theRadio.setMessageReceivedListener(msg -> handleNewMessage(msg));
         initializeFrequencyMaps();
         configureUIComponents();
         initializeSoundLine();
@@ -105,7 +107,7 @@ public class MainPageController extends BasePage {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-        HamRadio.theRadio.setMessageReceivedListener(msg -> System.out.println("we'd like to play this message as SOUND: " + msg));
+        //HamRadio.theRadio.setMessageReceivedListener(msg -> System.out.println("we'd like to play this message as SOUND: " + msg));
         frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));
     }
 
@@ -173,7 +175,8 @@ public class MainPageController extends BasePage {
         int intTransformedValue = getFrequencyIntVal(frequencySlider.getValue());
 
         CWMessage message = new CWMessage(HamRadio.theRadio.getUserName(), morseText, intTransformedValue);
-        HamRadio.theRadio.sendMessage(message);
+        HamRadio.theRadio.sendMessageFromHumanUser(message);
+
 
 
         writeMessages(intTransformedValue, morseText, englishText);
@@ -194,6 +197,23 @@ public class MainPageController extends BasePage {
             //addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
         }
     }
+
+    private void handleNewMessage(CWMessage msg) {
+        if (!msg.isFromRemoteClient()) {
+            App.sendMessageToServer(msg);
+        }
+        Platform.runLater(()->addMessageToChatLogUI(msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane));
+    }
+
+//    @FXML
+//    private void sendAction() {
+//        String msgText = morseInput.getText();
+//        if (!msgText.isBlank()) {
+//            CWMessage newMessageFromUser = new CWMessage("New sender", msgText, frequencySlider.getValue());
+//            HamRadio.theRadio.sendMessage(newMessageFromUser);
+//            morseInput.setText("");
+//        }
+//    }
 
     @FXML
     private void displayFrequency() {
