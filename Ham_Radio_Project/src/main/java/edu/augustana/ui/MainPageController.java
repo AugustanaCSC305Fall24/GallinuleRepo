@@ -210,7 +210,9 @@ public class MainPageController extends BasePage {
     private void handleRemoteMessage(CWMessage msg) {
         HamRadio.theRadio.setFrequencyRange(getCurrentRange());
         addMessageToFrequency((int) msg.getFrequency(),  msg.getSender() + ":  " + msg.getMorseMessageText(), msg.getSender() + ":  " + converter.MorseToEnglish(msg.getMorseMessageText()) + " ");
-        addMessageToChatLogUI(msg.getSender() + msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane);
+        //displayMorseMessagesFromFrequency(getCurrentFrequencyIntVal());
+        displayFrequency();
+        //addMessageToChatLogUI(msg.getSender() + msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane);
     }
 //    @FXML
 //    private void sendAction() {
