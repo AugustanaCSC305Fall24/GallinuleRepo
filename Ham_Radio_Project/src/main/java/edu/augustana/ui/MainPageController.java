@@ -79,9 +79,8 @@ public class MainPageController extends BasePage {
         effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
     }
 
-    private void initializeSoundLine()  {
+    private void initializeSoundLine() {
         SoundProducer.openInputLine();
-        SoundProducer.openPlaysoundLine();
     }
 
     public void addBotsToView(){
@@ -168,8 +167,6 @@ public class MainPageController extends BasePage {
 
     @FXML
     private void writeToFrequency() {
-        int rangeValue = getCurrentRange();
-        System.out.println(rangeValue);
         morseMessagesVBox.getChildren().clear();
         String morseText = morseInput.getText();
         String englishText = converter.MorseToEnglish(morseText);
@@ -255,25 +252,28 @@ public class MainPageController extends BasePage {
     @FXML
     private void playSound() {
         int transformedValue = getCurrentFrequencyIntVal();
-
+        System.out.println((int) volumeSlider.getValue());
         int rangeValue = getCurrentRange();
         Thread thread = new Thread(() -> {
             ArrayList<String> morseTextList = getFrequencyMorseList(transformedValue);
             for (String morseText : morseTextList) {
-                SoundProducer.playSoundLine(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600);
+                SoundProducer.produceSound(morseText.split(":  ")[1], (int) volumeSlider.getValue() , Integer.parseInt(effectiveSpeedSelection.getValue()), 600);
+                System.out.println("here");
             }
             for (int i = 1; i <= rangeValue; i++) {
-                morseTextList = getFrequencyMorseList(transformedValue + i);
+                ArrayList<String> morseTextList1 = getFrequencyMorseList(transformedValue + i);
                 ArrayList<String> morseTextList2 = getFrequencyMorseList(transformedValue - i);
-                if (morseTextList != null) {
-                    for (String morseText : morseTextList) {
-                        SoundProducer.playSoundLine(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 + 20 * i);
+                if (morseTextList1 != null) {
+                    System.out.println("no");
+                    for (String morseText : morseTextList1) {
+                        SoundProducer.produceSound(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 + 20 * i);
                     }
                 }
 
                 if (morseTextList2 != null) {
+                    System.out.println("yes");
                     for (String morseText : morseTextList2) {
-                        SoundProducer.playSoundLine(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 - 20 * i);
+                        SoundProducer.produceSound(morseText.split(":  ")[1], (int) volumeSlider.getValue(), Integer.parseInt(effectiveSpeedSelection.getValue()), 600 - 20 * i);
                     }
                 }
 

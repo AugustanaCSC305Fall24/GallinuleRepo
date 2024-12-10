@@ -16,7 +16,6 @@ public class SoundProducer {
 
     private static SourceDataLine INPUT_CW_LINE;
     private static SourceDataLine STATIC_NOISE_LINE;
-    private static SourceDataLine PLAY_SOUND_LINE;
 
 
     private static void playSound(int duration, int volume) throws LineUnavailableException {
@@ -55,17 +54,6 @@ public class SoundProducer {
 
     }
 
-    public static void openPlaysoundLine() {
-        try {
-            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
-            PLAY_SOUND_LINE = AudioSystem.getSourceDataLine(audioFormat);
-            PLAY_SOUND_LINE.open(audioFormat, Note.SAMPLE_RATE);
-            PLAY_SOUND_LINE.start();
-        } catch (LineUnavailableException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
 
     public static void openStaticLine()  {
         try {
@@ -93,37 +81,38 @@ public class SoundProducer {
             noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * 10 / 100);
         }
         STATIC_NOISE_LINE.write(noise, 0, length);
-
     }
 
-    public static void produceSound(SourceDataLine line, String message, int volume, int tone) {
-        MorseCodeConverter converter = new MorseCodeConverter();
-        for (char letter : message.toUpperCase().toCharArray()) {
-            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
-            if (morseLetter.equals(" ")) {
-                pause(line, WORD_GAP); // Pause for word gap
-            } else {
-                for (char click: morseLetter.toCharArray()) {
-                    if (click == '.') {
-                        playNote(line, DOT_DURATION, volume, tone); // Play dot
-                    } else if(click == '-') {
-                        playNote(line, DASH_DURATION, volume, tone); // Play dash
-                    }
-                    pause(line, DOT_GAP);  // Pause between parts of the letter
-                }
-                pause(line, CHARACTER_GAP); // Pause between letters
-            }
-        }
-        pause(line, 1000);
-    }
+//    public static void produceSound(SourceDataLine line, String message, int volume, int tone) {
+//        MorseCodeConverter converter = new MorseCodeConverter();
+//        for (char letter : message.toUpperCase().toCharArray()) {
+//            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
+//            if (morseLetter.equals(" ")) {
+//                pause(line, WORD_GAP); // Pause for word gap
+//            } else {
+//                for (char click: morseLetter.toCharArray()) {
+//                    if (click == '.') {
+//                        playNote(line, DOT_DURATION, volume, tone); // Play dot
+//                    } else if(click == '-') {
+//                        playNote(line, DASH_DURATION, volume, tone); // Play dash
+//                    }
+//                    pause(line, DOT_GAP);  // Pause between parts of the letter
+//                }
+//                pause(line, CHARACTER_GAP); // Pause between letters
+//            }
+//        }
+//        pause(line, 1000);
+//    }
 
     public static void produceSound(String message, int effectiveSpeed, int volume, int tone) {
+        System.out.println(message);
         setSpeeds(effectiveSpeed);
         final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         try (SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat)) {
             line.open(audioFormat, Note.SAMPLE_RATE);
             line.start();
             playMorseMessage(line, message, volume, tone);
+            line.drain();
         } catch (LineUnavailableException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -162,32 +151,32 @@ public class SoundProducer {
         }
     }
 
-    private static void playEnglishMessage(SourceDataLine line, String message, int volume, int tone) {
-        //message = message + " ";
-        for (char letter : message.toUpperCase().toCharArray()) {
-            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
-            if (morseLetter.equals(" ")) {
-                pause(line, WORD_GAP); // Pause for word gap
-            } else {
-                for (char click: morseLetter.toCharArray()) {
-                    if (click == '.') {
-                        playNote(line, DOT_DURATION, volume, tone); // Play dot
-                    } else if(click == '-') {
-                        playNote(line, DASH_DURATION, volume, tone); // Play dash
-                    }
-                    pause(line, DOT_GAP);  // Pause between parts of the letter
-                }
-                pause(line, CHARACTER_GAP); // Pause between letters
-            }
-        }
-        pause(line, 1000);
-    }
+//    private static void playEnglishMessage(SourceDataLine line, String message, int volume, int tone) {
+//        //message = message + " ";
+//        for (char letter : message.toUpperCase().toCharArray()) {
+//            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
+//            if (morseLetter.equals(" ")) {
+//                pause(line, WORD_GAP); // Pause for word gap
+//            } else {
+//                for (char click: morseLetter.toCharArray()) {
+//                    if (click == '.') {
+//                        playNote(line, DOT_DURATION, volume, tone); // Play dot
+//                    } else if(click == '-') {
+//                        playNote(line, DASH_DURATION, volume, tone); // Play dash
+//                    }
+//                    pause(line, DOT_GAP);  // Pause between parts of the letter
+//                }
+//                pause(line, CHARACTER_GAP); // Pause between letters
+//            }
+//        }
+//        pause(line, 1000);
+//    }
 
-    public static void playSoundLine(String message, int volume, int speed, int tone) {
-        setSpeeds(speed);
-        playMorseMessage(PLAY_SOUND_LINE, message, volume, tone);
-        PLAY_SOUND_LINE.drain();
-    }
+//    public static void playSoundLine(String message, int volume, int speed, int tone) {
+//        setSpeeds(speed);
+//        playMorseMessage(PLAY_SOUND_LINE, message, volume, tone);
+//        PLAY_SOUND_LINE.drain();
+//    }
 
     public static void playSendingDit(int volume) {
         playNote(INPUT_CW_LINE, DOT_DURATION , volume, 600);

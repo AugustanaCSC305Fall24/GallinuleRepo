@@ -27,8 +27,7 @@ public class CWBotPlayer {
         Thread thread = new Thread(() -> {
             for (int j = 0; j < scriptedBot.getRepeatAmount(); j++) {
                 boolean played = false;
-                for (int i = 0; i < App.mainPageController.getCurrentRange(); i++){
-
+                for (int i = 0; i < App.mainPageController.getCurrentRange(); i++) {
                         if (App.mainPageController.getCurrentFrequencyIntVal() + i == getFrequencyIntVal(scriptedBot.getFrequency())) {
                             SoundProducer.produceSound(converter.EnglishToMorse(scriptedBot.getMessage()),
                                     scriptedBot.getEffectiveSpeed(),
