@@ -98,7 +98,7 @@ public class MainPageController extends BasePage {
         timeline.play();
 
         //HamRadio.theRadio.setMessageReceivedListener(msg -> System.out.println("we'd like to play this message as SOUND: " + msg));
-        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));
+        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(getFrequencyIntVal(newVal.doubleValue())));
         rangeSlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setRange(newVal.doubleValue()));
     }
 
@@ -200,7 +200,7 @@ public class MainPageController extends BasePage {
     }
 
     private void handleNewMessage(CWMessage msg) {
-        HamRadio.theRadio.setSoundVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue(), 600);
+        HamRadio.theRadio.setSoundVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue(), (int) (600));
         if (!msg.isFromRemoteClient()) {
             App.sendMessageToServer(msg);
         }
@@ -208,6 +208,7 @@ public class MainPageController extends BasePage {
     }
 
     private void handleRemoteMessage(CWMessage msg) {
+        HamRadio.theRadio.setFrequencyRange(getCurrentRange());
         addMessageToFrequency((int) msg.getFrequency(),  msg.getSender() + ":  " + msg.getMorseMessageText(), msg.getSender() + ":  " + converter.MorseToEnglish(msg.getMorseMessageText()) + " ");
         addMessageToChatLogUI(msg.getSender() + msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane);
     }
