@@ -193,7 +193,7 @@ public class MainPageController extends BasePage {
 
     private void writeMessages(int sliderValue, String morseText, String englishText) {
         if (sliderValue >= getFrequencyIntVal(frequencySlider.getMin()) && sliderValue <= getFrequencyIntVal(frequencySlider.getMax())) {
-            addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText + " ");
+            addMessageToFrequency(sliderValue, HamRadio.theRadio.getUserName() + ":  " + morseText, HamRadio.theRadio.getUserName() + ":  " + englishText + " ");
 
             //addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
         }
@@ -203,9 +203,13 @@ public class MainPageController extends BasePage {
         if (!msg.isFromRemoteClient()) {
             App.sendMessageToServer(msg);
         }
-        Platform.runLater(()->addMessageToChatLogUI(msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane));
+        Platform.runLater(()->handleRemoteMessage(msg));
     }
 
+    private void handleRemoteMessage(CWMessage msg) {
+        addMessageToFrequency((int) msg.getFrequency(),  msg.getSender() + ":  " + msg.getMorseMessageText(), msg.getSender() + ":  " + converter.MorseToEnglish(msg.getMorseMessageText()) + " ");
+        addMessageToChatLogUI(msg.getSender() + msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane);
+    }
 //    @FXML
 //    private void sendAction() {
 //        String msgText = morseInput.getText();
