@@ -30,7 +30,9 @@ public class LevelPageController extends BasePage {
     @FXML
     private Button level5Button;
 
-    private Object Level1;
+    @FXML
+    private Button level6Button;
+
 
 
     @FXML
@@ -52,6 +54,30 @@ public class LevelPageController extends BasePage {
     @FXML
     private void openLevel1Page() throws IOException {
         App.switchToLevel1();
+    }
+
+    @FXML
+    private void openLevel2Page() throws IOException{
+        App.switchToLevel2();
+    }
+
+    @FXML
+    private void openLevel3page() throws IOException{
+        App.switchToLevel3();
+    }
+    @FXML
+    private void openLevel4page() throws IOException{
+        App.switchToLevel4();
+    }
+
+    @FXML
+    private void openLevel5page() throws IOException{
+        App.switchToLevel5();
+    }
+
+    @FXML
+    private void openLevel6page() throws IOException{
+        App.switchToLevel6();
     }
 
 }

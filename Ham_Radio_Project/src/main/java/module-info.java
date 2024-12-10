@@ -10,6 +10,7 @@ module edu.augustana {
     requires java.net.http;
     requires swiss.ameri.gemini.api;
     requires swiss.ameri.gemini.gson;
+    requires java.logging;
 
     opens edu.augustana to javafx.fxml;
     exports edu.augustana;

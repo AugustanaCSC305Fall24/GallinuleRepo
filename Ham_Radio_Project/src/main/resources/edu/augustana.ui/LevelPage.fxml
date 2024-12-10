@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.LevelPageController">
+<AnchorPane prefHeight="564.0" prefWidth="653.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.LevelPageController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="186.0" layoutY="69.0" prefHeight="40.0" prefWidth="200.0" style="-fx-text-fill: #000040;" text="Learn">
          <font>
@@ -20,33 +20,38 @@
       </Button>
       <Line endX="100.0" startX="-100.0" />
       <Line endX="45.5" layoutX="262.0" layoutY="150.0" startX="-76.0" strokeDashOffset="20.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeMiterLimit="30.0" />
-      <Button fx:id="level2Button" alignment="CENTER" layoutX="300.0" layoutY="125.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: White; -fx-background-radius: 50;" text="2">
+      <Button fx:id="level2Button" alignment="CENTER" layoutX="300.0" layoutY="125.0" mnemonicParsing="false" onAction="#openLevel2Page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: White; -fx-background-radius: 50;" text="2">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
       <Line endX="40.5" endY="50.5" layoutX="441.0" layoutY="151.0" startX="-91.0" startY="4.5" />
-      <Button fx:id="level3Button" layoutX="457.0" layoutY="194.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: white; -fx-background-radius: 50;" text="3">
+      <Button fx:id="level3Button" layoutX="457.0" layoutY="194.0" mnemonicParsing="false" onAction="#openLevel3page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: white; -fx-background-radius: 50;" text="3">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
       <Line endX="90.5" layoutX="386.0" layoutY="244.0" startX="-84.5" startY="70.5" />
-      <Button fx:id="level4Button" layoutX="261.0" layoutY="290.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-background-radius: 50; -fx-text-fill: white;" text="4">
+      <Button fx:id="level4Button" layoutX="261.0" layoutY="290.0" mnemonicParsing="false" onAction="#openLevel4page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-background-radius: 50; -fx-text-fill: white;" text="4">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
       <Line endX="100.0" layoutX="161.0" layoutY="315.0" startX="-44.5" startY="-13.5" />
-      <Button fx:id="level5Button" layoutX="76.0" layoutY="276.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-background-radius: 50; -fx-text-fill: white;" text="5">
+      <Button fx:id="level5Button" layoutX="76.0" layoutY="276.0" mnemonicParsing="false" onAction="#openLevel5page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-background-radius: 50; -fx-text-fill: white;" text="5">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Line endX="87.0" layoutX="14.0" layoutY="326.0" startX="53.5" startY="74.0" />
+      <Line endX="87.0" layoutX="14.0" layoutY="326.0" startX="126.5" startY="131.5" />
       <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="BACK">
          <font>
             <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="level6Button" layoutX="116.0" layoutY="433.0" mnemonicParsing="false" onAction="#openLevel6page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: WHITE; -fx-background-radius: 50;" text="6">
+         <font>
+            <Font size="19.0" />
          </font>
       </Button>
    </children>
