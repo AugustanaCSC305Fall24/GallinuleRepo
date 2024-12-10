@@ -1,6 +1,7 @@
 package edu.augustana.data;
 
 import edu.augustana.sound.SoundProducer;
+import edu.augustana.ui.App;
 
 import java.util.Random;
 
@@ -32,6 +33,9 @@ public class HamRadio {
     }
     public void setFrequency(double frequency) {
         this.frequency = frequency;
+    }
+    public void setRange(double range){
+        this.frequencyRange = range;
     }
     public double getSideToneSoundFrequency() {
         return sideToneSoundFrequency;
@@ -67,10 +71,11 @@ public class HamRadio {
         this.messageReceivedListener = messageReceivedListener;
     }
 
-    public void sendMessage(CWMessage message) {
-        // turn message into JSON string, and send it
-
-
+    public void sendMessageFromHumanUser(CWMessage message) {
+        App.sendMessageToServer(message);
+//        if (messageReceivedListener != null) {
+//            messageReceivedListener.onNewMessage(message);
+//        }
     }
 
     public void receiveMessage(CWMessage msg) {
@@ -79,7 +84,7 @@ public class HamRadio {
             // do we want to put in the sound stuff here, and
             // the matching of sender frequency with the radio's current frequency
             if (msg.getFrequency() <= frequency + frequencyRange &&  msg.getFrequency() >= frequency - frequencyRange) {
-                SoundProducer.produceSound(msg.getMorseMessageText(), characterSpeed, effectiveSpeed, volume, sideToneSoundFrequency);
+                SoundProducer.produceSound(msg.getMorseMessageText(), effectiveSpeed, volume, sideToneSoundFrequency);
             }
         }
     }

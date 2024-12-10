@@ -1,5 +1,6 @@
 package edu.augustana.ui;
 
+import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -12,9 +13,14 @@ public class MainMenu {
     private Button interactButton;
 
     @FXML
+    private Button testButton;
+
+    @FXML
     private void initialize() {
         learnButton.setOnAction(event -> openLevelPage());
         interactButton.setOnAction(event -> openInteractPage());
+        testButton.setOnAction(event -> openTestPage());
+        new Thread(() ->App.connectToServer("34.57.163.173")).start();
     }
 
     @FXML
@@ -24,6 +30,15 @@ public class MainMenu {
 
     @FXML
     private void openInteractPage() {
+        SoundProducer.openStaticLine();
+        Thread thread2 = new Thread(SoundProducer::playStaticNoise);
+        thread2.start();
         App.switchToMainPage();
     }
+
+    @FXML
+    private void openTestPage() {
+        App.switchToTestPage();
+    }
+
 }

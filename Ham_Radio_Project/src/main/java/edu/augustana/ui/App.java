@@ -28,6 +28,8 @@ public class App extends Application {
     private static CwBotLog currentCwBotLog = new CwBotLog();
     private static File currentCwBotLogFile = null;
     private Session webSocketSession = null;
+    private static Parent mainPageRoot = null;
+    public static MainPageController mainPageController;
 
     public static App getApp() {
         return app;
@@ -59,13 +61,13 @@ public class App extends Application {
         }
     }
 
-    public static void connectToServer(String serverIPAddress, String userName) {
+    public static void connectToServer(String serverIPAddress) {
         try {
             if (isConnectedToServer()) {
                 app.webSocketSession.close();
             }
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            app.webSocketSession = container.connectToServer(app, new URI("ws://"+serverIPAddress+":8000/ws/"+userName));
+            app.webSocketSession = container.connectToServer(app, new URI("ws://"+serverIPAddress+":8000/ws/"+HamRadio.theRadio.getUserName()));
         } catch (Exception e) {
             e.printStackTrace();
             Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, "Error connecting to server! " + e.getMessage()).show());
@@ -87,6 +89,7 @@ public class App extends Application {
     public void onMessage(String jsonMessage) {
         System.out.println("DEBUG: Received WebSocket message: " + jsonMessage);
         CWMessage chatMessage = new Gson().fromJson(jsonMessage, CWMessage.class);
+        chatMessage.setFromRemoteClient(true);
         HamRadio.theRadio.receiveMessage(chatMessage);
     }
 
@@ -117,17 +120,46 @@ public class App extends Application {
 
     static void switchToAddNewBotView() {
         try {
-            System.out.println("hello");
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/AddBot.fxml"));
-            scene.setRoot(fxmlLoader.load());
+            Parent root = fxmlLoader.load();
+            AddBotController addBotController = fxmlLoader.getController();
+            addBotController.setMainPageController(mainPageController);
+            scene.setRoot(root);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
+
+//    static void initiateMainPage() {
+//        try {
+//
+//            FXMLLoader mainPageLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/MainPage.fxml"));
+//            scene.setRoot(mainPageLoader.load());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     static void switchToMainPage() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/MainPage.fxml"));
+            if (mainPageRoot == null) {
+                FXMLLoader mainPageLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/MainPage.fxml"));
+                mainPageRoot = mainPageLoader.load();
+
+                mainPageController = mainPageLoader.getController();
+            }
+
+
+            scene.setRoot(mainPageRoot);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static void switchToTestPage() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/TestPage.fxml"));
             scene.setRoot(fxmlLoader.load());
         } catch (IOException e) {
             throw new RuntimeException(e);

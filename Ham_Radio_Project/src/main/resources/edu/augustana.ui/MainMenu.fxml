@@ -36,6 +36,9 @@
                </BorderPane.margin>
             </Button>
          </right>
+         <center>
+            <Button fx:id="testButton" mnemonicParsing="false" onAction="#openTestPage" text="Test" BorderPane.alignment="CENTER" />
+         </center>
       </BorderPane>
    </center>
 </BorderPane>
