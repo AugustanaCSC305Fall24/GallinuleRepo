@@ -78,6 +78,12 @@ public class HamRadio {
 //        }
     }
 
+    public void setSoundVariables(int effectiveSpeed, int volume, int sideToneSoundFrequency) {
+        this.sideToneSoundFrequency = sideToneSoundFrequency;
+        this.effectiveSpeed = effectiveSpeed;
+        this.volume = volume;
+    }
+
     public void receiveMessage(CWMessage msg) {
         if (messageReceivedListener != null) {
             messageReceivedListener.onNewMessage(msg);

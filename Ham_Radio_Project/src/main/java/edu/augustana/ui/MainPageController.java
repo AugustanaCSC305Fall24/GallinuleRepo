@@ -200,6 +200,7 @@ public class MainPageController extends BasePage {
     }
 
     private void handleNewMessage(CWMessage msg) {
+        HamRadio.theRadio.setSoundVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue(), 600);
         if (!msg.isFromRemoteClient()) {
             App.sendMessageToServer(msg);
         }

@@ -180,7 +180,7 @@ public class LevelClassController extends BasePage {
             throw new IllegalArgumentException("Unsupported item type: " + item.getClass());
         }
 
-        SoundProducer.produceSound(morseCode, 90, 500, 100, 600);
+        //SoundProducer.produceSound(morseCode, 90, 500, 100, 600);
     }
 
     @FXML

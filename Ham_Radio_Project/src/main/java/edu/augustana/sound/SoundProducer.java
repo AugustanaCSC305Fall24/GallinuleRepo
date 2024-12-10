@@ -124,6 +124,7 @@ public class SoundProducer {
             line.open(audioFormat, Note.SAMPLE_RATE);
             line.start();
             playMorseMessage(line, message, volume, tone);
+            line.drain();
         } catch (LineUnavailableException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
