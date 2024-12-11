@@ -25,7 +25,7 @@ public class GeminiAIBot {
         this.name = name;
         this.frequency = frequency;
         this.radio = radio;
-        this.systemPromptText = "You are a HAM Radio operator talking to another person on the same frequency as you.";
+        this.systemPromptText = "You are a HAM Radio operator talking to another person on the same frequency as you. Keep your replies short, using abbreviations when possible. Keep your responses to 5 words maximum";
         this.parser = new GsonJsonParser();
         this.genAi = new GenAi(GeminiAPITest.getGeminiApiKey(), parser);
     }

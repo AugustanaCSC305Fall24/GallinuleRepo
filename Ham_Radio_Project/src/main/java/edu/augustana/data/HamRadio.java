@@ -89,10 +89,23 @@ public class HamRadio {
             messageReceivedListener.onNewMessage(msg);
             // do we want to put in the sound stuff here, and
             // the matching of sender frequency with the radio's current frequency
-            System.out.println(frequency + " freq " + frequencyRange);
+            frequency = App.mainPageController.getCurrentFrequencyIntVal();
+            frequencyRange = App.mainPageController.getCurrentRange();
+            volume = App.mainPageController.getCurrentVolume();
             if (msg.getFrequency() <= frequency + frequencyRange &&  msg.getFrequency() >= frequency - frequencyRange) {
-                System.out.println(effectiveSpeed + " " + volume + " " + sideToneSoundFrequency);
-                SoundProducer.produceSound(msg.getMorseMessageText(), effectiveSpeed, volume, sideToneSoundFrequency);
+                int tone;
+                if (msg.getFrequency() > frequency) {
+                    tone = (int) (msg.getFrequency() - frequency) * 20 + 600;
+                } else if (msg.getFrequency() < frequency) {
+                    tone = (int) (frequency - msg.getFrequency()) * 20 - 600;
+                } else {
+                    tone = 600;
+                }
+
+                Thread thread = new Thread(() -> {
+                    SoundProducer.produceSound(msg.getMorseMessageText(), effectiveSpeed, volume, tone);
+                });
+                thread.start();
             }
         }
     }

@@ -8,66 +8,103 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.CreateScenarioController">
+<AnchorPane prefHeight="540.0" prefWidth="1287.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.CreateScenarioController">
    <children>
-      <BorderPane prefHeight="406.0" prefWidth="600.0">
+      <BorderPane layoutX="-152.0" prefHeight="663.0" prefWidth="1438.0" style="-fx-background-color: #C0C0C0;">
          <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" translateX="9.0">
                      <children>
-                        <Label text="Bot Name" />
-                        <TextField fx:id="botName" prefHeight="26.0" prefWidth="220.0" />
+                        <Label style="-fx-text-fill: #000040;" text="Bot Name">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="botName" prefHeight="26.0" prefWidth="220.0" style="-fx-border-color: #000040;" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <Label text="First Message" />
-                        <TextField fx:id="botFirstMessage" prefHeight="26.0" prefWidth="220.0" translateX="-2.0" />
+                        <Label style="-fx-text-fill: #000040;" text="First Message">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="botFirstMessage" prefHeight="26.0" prefWidth="220.0" style="-fx-border-color: #000040;" translateX="-2.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" translateX="-17.0">
                      <children>
-                        <Label text="Expected Response" />
-                        <TextField fx:id="expectedFirstResponse" prefHeight="26.0" prefWidth="220.0" translateX="-1.0" />
+                        <Label style="-fx-text-fill: #000040;" text="Expected Response">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="expectedFirstResponse" prefHeight="26.0" prefWidth="220.0" style="-fx-border-color: #000040;" translateX="-1.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" translateX="-11.0">
                      <children>
-                        <Label text="Second Message" />
-                        <TextField fx:id="botSecondMessage" prefHeight="26.0" prefWidth="220.0" />
+                        <Label style="-fx-text-fill: #000040;" text="Second Message">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="botSecondMessage" prefHeight="26.0" prefWidth="220.0" style="-fx-border-color: #000040;" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" translateX="-18.0">
                      <children>
-                        <Label text="Expected Response" />
-                        <TextField fx:id="expectedSecondResponse" prefHeight="26.0" prefWidth="220.0" />
+                        <Label style="-fx-text-fill: #000040;" text="Expected Response">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="expectedSecondResponse" prefHeight="26.0" prefWidth="220.0" style="-fx-border-color: #000040;" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" translateX="-3.0">
                      <children>
-                        <Label text="Final Message" />
-                        <TextField fx:id="botThirdMessage" prefHeight="26.0" prefWidth="220.0" />
+                        <Label style="-fx-text-fill: #000040;" text="Final Message">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <TextField fx:id="botThirdMessage" prefHeight="26.0" prefWidth="220.0" style="-fx-border-color: #000040;" />
                      </children>
                   </HBox>
                </children>
             </VBox>
          </center>
-         <bottom>
-            <Button mnemonicParsing="false" onAction="#createNewBot" text="Create" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" />
-               </BorderPane.margin>
-            </Button>
-         </bottom>
          <top>
-            <Button mnemonicParsing="false" onAction="#goBack" text="Back" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="Back" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets top="10.0" />
                </BorderPane.margin>
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
             </Button>
          </top>
+         <bottom>
+            <HBox alignment="CENTER" prefHeight="10.0" prefWidth="600.0" BorderPane.alignment="TOP_RIGHT">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#createNewBot" prefHeight="26.0" prefWidth="100.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="Create">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="50.0" left="200.0" right="50.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#goToBotPage" prefHeight="26.0" prefWidth="100.0" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Bot Page">
+                     <HBox.margin>
+                        <Insets bottom="50.0" right="50.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

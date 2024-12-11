@@ -39,16 +39,23 @@ public class CreateScenarioController {
         scenario.addProperty("expectedSecondResponse", expectedSecondResponse.getText());
         scenario.addProperty("botThirdMessage", botThirdMessage.getText());
 
-        FileWriter file = new FileWriter("bots.json");
-        file.write(scenario.toString());
-        System.out.println(scenario.toString());
-        file.close();
+        try (FileWriter file = new FileWriter("bots.txt", true)) {
+            file.write(scenario.toString() + "\n");
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         App.switchToScenarioPlayer();
     }
 
     @FXML
     private void goBack() {
         App.backToMainMenu();
+    }
+
+    @FXML
+    private void goToBotPage() {
+        App.switchToScenarioPlayer();
     }
 
 }

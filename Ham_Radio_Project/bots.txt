@@ -1,0 +1,14 @@
+{"Name":"HamBoi","botFirstMessage":"hi","expectedFirstResponse":"hi","botSecondMessage":"hru","expectedSecondResponse":"good","botThirdMessage":"same"}
+{"Name":"Itoshi Hito","botFirstMessage":"Ohio","expectedFirstResponse":"ohio","botSecondMessage":"tsukiga kiredesune","expectedSecondResponse":"itaiyo","botThirdMessage":"i know"}
+{"Name":"newBot","botFirstMessage":"hi","expectedFirstResponse":"hi","botSecondMessage":"how are you?","expectedSecondResponse":"good","botThirdMessage":"same!"}
+{"Name":"newNewBot","botFirstMessage":"one","expectedFirstResponse":"two","botSecondMessage":"three","expectedSecondResponse":"four","botThirdMessage":"five"}
+{"Name":"anothertry","botFirstMessage":"five","expectedFirstResponse":"four","botSecondMessage":"three","expectedSecondResponse":"two","botThirdMessage":"one"}
+{"Name":"teset","botFirstMessage":"t","expectedFirstResponse":"fes","botSecondMessage":"j","expectedSecondResponse":"ets","botThirdMessage":"work"}
+{"Name":"newtest","botFirstMessage":"bjo","expectedFirstResponse":"jb hyg","botSecondMessage":"bkjb ","expectedSecondResponse":"jhb","botThirdMessage":"uuh uhuh"}
+{"Name":"please","botFirstMessage":"b","expectedFirstResponse":"jo","botSecondMessage":"nono","expectedSecondResponse":"nojnojb","botThirdMessage":"nouho"}{"Name":"newBot","botFirstMessage":"this","expectedFirstResponse":"should","botSecondMessage":"work","expectedSecondResponse":"maybe","botThirdMessage":"yes?"}
+{"Name":"does","botFirstMessage":"this","expectedFirstResponse":"work","botSecondMessage":"i","expectedSecondResponse":"hope","botThirdMessage":"so"}
+{"Name":"this","botFirstMessage":"should","expectedFirstResponse":"also","botSecondMessage":"work","expectedSecondResponse":"i","botThirdMessage":"think"}
+{"Name":"BobBob","botFirstMessage":"Hello im bob","expectedFirstResponse":"hi im me","botSecondMessage":"hello me, how you","expectedSecondResponse":"good","botThirdMessage":"me tool :D"}
+{"Name":"gt","botFirstMessage":"efrq","expectedFirstResponse":"edrcd","botSecondMessage":"sxdq1","expectedSecondResponse":"rftgtgre","botThirdMessage":"fgfgttggt"}
+{"Name":"dd\\``","botFirstMessage":"ll","expectedFirstResponse":"l","botSecondMessage":"l","expectedSecondResponse":"l","botThirdMessage":"l"}
+{"Name":"k","botFirstMessage":"j","expectedFirstResponse":"g","botSecondMessage":"j","expectedSecondResponse":"y","botThirdMessage":"v"}

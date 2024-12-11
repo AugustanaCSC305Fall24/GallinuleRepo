@@ -1,10 +1,14 @@
 package edu.augustana.ui;
+import edu.augustana.MorseCodeConverter;
 import edu.augustana.data.GeminiAIBot;
 import edu.augustana.data.HamRadio;
+import edu.augustana.sound.SoundProducer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
+import java.util.ArrayList;
 
 public class TestPage {
 
@@ -17,6 +21,8 @@ public class TestPage {
 
     private Thread checkerThread;
 
+    private MorseCodeConverter converter = new MorseCodeConverter();
+
     @FXML
     void initialize() {
         GeminiAIBot bot = new GeminiAIBot("HAM", 600, HamRadio.theRadio);
@@ -26,7 +32,7 @@ public class TestPage {
             if (!message.isBlank()) {
                 chat.append("User: " + message + "\n");
                 textField.clear();
-                chatLog.appendText("User: " + message + "\n");
+                chatLog.appendText("User: " + converter.EnglishToMorse(message) + "\n");
                 System.out.println(chat.toString());
                 bot.requestMessage(chat);
             }
@@ -36,8 +42,12 @@ public class TestPage {
             while (true) {
                 if (bot.messageReceived) {
                     chat.append(bot.getName() + ": " + bot.geminiResponse);
-                    Platform.runLater(() -> chatLog.appendText(bot.getName() + ": " + bot.geminiResponse));
+                    Platform.runLater(() -> chatLog.appendText(bot.getName() + ": " + converter.EnglishToMorse(bot.geminiResponse)  + "\n"));
                     bot.messageReceived = false;
+                    Thread thread = new Thread(() -> {
+                        SoundProducer.produceSound(converter.EnglishToMorse(bot.geminiResponse), 18, 50, 600);
+                    });
+                    thread.start();
                 }
 
                 try {
