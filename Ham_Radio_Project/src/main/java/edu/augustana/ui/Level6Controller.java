@@ -10,7 +10,7 @@ import java.util.List;
 public class Level6Controller extends LevelClassController {
 
     @FXML
-    private Button backButtonTo4;
+    private Button  nextLevelButton;
 
     private List<String> predefinedPhrases;
 
@@ -40,10 +40,9 @@ public class Level6Controller extends LevelClassController {
     @FXML
     private void playMorsePhrase() {
         generatePredefinedPhrase();
-        for (String part : currentGeneratedPhrase.split(" ")) {
-            playMorseCodeForLetter(part);
-        }
+        playMorseCodeForLetter(currentGeneratedPhrase);
     }
+
     private void generatePredefinedPhrase() {
         currentGeneratedPhrase = predefinedPhrases.get(random.nextInt(predefinedPhrases.size()));
         System.out.println("Selected Phrase: " + currentGeneratedPhrase); // Debugging log
@@ -153,6 +152,11 @@ public class Level6Controller extends LevelClassController {
     @FXML
     private void playMorseQST() {
         playMorseCodeForLetter("QST");
+    }
+
+    @FXML
+    private void goToLevel7() {
+        App.switchToLevel7();
     }
 
 }

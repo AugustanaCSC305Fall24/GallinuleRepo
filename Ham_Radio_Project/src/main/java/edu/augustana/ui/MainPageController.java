@@ -31,11 +31,8 @@ import static edu.augustana.ui.App.scene;
 public class MainPageController extends BasePage {
 
     @FXML public ListView<ScriptedBot> botListView;
-    @FXML private VBox morseMessagesVBox, englishMessagesVBox;
-    @FXML private ScrollPane morseMessagesScrollPane, englishMessagesScrollPane;
     @FXML private Label morseInput = new Label();
-    @FXML public Slider volumeSlider;
-    @FXML private Slider frequencySlider, rangeSlider;
+    @FXML private Slider frequencySlider, rangeSlider, volumeSlider;
     @FXML public ComboBox<String> effectiveSpeedSelection;
     @FXML private ListView<CwBotRecord> CwBotsListView;
     @FXML private Button helperBtn;
@@ -128,11 +125,11 @@ public class MainPageController extends BasePage {
         resetTimeline();
         if (code == KeyCode.N) {
             inputSequence.append(".");
-            SoundProducer.playSendingDit((int) volumeSlider.getValue());
+            SoundProducer.playSendingDit(getCurrentVolume());
 
         } else if (code == KeyCode.M) {
             inputSequence.append("-");
-            SoundProducer.playSendingDah((int) volumeSlider.getValue());
+            SoundProducer.playSendingDah(getCurrentVolume());
 
         }
     }
@@ -167,7 +164,6 @@ public class MainPageController extends BasePage {
 
     @FXML
     private void writeToFrequency() {
-        morseMessagesVBox.getChildren().clear();
         String morseText = morseInput.getText();
         String englishText = converter.MorseToEnglish(morseText);
         int intTransformedValue = getCurrentFrequencyIntVal();
@@ -197,7 +193,7 @@ public class MainPageController extends BasePage {
     }
 
     private void handleNewMessage(CWMessage msg) {
-        HamRadio.theRadio.setSoundVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue(), (int) (600));
+        HamRadio.theRadio.setSoundVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue(), 600);
         if (!msg.isFromRemoteClient()) {
             App.sendMessageToServer(msg);
         }
@@ -223,44 +219,35 @@ public class MainPageController extends BasePage {
 
     @FXML
     private void displayFrequency() {
-        morseMessagesVBox.getChildren().clear();
-        englishMessagesVBox.getChildren().clear();
+
         int intTransformedValue = getCurrentFrequencyIntVal();
 
 
-        displayMorseMessagesFromFrequency(intTransformedValue);
-        if (!isTranslationHidden){
-            displayEnglishMessagesFromFrequency(intTransformedValue);
-        }
-        int rangeValue = getCurrentRange();
-        for (int i = 1; i <= rangeValue; i++) {
-            displayMorseMessagesFromFrequency(intTransformedValue + i);
-            displayMorseMessagesFromFrequency(intTransformedValue - i);
-            if (!isTranslationHidden){
-                displayEnglishMessagesFromFrequency(intTransformedValue + i);
-                displayEnglishMessagesFromFrequency(intTransformedValue - i);
-            }
-        }
+//        displayMorseMessagesFromFrequency(intTransformedValue);
+//        if (!isTranslationHidden){
+//            displayEnglishMessagesFromFrequency(intTransformedValue);
+//        }
+//        int rangeValue = getCurrentRange();
+//        for (int i = 1; i <= rangeValue; i++) {
+//            displayMorseMessagesFromFrequency(intTransformedValue + i);
+//            displayMorseMessagesFromFrequency(intTransformedValue - i);
+//            if (!isTranslationHidden){
+//                displayEnglishMessagesFromFrequency(intTransformedValue + i);
+//                displayEnglishMessagesFromFrequency(intTransformedValue - i);
+//            }
+//        }
     }
 
-    @FXML
-    private void showTranslation() {
-        englishMessagesVBox.getChildren().clear();
-        int intTransformedValue = getCurrentFrequencyIntVal();
-        displayEnglishMessagesFromFrequency(intTransformedValue);
-        isTranslationHidden = false;
-    }
 
-    @FXML
-    private void hideTranslation() {
-        englishMessagesVBox.getChildren().clear();
-        isTranslationHidden = true;
+
+
+    public int getCurrentVolume() {
+        return (int) volumeSlider.getValue();
     }
 
     @FXML
     private void playSound() {
         int transformedValue = getCurrentFrequencyIntVal();
-        System.out.println((int) volumeSlider.getValue());
         int rangeValue = getCurrentRange();
         Thread thread = new Thread(() -> {
             ArrayList<String> morseTextList = getFrequencyMorseList(transformedValue);
@@ -304,32 +291,32 @@ public class MainPageController extends BasePage {
     }
 
     //Code from exam 1 (Chatter Box)
-    private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
-        Label label = new Label(message);
-        label.setWrapText(true);
-        vbox.getChildren().add(label);
-        inputSequence = new StringBuilder("");
-    }
+//    private void addMessageToChatLogUI(String message, VBox vbox, ScrollPane scrollpane) {
+//        Label label = new Label(message);
+//        label.setWrapText(true);
+//        vbox.getChildren().add(label);
+//        inputSequence = new StringBuilder("");
+//    }
 
-    private void displayMorseMessagesFromFrequency(int sliderValue) {
-        ArrayList<String> frequencyMorse = getFrequencyMorseList(sliderValue);
+//    private void displayMorseMessagesFromFrequency(int sliderValue) {
+//        ArrayList<String> frequencyMorse = getFrequencyMorseList(sliderValue);
+//
+//        if (frequencyMorse != null) {
+//            for (String message : frequencyMorse) {
+//                addMessageToChatLogUI(message, morseMessagesVBox, morseMessagesScrollPane);
+//            }
+//        }
+//    }
 
-        if (frequencyMorse != null) {
-            for (String message : frequencyMorse) {
-                addMessageToChatLogUI(message, morseMessagesVBox, morseMessagesScrollPane);
-            }
-        }
-    }
-
-    private void displayEnglishMessagesFromFrequency(int sliderValue) {
-        ArrayList<String> frequencyEnglish = getFrequencyEnglishList(sliderValue);
-
-        if (frequencyEnglish != null) {
-            for (String message : frequencyEnglish) {
-                addMessageToChatLogUI(message, englishMessagesVBox, englishMessagesScrollPane);
-            }
-        }
-    }
+//    private void displayEnglishMessagesFromFrequency(int sliderValue) {
+//        ArrayList<String> frequencyEnglish = getFrequencyEnglishList(sliderValue);
+//
+//        if (frequencyEnglish != null) {
+//            for (String message : frequencyEnglish) {
+//                addMessageToChatLogUI(message, englishMessagesVBox, englishMessagesScrollPane);
+//            }
+//        }
+//    }
 
     private ArrayList<String> getFrequencyMorseList(int sliderValue) {
         return MorseFrequencies.get(sliderValue);

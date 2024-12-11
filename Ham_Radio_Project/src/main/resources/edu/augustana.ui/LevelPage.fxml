@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="564.0" prefWidth="653.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.LevelPageController">
+<AnchorPane prefHeight="589.0" prefWidth="671.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.LevelPageController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="186.0" layoutY="69.0" prefHeight="40.0" prefWidth="200.0" style="-fx-text-fill: #000040;" text="Learn">
          <font>
@@ -50,6 +50,24 @@
          </font>
       </Button>
       <Button fx:id="level6Button" layoutX="116.0" layoutY="433.0" mnemonicParsing="false" onAction="#openLevel6page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: WHITE; -fx-background-radius: 50;" text="6">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Line endX="87.0" endY="-27.0" layoutX="262.0" layoutY="467.0" startX="-100.0" />
+      <Button fx:id="level7Button" layoutX="325.0" layoutY="415.0" mnemonicParsing="false" onAction="#openLevel7page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: white; -fx-background-radius: 50;" text="7">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Line endX="-37.5" endY="92.5" layoutX="477.0" layoutY="439.0" startX="-110.5" startY="14.0" />
+      <Button fx:id="level7Button" layoutX="414.0" layoutY="520.0" mnemonicParsing="false" onAction="#openLevel8page" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: white; -fx-background-radius: 50;" text="8">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Line endX="3.5" endY="-191.0" layoutX="565.0" layoutY="545.0" startX="-110.5" startY="-19.0" />
+      <Button fx:id="level9Button" layoutX="543.0" layoutY="341.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #008080; -fx-text-fill: white; -fx-background-radius: 50;" text="9">
          <font>
             <Font size="19.0" />
          </font>

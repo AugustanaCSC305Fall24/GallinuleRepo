@@ -55,6 +55,19 @@ public class SoundProducer {
     }
 
 
+//    public static void openPlaysoundLine() {
+//        try {
+//            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+//            PLAY_SOUND_LINE = AudioSystem.getSourceDataLine(audioFormat);
+//            PLAY_SOUND_LINE.open(audioFormat, Note.SAMPLE_RATE);
+//            PLAY_SOUND_LINE.start();
+//        } catch (LineUnavailableException ex) {
+//            throw new RuntimeException(ex);
+//        }
+//    }
+
+
+
     public static void openStaticLine()  {
         try {
             final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
@@ -105,8 +118,8 @@ public class SoundProducer {
 //    }
 
     public static void produceSound(String message, int effectiveSpeed, int volume, int tone) {
-        System.out.println(message);
         setSpeeds(effectiveSpeed);
+        System.out.println("Producing sound for: " + message + " with tone: " + tone);
         final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         try (SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat)) {
             line.open(audioFormat, Note.SAMPLE_RATE);
@@ -115,8 +128,9 @@ public class SoundProducer {
             line.drain();
         } catch (LineUnavailableException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException("error while producing sound" , e);
         }
+
     }
 
     public static void setSpeeds(int effectiveSpeed) {
@@ -136,12 +150,14 @@ public class SoundProducer {
 
 
     private static void playMorseMessage(SourceDataLine line, String message, int volume, int tone) {
+        System.out.println(message);
 
         for (char letter : message.toCharArray()) {
             if (letter == ' ') {
                 pause(line, CHARACTER_GAP); // Pause for character gap
             } else {
                 if (letter == '.') {
+                    //System.out.println("beep");
                     playNote(line, DOT_DURATION, volume, tone); // Play dot
                 } else if(letter == '-') {
                     playNote(line, DASH_DURATION, volume, tone); // Play dash
@@ -172,6 +188,7 @@ public class SoundProducer {
 //        pause(line, 1000);
 //    }
 
+
 //    public static void playSoundLine(String message, int volume, int speed, int tone) {
 //        setSpeeds(speed);
 //        playMorseMessage(PLAY_SOUND_LINE, message, volume, tone);
@@ -179,13 +196,20 @@ public class SoundProducer {
 //    }
 
     public static void playSendingDit(int volume) {
+        ensureInputLineOpen();
         playNote(INPUT_CW_LINE, DOT_DURATION , volume, 600);
         pause(INPUT_CW_LINE, DOT_DURATION);
     }
 
     public static void playSendingDah(int volume) {
+        ensureInputLineOpen();
         playNote(INPUT_CW_LINE, DASH_DURATION , volume, 600);
         pause(INPUT_CW_LINE, DOT_DURATION);
+    }
+    private static void ensureInputLineOpen(){
+        if (INPUT_CW_LINE == null || !INPUT_CW_LINE.isOpen()) {
+            openInputLine();
+        }
     }
 
     private static void playNote(SourceDataLine line, int duration, int volume, int tone) {
@@ -204,15 +228,22 @@ enum Note {
 
     A4;
     public static final int SAMPLE_RATE = 16 * 1024; // ~16KHz
-    // Array to hold the sine wave data
 
-    public byte[] data(int volume, int tone){
-        byte[] sin = new byte[SAMPLE_RATE * 2];
+    public byte[] data(int volume, int tone) {
+        int durationInSeconds = 1; // Adjust as needed for dit/dah length
+        int totalSamples = SAMPLE_RATE * durationInSeconds;
+
+        byte[] sin = new byte[totalSamples];
+
+        // Normalize volume to a clear range to prevent saturation
+        int maxAmplitude = (int) (127 * (volume / 100.0)); // Scale amplitude based on volume
+
         for (int i = 0; i < sin.length; i++) {
             double period = (double) SAMPLE_RATE / tone; // Calculate the period
-            double angle = 2.0 * Math.PI * i / period; // Calculate the angle
-            sin[i] = (byte) (Math.sin(angle) * 127f * volume / 100);  // Generate the sine wave
+            double angle = 2.0 * Math.PI * i / period;   // Calculate the angle
+            sin[i] = (byte) (Math.sin(angle) * maxAmplitude); // Generate sine wave with volume control
         }
+
         return sin; // Return the sine wave data
     }
 }

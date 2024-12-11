@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import edu.augustana.data.CWMessage;
 import edu.augustana.data.CwBotLog;
 import edu.augustana.data.HamRadio;
+import edu.augustana.sound.SoundProducer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -228,6 +229,35 @@ public class App extends Application {
             throw new RuntimeException(e);
         }
     }
+
+    public static void switchToLevel7() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level7.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void switchToLevel8() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level8.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+//    public static void switchToLevel9() {
+//        try {
+//            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level9.fxml"));
+//            scene.setRoot(fxmlLoader.load());
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+
 
     public static void backToMainMenu(){
         try {

@@ -31,13 +31,17 @@ public class Level1Controller extends LevelClassController {
     private void playMorseCodeForLetter(char letter) {
         String letterMorse = String.valueOf(letter);
         MorseCodeConverter converter = new MorseCodeConverter();
-        SoundProducer.produceSound(converter.EnglishToMorse(letterMorse), 18, 50, 600); // Play the Morse code sound for the letter
+        Thread thread = new Thread(() -> {
+            SoundProducer.produceSound(converter.EnglishToMorse(letterMorse), 18, 50, 600); // Play the Morse code sound for the letter
+        });
+        thread.start();
 
     }
 
+
     @FXML
     private void playMorseE() {
-        playMorseCodeForLetter('E');
+        playMorseCodeForLetter("E");
     }
 
     @FXML
@@ -52,7 +56,7 @@ public class Level1Controller extends LevelClassController {
 
     @FXML
     private void playMorseO() {
-        playMorseCodeForLetter('0');
+        playMorseCodeForLetter('O');
     }
 
     @FXML
