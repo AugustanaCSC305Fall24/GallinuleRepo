@@ -174,6 +174,24 @@ public class App extends Application {
         }
     }
 
+    static void switchToScenarioPage() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/CreateScenario.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static void switchToScenarioPlayer() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/ScenarioPlayer.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     static void switchToLevelPage() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/LevelPage.fxml"));
