@@ -35,7 +35,7 @@
                     <content>
                         <VBox maxHeight="1.7976931348623157E308" prefHeight="741.0" prefWidth="702.0" style="-fx-background-color: #C0C0C0;">
                             <children>
-                                <Button mnemonicParsing="false" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Next Level  --&gt;" textAlignment="CENTER">
+                                <Button fx:id="nextLevelButton" mnemonicParsing="false" onAction="#goToLevel7" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Next Level  --&gt;" textAlignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="15.0" />
                                     </font>

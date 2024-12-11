@@ -7,6 +7,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -65,7 +67,7 @@ import java.util.Random;
 //    @FXML
 //    protected void playMorseCodeForLetter(char letter) {
 //        String letterMorse = morseConverter.EnglishToMorse(String.valueOf(letter));
-//        SoundProducer.produceSound(letterMorse, 90, 500, 100, 600);
+//        SoundProducer.produceSound(letter, 90, 100, 600);
 //    }
 //
 //    @FXML
@@ -125,7 +127,9 @@ public class LevelClassController extends BasePage {
     protected int currentLetterIndex;
     protected String currentGeneratedPhrase = "";
     protected Random random = new Random();
+    protected MorseCodeConverter converter = new MorseCodeConverter();
 
+    protected StringBuilder inputSequence = new StringBuilder();
     @FXML
     protected Button backButton;
     @FXML
@@ -144,12 +148,38 @@ public class LevelClassController extends BasePage {
     protected List<List<Object>> stages = new ArrayList<>(); // Updated to hold mixed types
 
     @FXML
+    protected Label morseInput;
+
+    @Override
     public void initialize() {
         // Initialization logic
+        SoundProducer.openInputLine();
+        setupKeyHandler();
     }
+    private void setupKeyHandler() {
+        App.scene.setOnKeyPressed(event -> handleKeyPress(event.getCode()));
+    }
+
+    protected void handleKeyPress(KeyCode code) {
+        if (code == KeyCode.N) {
+            inputSequence.append(".");
+            SoundProducer.playSendingDit(50); // Play the sound for dot
+        } else if (code == KeyCode.M) {
+            inputSequence.append("-");
+            SoundProducer.playSendingDah(50); // Play the sound for dash
+        }
+    }
+    protected void resetInputSequence() {
+        inputSequence.setLength(0);
+    }
+    protected String getInputSequence() {
+        return inputSequence.toString().trim();
+    }
+
 
     @FXML
     protected void goBack() {
+        SoundProducer.closeInputLine();
         App.backToLevelPage();
     }
 
@@ -169,19 +199,38 @@ public class LevelClassController extends BasePage {
         System.out.println("Generated Phrase: " + currentGeneratedPhrase);
     }
 
+//    @FXML
+//    protected void playMorseCodeForLetter(Object item) {
+//        String morseCode;
+//        if (item instanceof Character) {
+//            morseCode = morseConverter.EnglishToMorse(item.toString());
+//        } else if (item instanceof String) {
+//            morseCode = morseConverter.EnglishToMorse((String) item);
+//        } else {
+//            throw new IllegalArgumentException("Unsupported item type: " + item.getClass());
+//        }
+//
+//        SoundProducer.produceSound(morseCode, 5, 100, 600);
+//        System.out.println("Playing Morse code for: " + item + " as " + morseCode);
+//    }
+
     @FXML
     protected void playMorseCodeForLetter(Object item) {
-        String morseCode;
-        if (item instanceof Character) {
-            morseCode = morseConverter.EnglishToMorse(item.toString());
-        } else if (item instanceof String) {
-            morseCode = morseConverter.EnglishToMorse((String) item);
-        } else {
-            throw new IllegalArgumentException("Unsupported item type: " + item.getClass());
+        try {
+            SoundProducer.openPlaysoundLine(); // Ensure the audio line is initialized
+            String morseCode = morseConverter.EnglishToMorse(item.toString());
+            if (morseCode == null || morseCode.isEmpty()) {
+                throw new IllegalArgumentException("No Morse code found for item: " + item);
+            }
+            System.out.println("Playing Morse code for: " + item + " as " + morseCode);
+            SoundProducer.produceSound(morseCode, 5, 100, 600); // Play the sound
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error playing Morse code for: " + item);
         }
-
-        SoundProducer.produceSound(morseCode, 90, 500, 100, 600);
     }
+
+
 
     @FXML
     protected void revealMessage() {

@@ -10,7 +10,7 @@ import java.util.List;
 public class Level6Controller extends LevelClassController {
 
     @FXML
-    private Button backButtonTo4;
+    private Button  nextLevelButton;
 
     private List<String> predefinedPhrases;
 
@@ -153,6 +153,11 @@ public class Level6Controller extends LevelClassController {
     @FXML
     private void playMorseQST() {
         playMorseCodeForLetter("QST");
+    }
+
+    @FXML
+    private void goToLevel7() {
+        App.switchToLevel7();
     }
 
 }

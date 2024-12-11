@@ -80,4 +80,14 @@ public class LevelPageController extends BasePage {
         App.switchToLevel6();
     }
 
+    @FXML
+    private void openLevel7page() throws IOException{
+        App.switchToLevel7();
+    }
+
+    @FXML
+    private void openLevel8page() throws IOException{
+        App.switchToLevel8();
+    }
+
 }
