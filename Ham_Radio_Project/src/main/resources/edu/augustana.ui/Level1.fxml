@@ -6,13 +6,12 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="717.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.Level1Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="559.0" prefWidth="600.0" style="-fx-background-color: #C0C0C0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.ui.Level1Controller">
    <top>
-      <Label alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="706.0" style="-fx-text-fill: #000040;" text="                    Morse Code Learning - Level 1 (Letters pt 1)" BorderPane.alignment="CENTER">
+      <Label alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="606.0" style="-fx-text-fill: #000040;" text="                    Morse Code Learning - Level 1" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -29,176 +28,93 @@
       </Label>
    </top>
    <center>
-      <VBox prefHeight="538.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="342.0" prefWidth="580.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="nextLevelButton" mnemonicParsing="false" onAction="#goToLevel2" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Next Level  --&gt;" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-               <VBox.margin>
-                  <Insets left="550.0" />
-               </VBox.margin>
-            </Button>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="707.0" prefWidth="754.0" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="563.0" prefWidth="749.0" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox maxHeight="1.7976931348623157E308" prefHeight="671.0" prefWidth="643.0" style="-fx-background-color: #C0C0C0;">
+                  <VBox maxHeight="1.7976931348623157E308" prefHeight="689.0" prefWidth="547.0" style="-fx-background-color: #C0C0C0;">
                      <children>
                         <Label prefHeight="25.0" prefWidth="584.0" text="-Tap each letter to play the code and become familiar" textAlignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font size="15.0" />
                            </font>
                            <padding>
                               <Insets top="10.0" />
                            </padding>
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
                         </Label>
                         <Label prefHeight="25.0" prefWidth="585.0" text=" Once comfortable, scroll down to continue">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font size="15.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
                         </Label>
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="585.0" text="Each dot is a &quot;dit&quot;, where each bar is a &quot;dah&quot;" textAlignment="CENTER">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
-                           <font>
-                              <Font name="System Bold Italic" size="12.0" />
-                           </font>
                         </Label>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseE" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="E     ." textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                                 <HBox.margin>
-                                    <Insets left="200.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseT" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="T     - " textAlignment="CENTER">
-                                 <HBox.margin>
-                                    <Insets left="50.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseI" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: white;" text="I    .  ." textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                                 <HBox.margin>
-                                    <Insets left="200.0" top="10.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseM" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text=" M    - -" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="50.0" top="10.0" />
-                                 </HBox.margin>
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseS" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: white;" text="S    .  .  .  " textAlignment="CENTER">
-                                 <padding>
-                                    <Insets right="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="System Bold" size="22.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="200.0" top="10.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseO" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="O    - - -" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="50.0" top="10.0" />
-                                 </HBox.margin>
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseH" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="H    .  .  .  ." textAlignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="22.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets right="10.0" />
-                                 </padding>
-                                 <HBox.margin>
-                                    <Insets left="200.0" top="10.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseA" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="A    · -">
-                                 <HBox.margin>
-                                    <Insets left="50.0" top="10.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets right="20.0" />
-                                 </padding>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <Label prefHeight="25.0" prefWidth="645.0" text="-Writing is how you retain the most memory.">
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseE" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="E     ." textAlignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="16.0" />
+                              <Font name="System Bold" size="21.0" />
                            </font>
                            <VBox.margin>
-                              <Insets left="10.0" top="40.0" />
+                              <Insets left="200.0" right="1.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseI" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: white;" text="I    .  ." textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="200.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseS" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: white;" text="S    .  .  .  " textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets left="200.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#playMorseH" prefHeight="35.0" prefWidth="120.0" style="-fx-background-color: #000040; -fx-text-fill: WHITE;" text="H    .  .  .  ." textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="200.0" top="10.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </Button>
+                        <Label prefHeight="25.0" prefWidth="645.0" text="-Writing is how you retain the most memory.">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="40.0" />
                            </VBox.margin>
                         </Label>
                         <Label text="Play the audio and write down the letters you hear.">
                            <font>
-                              <Font name="System Bold" size="16.0" />
+                              <Font size="16.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
                         </Label>
-                        <Label text="Then click &quot;Check Answer&quot; to check if it's the correct Answer or try again" textAlignment="CENTER">
+                        <Label text="Then click &quot;Check Answer&quot; to check if it's the correct Answer" textAlignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="16.0" />
+                              <Font size="16.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets left="10.0" />
-                           </VBox.margin>
                         </Label>
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#playSampleSentence" prefHeight="35.0" prefWidth="362.0" style="-fx-background-color: #008080; -fx-text-fill: WHITE;" text="Play Sentence " textAlignment="CENTER">
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#playSampleSentence" prefHeight="35.0" prefWidth="362.0" style="-fx-background-color: #008080; -fx-text-fill: WHITE;" text="Play Sentence 1" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
@@ -243,6 +159,17 @@
                               <Insets left="150.0" top="20.0" />
                            </padding>
                         </Label>
+                        <Label fx:id="levelProgress" text="      Level Progress      1 /  5">
+                           <VBox.margin>
+                              <Insets bottom="30.0" top="10.0" />
+                           </VBox.margin></Label>
+                        <Button mnemonicParsing="false" style="-fx-background-color: #000040; -fx-text-fill: white;" text="Next Lesson">
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Button>
                      </children>
                   </VBox>
                </content>

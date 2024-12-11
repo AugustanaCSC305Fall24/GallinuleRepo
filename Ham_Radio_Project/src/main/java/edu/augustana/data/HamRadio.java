@@ -2,7 +2,9 @@ package edu.augustana.data;
 
 import edu.augustana.sound.SoundProducer;
 import edu.augustana.ui.App;
+import edu.augustana.ui.MainPageController;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class HamRadio {
@@ -14,7 +16,8 @@ public class HamRadio {
     private int characterSpeed;
     private int effectiveSpeed;
     private int volume;
-    private int sideToneSoundFrequency;
+    private int sideToneSoundFrequency = 600;
+    public ArrayList<GeminiAIBot> botsList = new ArrayList<>();
 
     private MessageReceivedListener messageReceivedListener = null;
 
@@ -71,6 +74,11 @@ public class HamRadio {
         this.messageReceivedListener = messageReceivedListener;
     }
 
+    public void setVariables(int effectiveSpeed, int volume) {
+        this.effectiveSpeed = effectiveSpeed;
+        this.volume = volume;
+    }
+
     public void sendMessageFromHumanUser(CWMessage message) {
         App.sendMessageToServer(message);
 //        if (messageReceivedListener != null) {
@@ -78,20 +86,13 @@ public class HamRadio {
 //        }
     }
 
-    public void setSoundVariables(int effectiveSpeed, int volume, int sideToneSoundFrequency) {
-        this.sideToneSoundFrequency = sideToneSoundFrequency;
-        this.effectiveSpeed = effectiveSpeed;
-        this.volume = volume;
-    }
-
     public void receiveMessage(CWMessage msg) {
         if (messageReceivedListener != null) {
             messageReceivedListener.onNewMessage(msg);
             // do we want to put in the sound stuff here, and
             // the matching of sender frequency with the radio's current frequency
-            System.out.println(frequency + " freq " + frequencyRange);
             if (msg.getFrequency() <= frequency + frequencyRange &&  msg.getFrequency() >= frequency - frequencyRange) {
-                System.out.println(effectiveSpeed + " " + volume + " " + sideToneSoundFrequency);
+                System.out.println("test message play: " + msg.getMorseMessageText() + effectiveSpeed + volume + sideToneSoundFrequency);
                 SoundProducer.produceSound(msg.getMorseMessageText(), effectiveSpeed, volume, sideToneSoundFrequency);
             }
         }

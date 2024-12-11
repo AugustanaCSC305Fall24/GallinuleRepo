@@ -16,16 +16,16 @@ public class GeminiAIBot {
 
     private final String name;
     private final HamRadio radio;
-    private final double frequency;
+    //private final double frequency = 600;
     private List<String> myChatHistory = new ArrayList<>();
     public boolean messageReceived;
     public String geminiResponse;
 
-    public GeminiAIBot(String name, double frequency, HamRadio radio) {
+    public GeminiAIBot(String name, String userPrompt, HamRadio radio) {
         this.name = name;
-        this.frequency = frequency;
+        //this.frequency = frequency;
         this.radio = radio;
-        this.systemPromptText = "You are a HAM Radio operator talking to another person on the same frequency as you.";
+        this.systemPromptText = "You are a HAM Radio operator talking to another person on the same frequency as you." + userPrompt;
         this.parser = new GsonJsonParser();
         this.genAi = new GenAi(GeminiAPITest.getGeminiApiKey(), parser);
     }

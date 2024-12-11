@@ -60,6 +60,7 @@ public class MainPageController extends BasePage {
         initializeSoundLine();
         setupKeyEventHandler();
         startNoInputTimeline();
+        HamRadio.theRadio.setVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue());
     }
 
     private void initializeFrequencyMaps() {
@@ -77,6 +78,7 @@ public class MainPageController extends BasePage {
 
         effectiveSpeedSelection.getItems().addAll(List.of(EFFECTIVE_SPEED));
         effectiveSpeedSelection.setValue(EFFECTIVE_SPEED[0]);
+        effectiveSpeedSelection.setOnAction(event -> HamRadio.theRadio.setVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue()));
     }
 
     private void initializeSoundLine()  {
@@ -98,7 +100,7 @@ public class MainPageController extends BasePage {
         timeline.play();
 
         //HamRadio.theRadio.setMessageReceivedListener(msg -> System.out.println("we'd like to play this message as SOUND: " + msg));
-        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(getFrequencyIntVal(newVal.doubleValue())));
+        frequencySlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setFrequency(newVal.doubleValue()));
         rangeSlider.valueProperty().addListener((obs, oldVal, newVal) -> HamRadio.theRadio.setRange(newVal.doubleValue()));
     }
 
@@ -193,27 +195,19 @@ public class MainPageController extends BasePage {
 
     private void writeMessages(int sliderValue, String morseText, String englishText) {
         if (sliderValue >= getFrequencyIntVal(frequencySlider.getMin()) && sliderValue <= getFrequencyIntVal(frequencySlider.getMax())) {
-            addMessageToFrequency(sliderValue, HamRadio.theRadio.getUserName() + ":  " + morseText, HamRadio.theRadio.getUserName() + ":  " + englishText + " ");
+            addMessageToFrequency(sliderValue, "User:  " + morseText, "User:  " + englishText + " ");
 
             //addMessageToFrequency(sliderValue, "Bot:  " + converter.EnglishToMorse(ChatBot.getResponse(englishText)), "Bot:  " + ChatBot.getResponse(englishText));
         }
     }
 
     private void handleNewMessage(CWMessage msg) {
-        HamRadio.theRadio.setSoundVariables(Integer.parseInt(effectiveSpeedSelection.getValue()), (int) volumeSlider.getValue(), (int) (600));
         if (!msg.isFromRemoteClient()) {
             App.sendMessageToServer(msg);
         }
-        Platform.runLater(()->handleRemoteMessage(msg));
+        Platform.runLater(()->addMessageToChatLogUI(msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane));
     }
 
-    private void handleRemoteMessage(CWMessage msg) {
-        HamRadio.theRadio.setFrequencyRange(getCurrentRange());
-        addMessageToFrequency((int) msg.getFrequency(),  msg.getSender() + ":  " + msg.getMorseMessageText(), msg.getSender() + ":  " + converter.MorseToEnglish(msg.getMorseMessageText()) + " ");
-        //displayMorseMessagesFromFrequency(getCurrentFrequencyIntVal());
-        displayFrequency();
-        //addMessageToChatLogUI(msg.getSender() + msg.getMorseMessageText(), morseMessagesVBox, morseMessagesScrollPane);
-    }
 //    @FXML
 //    private void sendAction() {
 //        String msgText = morseInput.getText();

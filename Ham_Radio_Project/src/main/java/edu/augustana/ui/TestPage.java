@@ -19,7 +19,8 @@ public class TestPage {
 
     @FXML
     void initialize() {
-        GeminiAIBot bot = new GeminiAIBot("HAM", 600, HamRadio.theRadio);
+        //GeminiAIBot bot = new GeminiAIBot("HAM", "", HamRadio.theRadio);
+        GeminiAIBot bot = HamRadio.theRadio.botsList.getLast();
         chat = new StringBuilder();
         textField.setOnAction(event -> {
             String message = textField.getText();

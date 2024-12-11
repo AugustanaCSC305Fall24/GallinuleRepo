@@ -38,7 +38,7 @@ public class MainMenu {
 
     @FXML
     private void openTestPage() {
-        App.switchToTestPage();
+        App.switchToBotPage();
     }
 
 }
