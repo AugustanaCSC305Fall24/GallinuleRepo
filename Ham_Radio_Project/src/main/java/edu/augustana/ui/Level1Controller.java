@@ -1,5 +1,6 @@
 package edu.augustana.ui;
 
+import edu.augustana.MorseCodeConverter;
 import edu.augustana.sound.SoundProducer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,16 +27,19 @@ public class Level1Controller extends LevelClassController {
     }
 
     // Add methods to play Morse code when a button is pressed
-    @FXML
-    private void playMorseCodeForLetter(char letter) {
-        String letterMorse = String.valueOf(letter) + " ";
-        SoundProducer.produceSound(letterMorse, 700, 100, 700); // Play the Morse code sound for the letter
-
-    }
+//    @FXML
+//    private void playMorseCodeForThisLetter(String letter) {
+//        String letterMorse = String.valueOf(letter) + " ";
+//        //MorseCodeConverter converter = new MorseCodeConverter();
+//        String letterMorse = converter.EnglishToMorse(letter);
+//        SoundProducer.produceSound(letterMorse, 5, 50, 600);
+//        // Play the Morse code sound for the letter
+//
+//    }
 
     @FXML
     private void playMorseE() {
-        playMorseCodeForLetter('E');
+        playMorseCodeForLetter("E");
     }
 
     @FXML
@@ -50,7 +54,7 @@ public class Level1Controller extends LevelClassController {
 
     @FXML
     private void playMorseO() {
-        playMorseCodeForLetter('0');
+        playMorseCodeForLetter('O');
     }
 
     @FXML

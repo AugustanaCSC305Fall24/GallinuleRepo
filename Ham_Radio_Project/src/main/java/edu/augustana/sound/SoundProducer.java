@@ -55,16 +55,30 @@ public class SoundProducer {
 
     }
 
+//    public static void openPlaysoundLine() {
+//        try {
+//            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+//            PLAY_SOUND_LINE = AudioSystem.getSourceDataLine(audioFormat);
+//            PLAY_SOUND_LINE.open(audioFormat, Note.SAMPLE_RATE);
+//            PLAY_SOUND_LINE.start();
+//        } catch (LineUnavailableException ex) {
+//            throw new RuntimeException(ex);
+//        }
+//    }
     public static void openPlaysoundLine() {
         try {
             final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
-            PLAY_SOUND_LINE = AudioSystem.getSourceDataLine(audioFormat);
-            PLAY_SOUND_LINE.open(audioFormat, Note.SAMPLE_RATE);
-            PLAY_SOUND_LINE.start();
+            if (PLAY_SOUND_LINE == null || !PLAY_SOUND_LINE.isOpen()) {
+                PLAY_SOUND_LINE = AudioSystem.getSourceDataLine(audioFormat);
+                PLAY_SOUND_LINE.open(audioFormat, Note.SAMPLE_RATE);
+                PLAY_SOUND_LINE.start();
+                System.out.println("Audio line opened successfully.");
+            }
         } catch (LineUnavailableException ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException("Failed to open audio line", ex);
         }
     }
+
 
 
     public static void openStaticLine()  {
@@ -118,7 +132,9 @@ public class SoundProducer {
     }
 
     public static void produceSound(String message, int effectiveSpeed, int volume, int tone) {
+//        SoundProducer.openPlaysoundLine();
         setSpeeds(effectiveSpeed);
+        System.out.println("Producing sound for: " + message + " with tone: " + tone);
         final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
         try (SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat)) {
             line.open(audioFormat, Note.SAMPLE_RATE);
@@ -127,7 +143,7 @@ public class SoundProducer {
             line.drain();
         } catch (LineUnavailableException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException("error while producing sound" , e);
         }
     }
 
@@ -148,12 +164,14 @@ public class SoundProducer {
 
 
     private static void playMorseMessage(SourceDataLine line, String message, int volume, int tone) {
+        System.out.println(message);
 
         for (char letter : message.toCharArray()) {
             if (letter == ' ') {
                 pause(line, CHARACTER_GAP); // Pause for character gap
             } else {
                 if (letter == '.') {
+                    //System.out.println("beep");
                     playNote(line, DOT_DURATION, volume, tone); // Play dot
                 } else if(letter == '-') {
                     playNote(line, DASH_DURATION, volume, tone); // Play dash
@@ -167,6 +185,7 @@ public class SoundProducer {
         //message = message + " ";
         for (char letter : message.toUpperCase().toCharArray()) {
             String morseLetter = converter.EnglishToMorse(Character.toString(letter));
+
             if (morseLetter.equals(" ")) {
                 pause(line, WORD_GAP); // Pause for word gap
             } else {
@@ -191,13 +210,20 @@ public class SoundProducer {
     }
 
     public static void playSendingDit(int volume) {
+        ensureInputLineOpen();
         playNote(INPUT_CW_LINE, DOT_DURATION , volume, 600);
         pause(INPUT_CW_LINE, DOT_DURATION);
     }
 
     public static void playSendingDah(int volume) {
+        ensureInputLineOpen();
         playNote(INPUT_CW_LINE, DASH_DURATION , volume, 600);
         pause(INPUT_CW_LINE, DOT_DURATION);
+    }
+    private static void ensureInputLineOpen(){
+        if (INPUT_CW_LINE == null || !INPUT_CW_LINE.isOpen()) {
+            openInputLine();
+        }
     }
 
     private static void playNote(SourceDataLine line, int duration, int volume, int tone) {
