@@ -91,10 +91,15 @@ public class Level1Controller extends BasePage {
     // Add methods to play Morse code when a button is pressed
     @FXML
     private void playMorseCodeForLetter(char letter) {
-        String letterMorse = String.valueOf(letter) + " ";
-        SoundProducer.produceSound(letterMorse, 700, 100, 700); // Play the Morse code sound for the letter
 
+        String letterMorse = String.valueOf(letter);
+        MorseCodeConverter converter = new MorseCodeConverter();
+        Thread thread = new Thread(() -> {
+            SoundProducer.produceSound(converter.EnglishToMorse(letterMorse), 18, 50, 600); // Play the Morse code sound for the letter
+        });
+        thread.start();
     }
+
 
     @FXML
     private void playMorseE() {

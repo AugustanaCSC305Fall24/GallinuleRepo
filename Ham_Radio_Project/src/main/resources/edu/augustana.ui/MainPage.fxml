@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -49,42 +48,6 @@
          <center>
             <VBox alignment="CENTER" prefHeight="470.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" contentDisplay="TOP" text="Morse Text" textFill="#000040">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <ScrollPane fx:id="morseMessagesScrollPane" prefHeight="113.0" prefWidth="471.0">
-                     <content>
-                        <VBox fx:id="morseMessagesVBox" prefHeight="123.0" prefWidth="450.0">
-                           <padding>
-                              <Insets left="5.0" right="5.0" />
-                           </padding>
-                        </VBox>
-                     </content>
-                     <padding>
-                        <Insets left="5.0" right="5.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets right="10.0" />
-                     </VBox.margin>
-                  </ScrollPane>
-                  <Label text="English Translation" textFill="#000040">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <ScrollPane fx:id="englishMessagesScrollPane" prefHeight="87.0" prefWidth="472.0">
-                     <content>
-                        <VBox fx:id="englishMessagesVBox" prefHeight="93.0" prefWidth="459.0" />
-                     </content>
-                     <padding>
-                        <Insets left="5.0" right="5.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets right="10.0" />
-                     </VBox.margin>
-                  </ScrollPane>
                   <ListView fx:id="botListView" prefHeight="114.0" prefWidth="281.0">
                      <VBox.margin>
                         <Insets left="100.0" right="100.0" top="50.0" />
@@ -137,16 +100,6 @@
                         <Font name="System Bold Italic" size="10.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#showTranslation" style="-fx-background-radius: 10; -fx-background-color: #000040;" text="Show translation" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold Italic" size="10.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#hideTranslation" style="-fx-background-color: #000040; -fx-background-radius: 10;" text="Hide translation" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold Italic" size="10.0" />
-                     </font>
-                  </Button>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
@@ -175,7 +128,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Slider fx:id="rangeSlider" blockIncrement="0.001" majorTickUnit="0.001" max="0.01" min="0.001" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="79.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: grey; -fx-background-radius: 10;">
+                  <Slider fx:id="rangeSlider" blockIncrement="1.0" majorTickUnit="0.001" max="0.01" min="0.001" minorTickCount="9" orientation="VERTICAL" prefHeight="481.0" prefWidth="79.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" style="-fx-background-color: grey; -fx-background-radius: 10;" value="0.001">
                      <padding>
                         <Insets bottom="10.0" left="35.0" top="10.0" />
                      </padding>

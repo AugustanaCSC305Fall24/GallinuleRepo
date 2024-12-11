@@ -16,7 +16,6 @@ public class SoundProducer {
 
     private static SourceDataLine INPUT_CW_LINE;
     private static SourceDataLine STATIC_NOISE_LINE;
-    private static SourceDataLine PLAY_SOUND_LINE;
 
 
     private static void playSound(int duration, int volume) throws LineUnavailableException {
@@ -55,6 +54,7 @@ public class SoundProducer {
 
     }
 
+<<<<<<< HEAD
     public static void openPlaysoundLine() {
         try {
             final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
@@ -65,6 +65,19 @@ public class SoundProducer {
             throw new RuntimeException(ex);
         }
     }
+=======
+
+//    public static void openPlaysoundLine() {
+//        try {
+//            final AudioFormat audioFormat = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, true);
+//            PLAY_SOUND_LINE = AudioSystem.getSourceDataLine(audioFormat);
+//            PLAY_SOUND_LINE.open(audioFormat, Note.SAMPLE_RATE);
+//            PLAY_SOUND_LINE.start();
+//        } catch (LineUnavailableException ex) {
+//            throw new RuntimeException(ex);
+//        }
+//    }
+>>>>>>> 553ce8647ec8fcb2f185dd65dc9465dd8b4957ca
 
 
     public static void openStaticLine()  {
@@ -93,29 +106,28 @@ public class SoundProducer {
             noise[i] = (byte) ((Math.random() * 2 - 1) * 127 * 10 / 100);
         }
         STATIC_NOISE_LINE.write(noise, 0, length);
-
     }
 
-    public static void produceSound(SourceDataLine line, String message, int volume, int tone) {
-        MorseCodeConverter converter = new MorseCodeConverter();
-        for (char letter : message.toUpperCase().toCharArray()) {
-            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
-            if (morseLetter.equals(" ")) {
-                pause(line, WORD_GAP); // Pause for word gap
-            } else {
-                for (char click: morseLetter.toCharArray()) {
-                    if (click == '.') {
-                        playNote(line, DOT_DURATION, volume, tone); // Play dot
-                    } else if(click == '-') {
-                        playNote(line, DASH_DURATION, volume, tone); // Play dash
-                    }
-                    pause(line, DOT_GAP);  // Pause between parts of the letter
-                }
-                pause(line, CHARACTER_GAP); // Pause between letters
-            }
-        }
-        pause(line, 1000);
-    }
+//    public static void produceSound(SourceDataLine line, String message, int volume, int tone) {
+//        MorseCodeConverter converter = new MorseCodeConverter();
+//        for (char letter : message.toUpperCase().toCharArray()) {
+//            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
+//            if (morseLetter.equals(" ")) {
+//                pause(line, WORD_GAP); // Pause for word gap
+//            } else {
+//                for (char click: morseLetter.toCharArray()) {
+//                    if (click == '.') {
+//                        playNote(line, DOT_DURATION, volume, tone); // Play dot
+//                    } else if(click == '-') {
+//                        playNote(line, DASH_DURATION, volume, tone); // Play dash
+//                    }
+//                    pause(line, DOT_GAP);  // Pause between parts of the letter
+//                }
+//                pause(line, CHARACTER_GAP); // Pause between letters
+//            }
+//        }
+//        pause(line, 1000);
+//    }
 
     public static void produceSound(String message, int effectiveSpeed, int volume, int tone) {
         setSpeeds(effectiveSpeed);
@@ -128,6 +140,7 @@ public class SoundProducer {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+
     }
 
     public static void setSpeeds(int effectiveSpeed) {
@@ -162,6 +175,7 @@ public class SoundProducer {
         }
     }
 
+<<<<<<< HEAD
     private static void playEnglishMessage(SourceDataLine line, String message, int volume, int tone) {
         //message = message + " ";
         for (char letter : message.toUpperCase().toCharArray()) {
@@ -182,12 +196,35 @@ public class SoundProducer {
         }
         pause(line, 1000);
     }
+=======
+//    private static void playEnglishMessage(SourceDataLine line, String message, int volume, int tone) {
+//        //message = message + " ";
+//        for (char letter : message.toUpperCase().toCharArray()) {
+//            String morseLetter = converter.EnglishToMorse(Character.toString(letter));
+//            if (morseLetter.equals(" ")) {
+//                pause(line, WORD_GAP); // Pause for word gap
+//            } else {
+//                for (char click: morseLetter.toCharArray()) {
+//                    if (click == '.') {
+//                        playNote(line, DOT_DURATION, volume, tone); // Play dot
+//                    } else if(click == '-') {
+//                        playNote(line, DASH_DURATION, volume, tone); // Play dash
+//                    }
+//                    pause(line, DOT_GAP);  // Pause between parts of the letter
+//                }
+//                pause(line, CHARACTER_GAP); // Pause between letters
+//            }
+//        }
+//        pause(line, 1000);
+//    }
 
-    public static void playSoundLine(String message, int volume, int speed, int tone) {
-        setSpeeds(speed);
-        playMorseMessage(PLAY_SOUND_LINE, message, volume, tone);
-        PLAY_SOUND_LINE.drain();
-    }
+>>>>>>> 553ce8647ec8fcb2f185dd65dc9465dd8b4957ca
+
+//    public static void playSoundLine(String message, int volume, int speed, int tone) {
+//        setSpeeds(speed);
+//        playMorseMessage(PLAY_SOUND_LINE, message, volume, tone);
+//        PLAY_SOUND_LINE.drain();
+//    }
 
     public static void playSendingDit(int volume) {
         playNote(INPUT_CW_LINE, DOT_DURATION , volume, 600);
@@ -215,15 +252,22 @@ enum Note {
 
     A4;
     public static final int SAMPLE_RATE = 16 * 1024; // ~16KHz
-    // Array to hold the sine wave data
 
-    public byte[] data(int volume, int tone){
-        byte[] sin = new byte[SAMPLE_RATE * 2];
+    public byte[] data(int volume, int tone) {
+        int durationInSeconds = 1; // Adjust as needed for dit/dah length
+        int totalSamples = SAMPLE_RATE * durationInSeconds;
+
+        byte[] sin = new byte[totalSamples];
+
+        // Normalize volume to a clear range to prevent saturation
+        int maxAmplitude = (int) (127 * (volume / 100.0)); // Scale amplitude based on volume
+
         for (int i = 0; i < sin.length; i++) {
             double period = (double) SAMPLE_RATE / tone; // Calculate the period
-            double angle = 2.0 * Math.PI * i / period; // Calculate the angle
-            sin[i] = (byte) (Math.sin(angle) * 127f * volume / 100);  // Generate the sine wave
+            double angle = 2.0 * Math.PI * i / period;   // Calculate the angle
+            sin[i] = (byte) (Math.sin(angle) * maxAmplitude); // Generate sine wave with volume control
         }
+
         return sin; // Return the sine wave data
     }
 }
