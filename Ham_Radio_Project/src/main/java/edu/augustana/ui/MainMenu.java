@@ -16,6 +16,9 @@ public class MainMenu {
     private Button testButton;
 
     @FXML
+    private Button scenarioButton;
+
+    @FXML
     private void initialize() {
         learnButton.setOnAction(event -> openLevelPage());
         interactButton.setOnAction(event -> openInteractPage());
@@ -39,6 +42,11 @@ public class MainMenu {
     @FXML
     private void openTestPage() {
         App.switchToTestPage();
+    }
+
+    @FXML
+    private void openScenarioPage() {
+        App.switchToScenarioPage();
     }
 
 }
