@@ -39,6 +39,9 @@
          <center>
             <Button fx:id="testButton" mnemonicParsing="false" onAction="#openTestPage" text="Test" BorderPane.alignment="CENTER" />
          </center>
+         <bottom>
+            <Button fx:id="scenarioButton" mnemonicParsing="false" onAction="#openScenarioPage" text="Scenarios" BorderPane.alignment="CENTER" />
+         </bottom>
       </BorderPane>
    </center>
 </BorderPane>
