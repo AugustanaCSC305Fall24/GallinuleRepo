@@ -13,111 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//public class LevelClassController extends BasePage {
-//
-//    protected MorseCodeConverter morseConverter = new MorseCodeConverter();
-//    protected List<Character> currentLetterSet;
-//    protected int currentLetterIndex;
-//    protected String currentLetterMorse;
-//    protected String currentGeneratedPhrase = "";
-//    protected Random random = new Random();
-//
-//    @FXML
-//    protected Button backButton;
-//    @FXML
-//    protected Label morseCodeLabel;
-//    @FXML
-//    protected TextField answerField;
-//    @FXML
-//    protected Button resultLabel;
-//    @FXML
-//    protected Button revealButton;
-//    @FXML
-//    protected Label sentenceLabel;
-//
-//    private boolean isRevealed = false;
-//
-//    protected List<List<Character>> stages = new ArrayList<>();
-//    protected List<List<String>> CWstages = new ArrayList<>();
-//
-//    @FXML
-//    public void initialize() {
-//
-//        //backButton.setOnAction(event -> goBack());
-//    }
-//
-//    @FXML
-//    protected void goBack() {
-//        App.backToLevelPage();
-//    }
-//
-//    protected void generateNewPhrase() {
-//        int phraseLength = random.nextInt(4) + 2;
-//        StringBuilder phraseBuilder = new StringBuilder();
-//
-//        for (int i = 0; i < phraseLength; i++) {
-//            char randomLetter = currentLetterSet.get(random.nextInt(currentLetterSet.size()));
-//            phraseBuilder.append(randomLetter);
-//        }
-//
-//        currentGeneratedPhrase = phraseBuilder.toString();
-//        System.out.println("Generated Phrase: " + currentGeneratedPhrase);
-//    }
-//
-//    @FXML
-//    protected void playMorseCodeForLetter(char letter) {
-//        String letterMorse = morseConverter.EnglishToMorse(String.valueOf(letter));
-//        SoundProducer.produceSound(letter, 90, 100, 600);
-//    }
-//
-//    @FXML
-//    protected void revealMessage() {
-//        if (isRevealed) {
-//            morseCodeLabel.setText("");
-//            revealButton.setText("Reveal");
-//        } else {
-//            morseCodeLabel.setText(currentLetterMorse);
-//            revealButton.setText("Hide");
-//        }
-//        isRevealed = !isRevealed;
-//    }
-//
-//    @FXML
-//    protected void playSampleSentence() {
-//        generateNewPhrase(); // Generate a new random phrase
-//        for (char letter : currentGeneratedPhrase.toCharArray()) {
-//            if (letter != ' ') {
-//                playMorseCodeForLetter(letter);
-//            } else {
-//                try {
-//                    Thread.sleep(500); // Add a small delay for spaces
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-//
-//    @FXML
-//    protected void checkAnswer() {
-//        String userAnswer = answerField.getText().toUpperCase().replaceAll(" ", ""); // Clean input, removing spaces
-//
-//        if (userAnswer.equals(currentGeneratedPhrase)) {
-//            resultLabel.setText("Correct!");
-//        } else {
-//            resultLabel.setText("Incorrect. Try again.");
-//        }
-//        answerField.clear();
-//    }
-//
-//    @FXML
-//    protected void showAnswer() {
-//        sentenceLabel.setText(" Answer: " + currentGeneratedPhrase);
-//        sentenceLabel.setStyle("-fx-background-color:white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 10px");
-//        sentenceLabel.setAlignment(Pos.CENTER);
-//    }
-//}
-
 
 
 public class LevelClassController extends BasePage {
@@ -228,6 +123,7 @@ public class LevelClassController extends BasePage {
             e.printStackTrace();
             System.out.println("Error playing Morse code for: " + item);
         }
+        //SoundProducer.produceSound(morseCode, 90, 500, 100, 600);
     }
 
 
