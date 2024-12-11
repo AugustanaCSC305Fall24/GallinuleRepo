@@ -35,6 +35,7 @@ public class App extends Application {
         return app;
     }
 
+
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -177,6 +178,51 @@ public class App extends Application {
     public static void switchToLevel1() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level1.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void switchToLevel2() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level2.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void switchToLevel3() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level3.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void switchToLevel4() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level4.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void switchToLevel5() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level5.fxml"));
+            scene.setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void switchToLevel6() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/edu/augustana.ui/Level6.fxml"));
             scene.setRoot(fxmlLoader.load());
         } catch (IOException e) {
             throw new RuntimeException(e);
